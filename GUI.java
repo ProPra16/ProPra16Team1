@@ -46,7 +46,7 @@ launch(args);
  Scene sc_mainmenu = new Scene(mainMenu_layout,500,500);
 
  mainStage.setScene(sc_mainmenu);
- mainStage.setTitle("Hauptemü");
+ mainStage.setTitle("Hauptmenü");
  mainStage.show();
  mainMenu = mainStage;
 
