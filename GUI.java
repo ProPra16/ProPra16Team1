@@ -30,7 +30,7 @@ launch(args);
 }
 
  @Override
- public void start(Stage mainStage) throws IOException{
+ public void start(Stage mainStage){
 
 
  Button bt_training = new Button();
