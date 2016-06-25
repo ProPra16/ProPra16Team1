@@ -15,6 +15,10 @@ import javafx.scene.control.TextArea;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
+import java.io.IOException;
 
 public class GUI extends Application{
 
@@ -26,7 +30,7 @@ launch(args);
 }
 
  @Override
- public void start(Stage mainStage) {
+ public void start(Stage mainStage) throws IOException{
 
 
  Button bt_training = new Button();
@@ -129,9 +133,14 @@ launch(args);
      }
     st_exc_selection.hide();
     Stage editor = new Stage();
-
+	
+	GridPane root = new GridPane();
+	Scene scene = new Scene(root,500,500);
+	editor.setScene(scene);
+	editor.setTitle("Fenster");
+	editor.show();
 	//Hier kommt der Code
-    }});
+    }}) ;
    }});
    
 
