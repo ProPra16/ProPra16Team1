@@ -68,7 +68,7 @@ Aufgabe excToSave = Aufgaben_Verwaltung.get(exc_nr);
  String file = "currentTest";
  String line = null;
  try{                                                             //Test-Gerüst speichern
-	 FileWriter writer = new FileWriter(file);
+	 FileWriter writer = new FileWriter(file,false);
 	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
  for(int i=0;i<excToSave.getTest().size();i++){
   line = excToSave.getTestConstructor(i);
@@ -82,7 +82,7 @@ Aufgabe excToSave = Aufgaben_Verwaltung.get(exc_nr);
  }
  file ="currentClass";
  try{                                                           //Klassengerüst speichern
-	 FileWriter writer = new FileWriter(file);
+	 FileWriter writer = new FileWriter(file,false);
 	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
  for(int i=0;i<excToSave.getKlasse().size();i++){
   line = excToSave.getClassConstructor(i);
