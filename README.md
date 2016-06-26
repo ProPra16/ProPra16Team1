@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+Zwischenstand: Eine Aufgabe kann ausgewählt werden und der entsprechende Test Konstruktor wird geladen
+=======
 Nützlicher Link zum Einstieg: https://rogerdudler.github.io/git-guide/index.de.html
 =======
 # main
