@@ -26,6 +26,19 @@ public class RomanNumbersTest {
 public void testSomething() {
 }
 }
+Aufgabenname = Testing
+Beschreibung = prüft ob alles klappt wie es soll
+Klassenname = hope
+public class hope {
+}
+Testname = hopetest
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class hopeTest {
+@Test
+public void testSomething() {
+}
+}
 
 
 
