@@ -133,17 +133,32 @@ launch(args);
      }
     st_exc_selection.hide();
     Stage editor = new Stage();
+	Label instruction = new Label("//implementieren Sie den Code hier");
+	TextArea codeArea = new TextArea();
+	Button bt_toGreen = new Button("Wechsle zu Green");
+	Button bt_help = new Button("Hilfe");
 	
 	GridPane root = new GridPane();
+	root.setConstraints(instruction, 1, 1);
+	root.setConstraints(codeArea, 1, 2);
+	root.setConstraints(bt_toGreen, 1, 3);
+	root.setConstraints(bt_help, 1, 4);
+	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help);
 	Scene scene = new Scene(root,500,500);
 	editor.setScene(scene);
-	editor.setTitle("Fenster");
+	editor.setTitle("RED");
 	editor.show();
-	//Hier kommt der Code
+	
+	//Function to Button Help
+	bt_help.setOnAction(new EventHandler<ActionEvent>() {
+		   @Override public void handle(ActionEvent e) {
+		   Hilfe.displayRED();
+		    }});
+	
     }}) ;
    }});
    
-
+  
 
 
  }
