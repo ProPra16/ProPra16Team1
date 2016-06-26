@@ -1,24 +1,21 @@
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
-import javafx.scene.Scene;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import java.util.ArrayList;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
+
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-
-import java.io.IOException;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class GUI extends Application{
 
@@ -144,16 +141,24 @@ launch(args);
 	root.setConstraints(bt_toGreen, 1, 3);
 	root.setConstraints(bt_help, 1, 4);
 	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help);
+	
 	Scene scene = new Scene(root,500,500);
 	editor.setScene(scene);
 	editor.setTitle("RED");
 	editor.show();
 	
+	//Function to Button toGreen
+	bt_toGreen.setOnAction(new EventHandler<ActionEvent>() {
+		   @Override public void handle(ActionEvent e) {
+			String  testCode = codeArea.getText(); // here is the test from user
+			//here comes also the code for next stage
+	}});
+	
 	//Function to Button Help
 	bt_help.setOnAction(new EventHandler<ActionEvent>() {
 		   @Override public void handle(ActionEvent e) {
 		   Hilfe.displayRED();
-		    }});
+	}});
 	
     }}) ;
    }});
@@ -162,8 +167,6 @@ launch(args);
 
 
  }
-
-
 
 
 }
