@@ -22,11 +22,11 @@ public class Aufgabe{                        //Datentyp zur besseren Verwaltung 
  return exc_Beschreibung;
  }
 
- public ArrayList getKlasse(){
+ public ArrayList<String> getKlasse(){
  return exc_Klasse;
  }
 
- public ArrayList getTest(){
+ public ArrayList<String> getTest(){
  return exc_Test;
  }
 

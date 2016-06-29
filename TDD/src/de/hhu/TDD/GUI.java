@@ -165,6 +165,7 @@ launch(args);
 	bt_toGreen.setOnAction(new EventHandler<ActionEvent>() {
 		   @Override public void handle(ActionEvent e) {
 			String  testCode = codeArea.getText(); // here is the test from user
+            non_static_af.saveTest(testCode);
 			//here comes also the code for next stage
 	}});
 	

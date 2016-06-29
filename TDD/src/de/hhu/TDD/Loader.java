@@ -9,6 +9,8 @@ public class Loader{
 
  public static String exc_file ="Aufgabenkatalog.txt";
  public static String line = null;
+ 
+ private static String cur_Test = "currentTest";
 
  public ArrayList<Aufgabe> Aufgaben_Verwaltung = new ArrayList<Aufgabe>();
 
@@ -65,10 +67,10 @@ return toCut;
 
 public void saveNew(int exc_nr){
 Aufgabe excToSave = Aufgaben_Verwaltung.get(exc_nr);	
- String file = "currentTest";
+ String file = cur_Test;
  String line = null;
  try{                                                             //Test-Gerüst speichern
-	 FileWriter writer = new FileWriter(file,false);
+	 FileWriter writer = new FileWriter(file);
 	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
  for(int i=0;i<excToSave.getTest().size();i++){
   line = excToSave.getTestConstructor(i);
@@ -82,7 +84,7 @@ Aufgabe excToSave = Aufgaben_Verwaltung.get(exc_nr);
  }
  file ="currentClass";
  try{                                                           //Klassengerüst speichern
-	 FileWriter writer = new FileWriter(file,false);
+	 FileWriter writer = new FileWriter(file);
 	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
  for(int i=0;i<excToSave.getKlasse().size();i++){
   line = excToSave.getClassConstructor(i);
@@ -98,7 +100,7 @@ Aufgabe excToSave = Aufgaben_Verwaltung.get(exc_nr);
 }
 
 public String TestLine(int lineToRead){
- String file = "currentTest";
+ String file = cur_Test;
  String line = null;
  try{
   FileReader reader = new FileReader(file);                     
@@ -115,4 +117,17 @@ public String TestLine(int lineToRead){
   } 
  return line;
  }
+
+public void saveTest(String text){
+ try{
+	 FileWriter writer = new FileWriter(cur_Test,false);
+	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
+	 bufferedWriter.write(text);
+	bufferedWriter.close();
+}
+catch(IOException e){
+System.out.println("ERROR:Konnte nicht in die Datei schreiben");
+}
+}
+
 }
