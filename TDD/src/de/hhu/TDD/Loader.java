@@ -11,6 +11,7 @@ public class Loader{
  public static String line = null;
  
  private static String cur_Test = "currentTest";
+ private static String cur_Class = "currentClass";
 
  public ArrayList<Aufgabe> Aufgaben_Verwaltung = new ArrayList<Aufgabe>();
 
@@ -130,4 +131,23 @@ System.out.println("ERROR:Konnte nicht in die Datei schreiben");
 }
 }
 
+public String loadCurrentData(String file){
+String line = null;
+String ergebnis = "";
+try{
+	FileReader reader = new FileReader(file);                     
+	BufferedReader bufferedReader = new BufferedReader(reader);
+	while((line = bufferedReader.readLine()) != null){
+	 ergebnis +=  line+"\n";
+	}
+	bufferedReader.close();
+  }
+  catch(FileNotFoundException e){                             
+  System.out.println("ERROR:Findet die Datei currenTest nicht");
+  }
+  catch(IOException e){
+  System.out.println("ERROR:Fehler beim Lesen der Datei!");
+ }
+return ergebnis;
+}
 }

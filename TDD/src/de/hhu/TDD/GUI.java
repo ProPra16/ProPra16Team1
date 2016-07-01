@@ -3,6 +3,8 @@ package de.hhu.TDD;
 
 import java.util.ArrayList;
 
+import vk.core.api.*;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,11 +21,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import vk.core.api.CompilerFactory;
 
 public class GUI extends Application{
 
 private Stage mainMenu;
 private int exc_auswahl = -1;        //Falls keine Wahl getroffen wurde -1
+private boolean firstStart = true;
 
 public static void main(String[] args) {
 launch(args);
@@ -136,16 +140,23 @@ launch(args);
 	Label instruction = new Label("//implementieren Sie den Code hier");
 	TextArea codeArea = new TextArea();
 	Button bt_toGreen = new Button("Wechsle zu Green");
+	Button bt_toRed = new Button("Zrück zu Red");
+	Button bt_Refactor = new Button("Refactor");
 	Button bt_help = new Button("Hilfe");
-
+	
+	bt_Refactor.setVisible(false);
+    bt_toRed.setVisible(false);
+	
 	non_static_af.saveNew(exc_auswahl);
 	
 	GridPane root = new GridPane();
 	root.setConstraints(instruction, 1, 1);
 	root.setConstraints(codeArea, 1, 2);
 	root.setConstraints(bt_toGreen, 1, 3);
-	root.setConstraints(bt_help, 1, 4);
-	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help);
+	root.setConstraints(bt_help, 1, 5);
+	root.setConstraints(bt_toRed,1,3);
+	root.setConstraints(bt_Refactor,1,4);
+	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_toRed);
 	
 	Scene scene = new Scene(root,500,500);
 	editor.setScene(scene);
@@ -154,19 +165,32 @@ launch(args);
 
 	codeArea.setWrapText(true);
 	
-	Aufgabe loadTest = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl);   //lädt das Test-Gerüst
-	int testLength = loadTest.getTest().size();
-	String newLine= "\n";
-	for(int i=0;i<testLength;i++){
-		codeArea.appendText(non_static_af.TestLine(i) + newLine );
-		}
+	String classCode = non_static_af.loadCurrentData("currentTest");
+	codeArea.setText(classCode);
 	
 	//Function to Button toGreen
 	bt_toGreen.setOnAction(new EventHandler<ActionEvent>() {
 		   @Override public void handle(ActionEvent e) {
 			String  testCode = codeArea.getText(); // here is the test from user
             non_static_af.saveTest(testCode);
-			//here comes also the code for next stage
+            Aufgabe test = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl);
+            if(firstStart ==true){
+            firstStart = false;
+            try{
+            CompilationUnit toCompile = new CompilationUnit(test.getName(),testCode,true);
+            JavaStringCompiler testCompiler = CompilerFactory .getCompiler(toCompile);
+            testCompiler.getCompilerResult();
+            }
+            catch(NoClassDefFoundError k){ }
+            }
+			bt_toGreen.setVisible(false);
+			bt_help.setVisible(false);
+			bt_toRed.setVisible(true);
+			bt_Refactor.setVisible(true);
+			String classCode = non_static_af.loadCurrentData("currentClass");
+			codeArea.setText(classCode);
+			editor.setTitle("GREEN");
+			
 	}});
 	
 	//Function to Button Help
@@ -175,6 +199,19 @@ launch(args);
 		   Hilfe.displayRED();
 	}});
 	
+	bt_toRed.setOnAction(new EventHandler<ActionEvent>() {
+	  @Override public void handle(ActionEvent e) {
+		  bt_toGreen.setVisible(true);
+		  bt_help.setVisible(true);
+		  bt_toRed.setVisible(false);
+		  bt_Refactor.setVisible(false);
+		  editor.setTitle("RED");
+		  
+		  String classCode = non_static_af.loadCurrentData("currentTest");
+		  codeArea.setText(classCode);
+	  
+	  }}) ;
+
     }}) ;
    }});
    
