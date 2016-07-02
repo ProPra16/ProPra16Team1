@@ -6,6 +6,8 @@ public class Aufgabe{                        //Datentyp zur besseren Verwaltung 
 
  private  String exc_Name;
  private  String exc_Beschreibung;
+ private  String className;
+ private  String testName;
  private  ArrayList<String> exc_Klasse = new ArrayList<String>();
  private  ArrayList<String> exc_Test = new ArrayList<String>();
 
@@ -46,6 +48,22 @@ public class Aufgabe{                        //Datentyp zur besseren Verwaltung 
  public String getClassConstructor(int const_line){
  String line = exc_Klasse.get(const_line);	 
  return line;	 
+ }
+ 
+ public void saveClassName(String Name){
+ className = Name;	 
+ }
+
+ public void saveTestName(String Name){
+ testName = Name;	 
+ }
+ 
+ public String testName(){
+ return testName;	 
+ }
+ 
+ public String className(){
+ return className;	 
  }
  
 }

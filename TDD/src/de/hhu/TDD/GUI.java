@@ -28,6 +28,8 @@ public class GUI extends Application{
 private Stage mainMenu;
 private int exc_auswahl = -1;        //Falls keine Wahl getroffen wurde -1
 private boolean firstStart = true;
+private CompilationUnit compileClass;
+private CompilationUnit compileTest;
 
 public static void main(String[] args) {
 launch(args);
@@ -143,9 +145,11 @@ launch(args);
 	Button bt_toRed = new Button("Zrück zu Red");
 	Button bt_Refactor = new Button("Refactor");
 	Button bt_help = new Button("Hilfe");
+	Button bt_RfctrDone = new Button("Refactoren beendet");
 	
 	bt_Refactor.setVisible(false);
     bt_toRed.setVisible(false);
+    bt_RfctrDone.setVisible(false);
 	
 	non_static_af.saveNew(exc_auswahl);
 	
@@ -156,7 +160,8 @@ launch(args);
 	root.setConstraints(bt_help, 1, 5);
 	root.setConstraints(bt_toRed,1,3);
 	root.setConstraints(bt_Refactor,1,4);
-	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_toRed);
+	root.setConstraints(bt_RfctrDone,1,5);
+	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed);
 	
 	Scene scene = new Scene(root,500,500);
 	editor.setScene(scene);
@@ -172,25 +177,43 @@ launch(args);
 	bt_toGreen.setOnAction(new EventHandler<ActionEvent>() {
 		   @Override public void handle(ActionEvent e) {
 			String  testCode = codeArea.getText(); // here is the test from user
-            non_static_af.saveTest(testCode);
-            Aufgabe test = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl);
-            if(firstStart ==true){
-            firstStart = false;
-            try{
-            CompilationUnit toCompile = new CompilationUnit(test.getName(),testCode,true);
-            JavaStringCompiler testCompiler = CompilerFactory .getCompiler(toCompile);
-            testCompiler.getCompilerResult();
-            }
-            catch(NoClassDefFoundError k){ }
-            }
-			bt_toGreen.setVisible(false);
+            non_static_af.save("currentTest",testCode);
+            
+            String testName  = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).testName();
+            CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
+		    compileTest = tmp_compileTest;
+		    
+		    if(firstStart==false){
+		     try{	 
+			 JavaStringCompiler compiler = CompilerFactory.getCompiler(compileTest,compileClass);
+			 compiler.compileAndRunTests();
+		     }
+		     catch(NoClassDefFoundError k){
+		    	 bt_help.setVisible(false);
+				 bt_RfctrDone.setVisible(false);
+				 bt_toGreen.setVisible(false);
+				 bt_toRed.setVisible(true);
+				 bt_Refactor.setVisible(true);
+				 String classCode = non_static_af.loadCurrentData("currentClass");
+				 codeArea.setText(classCode);
+				 editor.setTitle("GREEN");
+				 System.out.println(".class nicht gefunden");
+		      }
+			 }
+				
+      
+		    if(firstStart==true){
 			bt_help.setVisible(false);
+			bt_RfctrDone.setVisible(false);
+			bt_toGreen.setVisible(false);
 			bt_toRed.setVisible(true);
 			bt_Refactor.setVisible(true);
 			String classCode = non_static_af.loadCurrentData("currentClass");
 			codeArea.setText(classCode);
 			editor.setTitle("GREEN");
-			
+			firstStart=false;
+		    }
+		    
 	}});
 	
 	//Function to Button Help
@@ -207,11 +230,30 @@ launch(args);
 		  bt_Refactor.setVisible(false);
 		  editor.setTitle("RED");
 		  
-		  String classCode = non_static_af.loadCurrentData("currentTest");
-		  codeArea.setText(classCode);
-	  
+		  String classCode = codeArea.getText();		  
+		  String className = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).className();
+		  CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
+		  compileClass = tmp_compileClass;
+		  
+		  classCode = non_static_af.loadCurrentData("currentTest");
+		  codeArea.setText(classCode);	  
 	  }}) ;
 
+	  bt_Refactor.setOnAction(new EventHandler<ActionEvent>() {
+	  @Override public void handle(ActionEvent e) {
+	   bt_toGreen.setVisible(false);
+	   bt_help.setVisible(false);
+       bt_toRed.setVisible(true);
+	   bt_Refactor.setVisible(false);
+	   bt_RfctrDone.setVisible(true);
+	   editor.setTitle("REFACTOR");
+			  
+	   String classCode = non_static_af.loadCurrentData("currentClass");
+	    codeArea.setText(classCode);
+		  
+		  }});
+	
+	
     }}) ;
    }});
    

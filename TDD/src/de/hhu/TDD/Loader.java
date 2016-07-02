@@ -35,12 +35,16 @@ public class Loader{
    Aufgaben_Verwaltung.add(index_Aufgabe,new Aufgabe(tmp_Name,tmp_Beschreibung));
    }
   if(line.contains("Klassenname")){
+   line = cutter(line);
+   Aufgaben_Verwaltung.get(index_Aufgabe).saveClassName(line);
   line = bufferedReader.readLine();                               //Konstruktor 
   Aufgaben_Verwaltung.get(index_Aufgabe).generateKlasse(line);   //laden
   line = bufferedReader.readLine();
   Aufgaben_Verwaltung.get(index_Aufgabe).generateKlasse(line); 
   }
   if(line.contains("Testname")){
+	line = cutter(line);
+    Aufgaben_Verwaltung.get(index_Aufgabe).saveTestName(line);
    for(int i=0;i<7;i++){  
    line = bufferedReader.readLine();
    Aufgaben_Verwaltung.get(index_Aufgabe).generateTest(line);
@@ -60,7 +64,7 @@ public class Loader{
 }
 
 public String cutter(String toCut){       //Entfernt den Teil mit dem Gleichheitszeichen 
-int vorne = toCut.indexOf('=')+1;
+int vorne = toCut.indexOf('=')+2;
 int hinten = toCut.length();
 toCut = toCut.substring(vorne,hinten);
 return toCut;
@@ -119,9 +123,9 @@ public String TestLine(int lineToRead){
  return line;
  }
 
-public void saveTest(String text){
+public void save(String File,String text){
  try{
-	 FileWriter writer = new FileWriter(cur_Test,false);
+	 FileWriter writer = new FileWriter(File,false);
 	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
 	 bufferedWriter.write(text);
 	bufferedWriter.close();
