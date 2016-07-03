@@ -30,6 +30,7 @@ private int exc_auswahl = -1;        //Falls keine Wahl getroffen wurde -1
 private boolean firstStart = true;
 private CompilationUnit compileClass;
 private CompilationUnit compileTest;
+private JavaStringCompiler compiler;
 
 public static void main(String[] args) {
 launch(args);
@@ -183,12 +184,23 @@ launch(args);
             CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
 		    compileTest = tmp_compileTest;
 		    
-		    if(firstStart==false){
+		   if(firstStart==false){
 		     try{	 
-			 JavaStringCompiler compiler = CompilerFactory.getCompiler(compileTest,compileClass);
+			 compiler = CompilerFactory.getCompiler(compileTest,compileClass);
 			 compiler.compileAndRunTests();
+			 TestResult testResult = compiler.getTestResult();
+			 int failTest = testResult.getNumberOfFailedTests();
+			 if(failTest == 1){
+				 bt_help.setVisible(false);
+				 bt_RfctrDone.setVisible(false);
+				 bt_toGreen.setVisible(false);
+				 bt_toRed.setVisible(true);
+				 bt_Refactor.setVisible(true);
+				 String classCode = non_static_af.loadCurrentData("currentClass");
+				 codeArea.setText(classCode);	 
+			  }
 		     }
-		     catch(NoClassDefFoundError k){
+		     catch(NullPointerException k){
 		    	 bt_help.setVisible(false);
 				 bt_RfctrDone.setVisible(false);
 				 bt_toGreen.setVisible(false);
@@ -197,10 +209,9 @@ launch(args);
 				 String classCode = non_static_af.loadCurrentData("currentClass");
 				 codeArea.setText(classCode);
 				 editor.setTitle("GREEN");
-				 System.out.println(".class nicht gefunden");
-		      }
+				 System.out.println("Fehler beim Kompilieren, bitte beheben!");
 			 }
-				
+		   }	
       
 		    if(firstStart==true){
 			bt_help.setVisible(false);
@@ -240,20 +251,57 @@ launch(args);
 	  }}) ;
 
 	  bt_Refactor.setOnAction(new EventHandler<ActionEvent>() {
-	  @Override public void handle(ActionEvent e) {
+	  @Override public void handle(ActionEvent e) {	
+	  try{	  
+	   String classCode = codeArea.getText();		  
+	   String className = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).className();
+	   CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
+	   compileClass = tmp_compileClass;
+	   compiler = CompilerFactory.getCompiler(compileTest,compileClass);
+	   compiler.compileAndRunTests();
+	   TestResult testResult = compiler.getTestResult();
+	   boolean compileErrors = compiler.getCompilerResult().hasCompileErrors();
+	   int failTest = testResult.getNumberOfFailedTests();
+	  
+	  if(failTest == 0 && compileErrors == false){
 	   bt_toGreen.setVisible(false);
 	   bt_help.setVisible(false);
        bt_toRed.setVisible(true);
 	   bt_Refactor.setVisible(false);
 	   bt_RfctrDone.setVisible(true);
-	   editor.setTitle("REFACTOR");
-			  
-	   String classCode = non_static_af.loadCurrentData("currentClass");
-	    codeArea.setText(classCode);
+	   editor.setTitle("REFACTOR");			    
+	  }
+	  }
+	  catch(NullPointerException s){
+	  System.out.println("Kompillierungsschwierigkeiten, beheben Sie diese"
+	  		+ " vor dem Refactoren!");	  
+	  }
 		  
 		  }});
 	
-	
+	  bt_RfctrDone.setOnAction(new EventHandler<ActionEvent>() {
+		  @Override public void handle(ActionEvent e) {	
+		   String classCode = codeArea.getText();		  
+		   String className = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).className();
+		   CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
+		   compileClass = tmp_compileClass;
+		   compiler = CompilerFactory.getCompiler(compileClass,compileTest);
+		   compiler.compileAndRunTests();
+		   TestResult testResult = compiler.getTestResult();
+		   int failTest = testResult.getNumberOfFailedTests();
+		   boolean compileErrors = compiler.getCompilerResult().hasCompileErrors();
+	       if(failTest == 0 && compileErrors == false){  
+	    	   bt_toGreen.setVisible(true);
+	    	   bt_help.setVisible(true);
+	    	   bt_RfctrDone.setVisible(false);
+	    	   editor.setTitle("RED");	
+	    	   
+	    	   non_static_af.save("currentClass", classCode);
+	    	   classCode = non_static_af.loadCurrentData("currentTest");
+	    	   codeArea.setText(classCode);
+	       }	  
+		  }});
+		  		  
     }}) ;
    }});
    

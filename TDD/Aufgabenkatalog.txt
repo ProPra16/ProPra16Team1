@@ -8,7 +8,7 @@ public class RomanNumberConverter {
 Testname = RomanNumberConverterTest
 import static org.junit.Assert.*;
 import org.junit.Test;
-public class RomanNumbersTest {
+public class RomanNumberConverterTest {
 @Test
 public void testSomething() {
 }
@@ -21,7 +21,7 @@ public class RomanNumberConverter {
 Testname = RomanNumberConverterTest
 import static org.junit.Assert.*;
 import org.junit.Test;
-public class RomanNumbersTest {
+public class RomanNumberConverterTest {
 @Test
 public void testSomething() {
 }
@@ -31,7 +31,7 @@ Beschreibung = prüft ob alles klappt wie es soll
 Klassenname = hope
 public class hope {
 }
-Testname = hopetest
+Testname = hopeTest
 import static org.junit.Assert.*;
 import org.junit.Test;
 public class hopeTest {
