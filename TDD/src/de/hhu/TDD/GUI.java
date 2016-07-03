@@ -1,12 +1,10 @@
 package de.hhu.TDD;
 
 
-import java.net.URL;
 import java.util.ArrayList;
 
-import vk.core.api.*;
-
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,7 +26,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import vk.core.api.CompilationUnit;
 import vk.core.api.CompilerFactory;
+import vk.core.api.JavaStringCompiler;
+import vk.core.api.TestResult;
 
 public class GUI extends Application{
 
@@ -71,7 +72,14 @@ launch(args);
  mainStage.setTitle("Hauptmenue");
  mainStage.show();
  mainMenu = mainStage;
+ //closes the running thread 
+ mainStage.setOnCloseRequest( e -> {
+			Platform.exit();
+			System.exit(0);
+ });
 
+ 
+ 
   bt_training.setOnAction(new EventHandler<ActionEvent>() {
   @Override public void handle(ActionEvent e) {
     mainStage.hide();
@@ -157,7 +165,13 @@ launch(args);
    st_exc_selection.setScene(sc_choose);  
    st_exc_selection.setTitle("Auswahl");
    st_exc_selection.show();
-
+   
+   //closes the running thread
+   st_exc_selection.setOnCloseRequest( event -> {
+ 			Platform.exit();
+ 			System.exit(0);
+ 	});
+  
    exc_comboBox.valueProperty().addListener(new ChangeListener<String>() {
         @Override public void changed(ObservableValue ov, String old_value, String new_value) {
          exc_auswahl = Aufgaben_Namen.indexOf(new_value);
@@ -192,6 +206,39 @@ launch(args);
 	Button bt_help = new Button("Hilfe");
 	Button bt_RfctrDone = new Button("Refactoren beendet");
 	Button bt_backExc =  new Button("Zurueck zum Auswahlmenue");
+	Label timeRemaining = new Label();
+	// Thread that makes the timer for Babysteps
+	Thread thread = new Thread(new Runnable(){
+
+		private int seconds = 180; // User hat 180 seconds ( 3 Minuten )um den Test zu schreiben.
+		private boolean running = true;
+		@Override
+		public void run() {
+			try{
+				while(running){
+					if (seconds == 1) running = false;
+					Platform.runLater(new Runnable(){
+						@Override
+						public void run(){
+							timeRemaining.setText("Sie haben noch : " + seconds + " seconds"
+									+"\n,um Ihre Lösung zu implementieren.");
+						}
+					});
+					seconds--;
+					Thread.sleep(1000);
+				}
+			} catch (Exception e) { }
+		}
+		
+	});
+	thread.start();
+	
+	//closes the running thread
+	editor.setOnCloseRequest( event -> {
+		Platform.exit();
+		System.exit(0);
+	});
+	 
 	
 	editor.getIcons().add(new Image(getClass().getResourceAsStream("TDDLogo.png")));
 	bt_backExc.setOnAction(new EventHandler<ActionEvent>() {
@@ -212,6 +259,7 @@ launch(args);
 	root.add(instruction, 1, 1);
 	root.add(codeArea, 1, 2);
 	root.add(bt_toGreen, 1, 3);
+	root.add(timeRemaining, 1, 4);
 	root.add(bt_help, 1, 5);
 	root.add(bt_toRed,1,3);
 	root.add(bt_Refactor,1,4);
@@ -362,8 +410,7 @@ launch(args);
     }}) ;
    }});
    
-  
- 
+  		
   
 //  URL stylesheet = getClass().getResource("style.css");
 //  sc_mainmenu.getStylesheets().add(stylesheet.toExternalForm());
