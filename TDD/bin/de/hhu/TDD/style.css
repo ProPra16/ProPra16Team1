@@ -1,0 +1,46 @@
+#main{
+    -fx-background-image: url("TDDLogo.png");
+    -fx-background-repeat: no-repeat no-repeat;   
+    -fx-background-size: 35%;
+    -fx-background-position: top center;
+    
+}
+#bt_toGreen{
+    -fx-background-color: #49b71d !important;
+	-fx-text-fill:white;
+}
+#bt_toGreen:hover{
+	-fx-background-color: #73f142 !important;
+	
+}
+#bt_toRed{
+	-fx-background-color: #d52828 !important;
+	-fx-text-fill:white;
+}
+#bt_toRed:hover{
+	-fx-background-color: #c96d6d !important;
+}
+#lbl_noSelection{
+	 -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.5) , 5,0.3,0,1 );
+	 -fx-font-weight:bold;  
+}
+.button{
+	-fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+.comboBox{
+	-fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+}
+.button:hover{
+	-fx-background-color: #91aee3;
+	
+}
+
+.root{
+	-fx-background-color: linear-gradient(#65a5ed , #87b1b5);
+}
+

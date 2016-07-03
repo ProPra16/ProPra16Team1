@@ -1,6 +1,7 @@
 package de.hhu.TDD;
 
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import vk.core.api.*;
@@ -20,8 +21,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import vk.core.api.CompilerFactory;
@@ -42,14 +46,16 @@ launch(args);
  @Override
  public void start(Stage mainStage){
 
-
  Button bt_training = new Button();
  Button bt_continue = new Button();
- bt_training.setText("Übung auswählen");
- bt_continue.setText("Übung fortsetzen");
+ bt_training.setText("Uebung auswaehlen");
+ bt_continue.setText("Uebung fortsetzen");
  Text tx_Welcome = new Text("Willkommen!");
+ tx_Welcome.setFill(Color.WHITE);
+ tx_Welcome.setFont(Font.font("",20));
 
  GridPane mainMenu_layout = new GridPane();
+ mainMenu_layout.setId("main");
  mainMenu_layout.setAlignment(Pos.CENTER);
  mainMenu_layout.setHgap(10);
  mainMenu_layout.setVgap(10);
@@ -57,10 +63,12 @@ launch(args);
  mainMenu_layout.add(bt_training,0,1);
  mainMenu_layout.add(bt_continue,0,2); 
 
- Scene sc_mainmenu = new Scene(mainMenu_layout,500,500);
-
+ mainStage.getIcons().add(new Image(getClass().getResourceAsStream("TDDLogo.png")));
+ 
+ Scene sc_mainmenu = new Scene(mainMenu_layout,700,600);
+ sc_mainmenu.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
  mainStage.setScene(sc_mainmenu);
- mainStage.setTitle("Hauptmenü");
+ mainStage.setTitle("Hauptmenue");
  mainStage.show();
  mainMenu = mainStage;
 
@@ -82,28 +90,34 @@ launch(args);
     Aufgaben_Namen
     );
    final ComboBox<String> exc_comboBox = new ComboBox<String>(options);
-   exc_comboBox.setPromptText("Übungen");
+   exc_comboBox.setPromptText("Uebungen");
 
-   Text tx_auswahl = new Text("Schritt 1: Wählen Sie eine Übung aus:");  
+   Text tx_auswahl = new Text("Schritt 1: Waehlen Sie eine Uebung aus:");  
    TextArea txF_beschr = new TextArea("Aufgabenbeschreibung");
    txF_beschr.setPrefWidth(300);
    txF_beschr.setPrefHeight(100);
    txF_beschr.setEditable(false);
    txF_beschr. setWrapText(true); 
-
+   
+   // Sets icon
+   st_exc_selection.getIcons().add(new Image(getClass().getResourceAsStream("TDDLogo.png")));
+   
    Button bt_back = new Button();
-   bt_back.setText("Zurück");
+   bt_back.setText("Zurueck");
 
    Button bt_select = new Button();
-   bt_select.setText("Übung beginnen");
+   bt_select.setText("Uebung beginnen");
+   
+   Button bt_ext_help = new Button();
+   bt_ext_help.setText("Erlaeuterung");
 
-   Label noSelection = new Label("Bitte w�hlen Sie eine Übung aus!");
+   Label noSelection = new Label("Bitte waehlen Sie eine Uebung aus!");
+   noSelection.setId("lbl_noSelection");
+   noSelection.setTextFill(Color.RED);
    noSelection.setVisible(false);
  
-   Label warning = new Label("WARNUNG: Bestehende Übung wird gelöscht!");
-   Label extensionRadio = new Label("Schritt 2: W�hlen Sie eine Erweiterung aus!");
-   Label ext_info = new Label();
-   Label ext_info2 = new Label();
+   Label warning = new Label("WARNUNG: Bestehende Uebung wird geloescht!");
+   Label extensionRadio = new Label("Schritt 2: Waehlen Sie eine Erweiterung aus!");
 
    ToggleGroup radioButtonGroup = new ToggleGroup();
    RadioButton rb_1 = new RadioButton("Baby Steps ");
@@ -116,6 +130,7 @@ launch(args);
    rb_1.requestFocus();
 
    GridPane exc_layout = new GridPane();
+   exc_layout.setId("excGrid");
    exc_layout.setAlignment(Pos.CENTER);
    exc_layout.setHgap(10);
    exc_layout.setVgap(10);
@@ -128,15 +143,17 @@ launch(args);
    exc_layout.add(noSelection,0,7);
    exc_layout.add(extensionRadio, 0, 8);
    exc_layout.add(radioButtonControls, 0, 9);
-   exc_layout.add(ext_info, 0, 10);
-   exc_layout.add(ext_info2, 0, 11);
+   exc_layout.add(bt_ext_help, 1, 8);
    
-   if(rb_1.isSelected()) {
-	   ext_info.setText("Sie haben limitiert Zeit fuer die einzelnen Phasen(RED und GREEN.");
-	   ext_info2.setText("Laeuft die Zeit ab, wird der Code geloescht und Sie werden zur vorherigen Phase zurueckgefuehrt.");
-   }
+ //Function to Erlaeuterung Help
+ 	bt_ext_help.setOnAction(new EventHandler<ActionEvent>() {
+ 		   @Override public void handle(ActionEvent e) {
+ 		   Hilfe.displayExtension();
+ 	}});
+
    
    Scene sc_choose = new Scene(exc_layout,700,600);
+   sc_choose.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
    st_exc_selection.setScene(sc_choose);  
    st_exc_selection.setTitle("Auswahl");
    st_exc_selection.show();
@@ -166,13 +183,17 @@ launch(args);
     Stage editor = new Stage();
 	Label instruction = new Label("//implementieren Sie den Code hier");
 	TextArea codeArea = new TextArea();
-	Button bt_toGreen = new Button("Wechsle zu Green");
-	Button bt_toRed = new Button("Zurück zu Red");
+	
+	Button bt_toGreen = new Button("Wechsel zu Green");
+	bt_toGreen.setId("bt_toGreen");
+	Button bt_toRed = new Button("Zurueck zu Red");
+	bt_toRed.setId("bt_toRed");
 	Button bt_Refactor = new Button("Refactor");
 	Button bt_help = new Button("Hilfe");
 	Button bt_RfctrDone = new Button("Refactoren beendet");
 	Button bt_backExc =  new Button("Zurueck zum Auswahlmenue");
 	
+	editor.getIcons().add(new Image(getClass().getResourceAsStream("TDDLogo.png")));
 	bt_backExc.setOnAction(new EventHandler<ActionEvent>() {
 		   @Override public void handle(ActionEvent e) {
 		   st_exc_selection.show();
@@ -186,18 +207,20 @@ launch(args);
 	
 	non_static_af.saveNew(exc_auswahl);
 	
+	// war vorher setConstraints, habs nur zeitweilig zu add geaendert
 	GridPane root = new GridPane();
-	root.setConstraints(instruction, 1, 1);
-	root.setConstraints(codeArea, 1, 2);
-	root.setConstraints(bt_toGreen, 1, 3);
-	root.setConstraints(bt_help, 1, 5);
-	root.setConstraints(bt_toRed,1,3);
-	root.setConstraints(bt_Refactor,1,4);
-	root.setConstraints(bt_RfctrDone,1,5);
-	root.setConstraints(bt_backExc, 1, 30);
-	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
+	root.add(instruction, 1, 1);
+	root.add(codeArea, 1, 2);
+	root.add(bt_toGreen, 1, 3);
+	root.add(bt_help, 1, 5);
+	root.add(bt_toRed,1,3);
+	root.add(bt_Refactor,1,4);
+	root.add(bt_RfctrDone,1,5);
+	root.add(bt_backExc, 1, 30);
+	//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 	
-	Scene scene = new Scene(root,500,500);
+	Scene scene = new Scene(root,700,600);
+	scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
 	editor.setScene(scene);
 	editor.setTitle("RED");
 	editor.show();
@@ -340,8 +363,11 @@ launch(args);
    }});
    
   
-
-
+ 
+  
+//  URL stylesheet = getClass().getResource("style.css");
+//  sc_mainmenu.getStylesheets().add(stylesheet.toExternalForm());
+//  sc_choose.getStylesheets().add(stylesheet.toExternalForm());
  }
 
 

@@ -32,4 +32,33 @@ public class Hilfe {
 		window.setScene(scene);
 		window.showAndWait();
 	}
+	
+	public static void displayExtension(){
+		Stage window = new Stage();
+		
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle("Erlaueterung");
+		window.setWidth(400);
+		window.setHeight(300);
+		
+		Label help = new Label();
+		Label test = new Label();
+		help.setText("Baby Steps:"
+				+ "\nSie haben limitiert Zeit fuer die einzelnen Phasen (RED und GREEN). "
+				+ "\nLaeuft die Zeit ab, wird der Code geloescht und Sie werden "
+				+ "\nzur vorherigen Phasen zurueckgefuehrt.");
+		test.setText("Tracking:"
+				+ "\nDiese Funktion zeichnet ihre Aktivitäten auf. Wie vie Zeit in einer "
+				+ "\nPhase benötigt wurde und welche Fehler aufgetreten worden sind "
+				+ "\nwerden mittels einer Chart dargestellt");
+		Button close = new Button("Close");
+		close.setOnAction(e -> window.close());
+		VBox root = new VBox(15);
+		root.getChildren().addAll(help,test,close);
+		root.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(root);
+		window.setScene(scene);
+		window.showAndWait();
+	}
 }
