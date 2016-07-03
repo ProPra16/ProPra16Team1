@@ -143,7 +143,7 @@ launch(args);
 	Label instruction = new Label("//implementieren Sie den Code hier");
 	TextArea codeArea = new TextArea();
 	Button bt_toGreen = new Button("Wechsle zu Green");
-	Button bt_toRed = new Button("Zrück zu Red");
+	Button bt_toRed = new Button("Zurück zu Red");
 	Button bt_Refactor = new Button("Refactor");
 	Button bt_help = new Button("Hilfe");
 	Button bt_RfctrDone = new Button("Refactoren beendet");
@@ -175,8 +175,8 @@ launch(args);
 	codeArea.setText(classCode);
 	
 	//Function to Button toGreen
-	bt_toGreen.setOnAction(new EventHandler<ActionEvent>() {
-		   @Override public void handle(ActionEvent e) {
+	bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
+		   @Override public void handle(ActionEvent e) {     
 			String  testCode = codeArea.getText(); // here is the test from user
             non_static_af.save("currentTest",testCode);
             
@@ -233,7 +233,7 @@ launch(args);
 		   Hilfe.displayRED();
 	}});
 	
-	bt_toRed.setOnAction(new EventHandler<ActionEvent>() {
+	bt_toRed.setOnAction(new EventHandler<ActionEvent>() {   //Wechsel von GREEN zu RED
 	  @Override public void handle(ActionEvent e) {
 		  bt_toGreen.setVisible(true);
 		  bt_help.setVisible(true);
@@ -250,7 +250,7 @@ launch(args);
 		  codeArea.setText(classCode);	  
 	  }}) ;
 
-	  bt_Refactor.setOnAction(new EventHandler<ActionEvent>() {
+	  bt_Refactor.setOnAction(new EventHandler<ActionEvent>() {   //Wechsel von GREEN zu Refactor
 	  @Override public void handle(ActionEvent e) {	
 	  try{	  
 	   String classCode = codeArea.getText();		  
@@ -279,7 +279,7 @@ launch(args);
 		  
 		  }});
 	
-	  bt_RfctrDone.setOnAction(new EventHandler<ActionEvent>() {
+	  bt_RfctrDone.setOnAction(new EventHandler<ActionEvent>() { //Vom fertigen Refactor zu RED
 		  @Override public void handle(ActionEvent e) {	
 		   String classCode = codeArea.getText();		  
 		   String className = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).className();
