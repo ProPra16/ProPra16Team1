@@ -210,13 +210,16 @@ launch(args);
 	// Thread that makes the timer for Babysteps
 	Thread thread = new Thread(new Runnable(){
 
-		private int seconds = 180; // User hat 180 seconds ( 3 Minuten )um den Test zu schreiben.
+		private int seconds = 6; // User hat 180 seconds ( 3 Minuten )um den Test zu schreiben.
 		private boolean running = true;
 		@Override
 		public void run() {
 			try{
 				while(running){
-					if (seconds == 1) running = false;
+					if (seconds == 1) { 
+						running = false; 
+						codeArea.setText(non_static_af.loadCurrentData("currentTest")); // deletes the implemented Code
+					}
 					Platform.runLater(new Runnable(){
 						@Override
 						public void run(){
@@ -274,6 +277,7 @@ launch(args);
 	editor.show();
 
 	codeArea.setWrapText(true);
+	
 	
 	String classCode = non_static_af.loadCurrentData("currentTest");
 	codeArea.setText(classCode);
