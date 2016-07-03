@@ -97,11 +97,11 @@ launch(args);
    Button bt_select = new Button();
    bt_select.setText("Übung beginnen");
 
-   Label noSelection = new Label("Bitte w�hlen Sie eine Übung aus!");
+   Label noSelection = new Label("Bitte w�hlen Sie eine Übung aus!");
    noSelection.setVisible(false);
  
    Label warning = new Label("WARNUNG: Bestehende Übung wird gelöscht!");
-   Label extensionRadio = new Label("Schritt 2: W�hlen Sie eine Erweiterung aus!");
+   Label extensionRadio = new Label("Schritt 2: W�hlen Sie eine Erweiterung aus!");
    Label ext_info = new Label();
    Label ext_info2 = new Label();
 
@@ -177,6 +177,7 @@ launch(args);
 		   @Override public void handle(ActionEvent e) {
 		   st_exc_selection.show();
 		   editor.hide();
+		   firstStart=true;
 		    }});
 	
 	bt_Refactor.setVisible(false);
@@ -298,7 +299,7 @@ launch(args);
 	  if(failTest == 0 && compileErrors == false){
 	   bt_toGreen.setVisible(false);
 	   bt_help.setVisible(false);
-       bt_toRed.setVisible(true);
+       bt_toRed.setVisible(false);
 	   bt_Refactor.setVisible(false);
 	   bt_RfctrDone.setVisible(true);
 	   editor.setTitle("REFACTOR");			    
