@@ -102,17 +102,20 @@ launch(args);
  
    Label warning = new Label("WARNUNG: Bestehende Übung wird gelöscht!");
    Label extensionRadio = new Label("Schritt 2: W�hlen Sie eine Erweiterung aus!");
+   Label ext_info = new Label();
+   Label ext_info2 = new Label();
+   
    
    
    ToggleGroup radioButtonGroup = new ToggleGroup();
-   RadioButton rb_1 = new RadioButton("Baby Steps");
+   RadioButton rb_1 = new RadioButton("Baby Steps ");
    rb_1.setToggleGroup(radioButtonGroup);
    RadioButton rb_2 = new RadioButton("Tracking");
    rb_2.setToggleGroup(radioButtonGroup);
-   RadioButton rb_3 = new RadioButton("ATDD");
-   rb_3.setToggleGroup(radioButtonGroup);
    HBox radioButtonControls = new HBox();
-   radioButtonControls.getChildren().addAll(rb_1,rb_2,rb_3);
+   radioButtonControls.getChildren().addAll(rb_1,rb_2);
+   rb_1.setSelected(true);
+   rb_1.requestFocus();
 
    GridPane exc_layout = new GridPane();
    exc_layout.setAlignment(Pos.CENTER);
@@ -127,8 +130,16 @@ launch(args);
    exc_layout.add(noSelection,0,7);
    exc_layout.add(extensionRadio, 0, 8);
    exc_layout.add(radioButtonControls, 0, 9);
-
-   Scene sc_choose = new Scene(exc_layout,500,500);
+   exc_layout.add(ext_info, 0, 10);
+   exc_layout.add(ext_info2, 0, 11);
+   
+   if(rb_1.isSelected()) {
+	   ext_info.setText("Sie haben limitiert Zeit fuer die einzelnen Phasen(RED "
+	   		+ "und GREEN.");
+	   		ext_info2.setText("Laeuft die Zeit ab, wird der Code geloescht und Sie werden zur vorherigen Phase zurueckgefuehrt.");
+   }
+   
+   Scene sc_choose = new Scene(exc_layout,700,600);
    st_exc_selection.setScene(sc_choose);  
    st_exc_selection.setTitle("Auswahl");
    st_exc_selection.show();
@@ -164,6 +175,13 @@ launch(args);
 	Button bt_Refactor = new Button("Refactor");
 	Button bt_help = new Button("Hilfe");
 	Button bt_RfctrDone = new Button("Refactoren beendet");
+	Button bt_backExc =  new Button("Zurueck zum Auswahlmenue");
+	
+	bt_backExc.setOnAction(new EventHandler<ActionEvent>() {
+		   @Override public void handle(ActionEvent e) {
+		   st_exc_selection.show();
+		   editor.hide();
+		    }});
 	
 	bt_Refactor.setVisible(false);
     bt_toRed.setVisible(false);
@@ -179,7 +197,8 @@ launch(args);
 	root.setConstraints(bt_toRed,1,3);
 	root.setConstraints(bt_Refactor,1,4);
 	root.setConstraints(bt_RfctrDone,1,5);
-	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed);
+	root.setConstraints(bt_backExc, 1, 30);
+	root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 	
 	Scene scene = new Scene(root,500,500);
 	editor.setScene(scene);

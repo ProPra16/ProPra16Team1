@@ -1,6 +1,6 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
-public class hopeTest {
+public class RomanNumberConverterTest {
 @Test
 public void testSomething() {
 }
