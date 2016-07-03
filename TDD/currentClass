@@ -1,2 +1,3 @@
 public class RomanNumberConverter {
+public static int s(){return 5;}
 }
