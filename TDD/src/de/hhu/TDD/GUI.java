@@ -102,6 +102,7 @@ launch(args);
 
    Text tx_auswahl = new Text("Schritt 1: Waehlen Sie eine Uebung aus:");  
    TextArea txF_beschr = new TextArea("Aufgabenbeschreibung");
+   txF_beschr.setId("description");
    txF_beschr.setPrefWidth(300);
    txF_beschr.setPrefHeight(100);
    txF_beschr.setEditable(false);
@@ -197,6 +198,7 @@ launch(args);
     Stage editor = new Stage();
 	Label instruction = new Label("//implementieren Sie den Code hier");
 	TextArea codeArea = new TextArea();
+	codeArea.setId("code_area");
 	
 	Button bt_toGreen = new Button("Wechsel zu Green");
 	bt_toGreen.setId("bt_toGreen");

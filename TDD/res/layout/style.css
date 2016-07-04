@@ -41,6 +41,11 @@
 }
 .button:hover{
 	-fx-background-color: linear-gradient(#6c6c6c, #414141);
+	-fx-cursor: hand;
+}
+
+#code_area, #description {
+	-fx-font-family: Courier;
 }
 
 .root{
