@@ -39,6 +39,7 @@ private boolean firstStart = true;
 private CompilationUnit compileClass;
 private CompilationUnit compileTest;
 private JavaStringCompiler compiler;
+private Timer timer;
 
 public static void main(String[] args) {
 launch(args);
@@ -208,32 +209,8 @@ launch(args);
 	Button bt_backExc =  new Button("Zurueck zum Auswahlmenue");
 	Label timeRemaining = new Label();
 	// Thread that makes the timer for Babysteps
-	Thread thread = new Thread(new Runnable(){
-
-		private int seconds = 6; // User hat 180 seconds ( 3 Minuten )um den Test zu schreiben.
-		private boolean running = true;
-		@Override
-		public void run() {
-			try{
-				while(running){
-					if (seconds == 1) { 
-						running = false; 
-						codeArea.setText(non_static_af.loadCurrentData("currentTest")); // deletes the implemented Code
-					}
-					Platform.runLater(new Runnable(){
-						@Override
-						public void run(){
-							timeRemaining.setText("Sie haben noch : " + seconds + " seconds"
-									+"\n,um Ihre Lösung zu implementieren.");
-						}
-					});
-					seconds--;
-					Thread.sleep(1000);
-				}
-			} catch (Exception e) { }
-		}
-		
-	});
+	timer = new Timer(timeRemaining,codeArea);
+	Thread thread = new Thread(timer);
 	thread.start();
 	
 	//closes the running thread
@@ -265,8 +242,8 @@ launch(args);
 	root.add(timeRemaining, 1, 4);
 	root.add(bt_help, 1, 5);
 	root.add(bt_toRed,1,3);
-	root.add(bt_Refactor,1,4);
-	root.add(bt_RfctrDone,1,5);
+	root.add(bt_Refactor,1,6);
+	root.add(bt_RfctrDone,1,7);
 	root.add(bt_backExc, 1, 30);
 	//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 	
@@ -287,6 +264,8 @@ launch(args);
 		   @Override public void handle(ActionEvent e) {     
 			String  testCode = codeArea.getText(); // here is the test from user
             non_static_af.save("currentTest",testCode);
+            timer.stop(); // stop and reset the timer
+            timer.start();
             
             String testName  = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).testName();
             CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
