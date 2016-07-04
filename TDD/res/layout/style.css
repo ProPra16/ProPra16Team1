@@ -1,9 +1,12 @@
 #main{
-    -fx-background-image: url("TDDLogo.png");
+    -fx-background-image: url("/images/TDDLogo.png");
     -fx-background-repeat: no-repeat no-repeat;   
-    -fx-background-size: 35%;
-    -fx-background-position: top center;
-    
+    -fx-background-size: 30%;
+    -fx-background-position: center;
+    -fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
+}
+#main:hover {
+    -fx-cursor: hand;
 }
 #bt_toGreen{
     -fx-background-color: #49b71d !important;
@@ -27,8 +30,9 @@
 .button{
 	-fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-background-color: linear-gradient(#414141, #232323);
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-pref-width: 180;
 }
 .comboBox{
 	-fx-text-fill: white;
@@ -36,11 +40,19 @@
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
 }
 .button:hover{
-	-fx-background-color: #91aee3;
-	
+	-fx-background-color: linear-gradient(#6c6c6c, #414141);
 }
 
 .root{
-	-fx-background-color: linear-gradient(#65a5ed , #87b1b5);
+    -fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
 }
 
+#stage_red {
+	    -fx-background-image: url("/images/TDDred.png");
+}
+#stage_black {
+	    -fx-background-image: url("/images/TDDblack.png");
+}
+#stage_green {
+	    -fx-background-image: url("/images/TDDgreen.png");
+}

@@ -20,6 +20,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -41,34 +42,32 @@ private CompilationUnit compileTest;
 private JavaStringCompiler compiler;
 private Timer timer;
 
+private String css = this.getClass().getResource("/layout/style.css").toExternalForm();
+private Image icon = new Image(getClass().getResourceAsStream("/images/TDDicon.png"));
+
 public static void main(String[] args) {
 launch(args);
 }
 
  @Override
  public void start(Stage mainStage){
+	 
+	 GridPane mainMenu_layout = new GridPane();
+	 mainMenu_layout.setId("main");
 
+/*
  Button bt_training = new Button();
- Button bt_continue = new Button();
  bt_training.setText("Uebung auswaehlen");
- bt_continue.setText("Uebung fortsetzen");
- Text tx_Welcome = new Text("Willkommen!");
- tx_Welcome.setFill(Color.WHITE);
- tx_Welcome.setFont(Font.font("",20));
 
- GridPane mainMenu_layout = new GridPane();
- mainMenu_layout.setId("main");
  mainMenu_layout.setAlignment(Pos.CENTER);
- mainMenu_layout.setHgap(10);
- mainMenu_layout.setVgap(10);
- mainMenu_layout.add(tx_Welcome,0,0);
+ mainMenu_layout.setHgap(30);
+ mainMenu_layout.setVgap(300);
  mainMenu_layout.add(bt_training,0,1);
- mainMenu_layout.add(bt_continue,0,2); 
-
- mainStage.getIcons().add(new Image(getClass().getResourceAsStream("TDDLogo.png")));
+*/
+ mainStage.getIcons().add(icon);
  
  Scene sc_mainmenu = new Scene(mainMenu_layout,700,600);
- sc_mainmenu.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+ sc_mainmenu.getStylesheets().addAll(css);
  mainStage.setScene(sc_mainmenu);
  mainStage.setTitle("Hauptmenue");
  mainStage.show();
@@ -81,8 +80,8 @@ launch(args);
 
  
  
-  bt_training.setOnAction(new EventHandler<ActionEvent>() {
-  @Override public void handle(ActionEvent e) {
+  sc_mainmenu.setOnMouseClicked(new EventHandler<MouseEvent>() {
+  @Override public void handle(MouseEvent e) {
     mainStage.hide();
     Stage st_exc_selection = new Stage();
     Loader non_static_af = new Loader();          //dazu da um static Referenzprobleme zu behandeln
@@ -109,7 +108,7 @@ launch(args);
    txF_beschr. setWrapText(true); 
    
    // Sets icon
-   st_exc_selection.getIcons().add(new Image(getClass().getResourceAsStream("TDDLogo.png")));
+   st_exc_selection.getIcons().add(icon);
    
    Button bt_back = new Button();
    bt_back.setText("Zurueck");
@@ -162,7 +161,7 @@ launch(args);
 
    
    Scene sc_choose = new Scene(exc_layout,700,600);
-   sc_choose.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+   sc_choose.getStylesheets().addAll(css);
    st_exc_selection.setScene(sc_choose);  
    st_exc_selection.setTitle("Auswahl");
    st_exc_selection.show();
@@ -219,8 +218,7 @@ launch(args);
 		System.exit(0);
 	});
 	 
-	
-	editor.getIcons().add(new Image(getClass().getResourceAsStream("TDDLogo.png")));
+	editor.getIcons().add(icon);
 	bt_backExc.setOnAction(new EventHandler<ActionEvent>() {
 		   @Override public void handle(ActionEvent e) {
 		   st_exc_selection.show();
@@ -248,7 +246,7 @@ launch(args);
 	//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 	
 	Scene scene = new Scene(root,700,600);
-	scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+	scene.getStylesheets().addAll(css);
 	editor.setScene(scene);
 	editor.setTitle("RED");
 	editor.show();
@@ -281,6 +279,7 @@ launch(args);
 				 bt_help.setVisible(false);
 				 bt_RfctrDone.setVisible(false);
 				 bt_toGreen.setVisible(false);
+				 root.setId("stage_black");
 				 bt_toRed.setVisible(true);
 				 bt_Refactor.setVisible(true);
 				 String classCode = non_static_af.loadCurrentData("currentClass");
@@ -327,6 +326,7 @@ launch(args);
 		  bt_toRed.setVisible(false);
 		  bt_Refactor.setVisible(false);
 		  editor.setTitle("RED");
+		  root.setId("stage_red");
 		  
 		  String classCode = codeArea.getText();		  
 		  String className = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).className();
@@ -356,7 +356,9 @@ launch(args);
        bt_toRed.setVisible(false);
 	   bt_Refactor.setVisible(false);
 	   bt_RfctrDone.setVisible(true);
-	   editor.setTitle("REFACTOR");			    
+	   editor.setTitle("REFACTOR");	
+	   root.setId("stage_black");
+
 	  }
 	  }
 	  catch(NullPointerException s){
