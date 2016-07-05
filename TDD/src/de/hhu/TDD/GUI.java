@@ -208,7 +208,7 @@ launch(args);
 	Button bt_backExc =  new Button("Zurueck zum Auswahlmenue");
 	Label timeRemaining = new Label();
 	// Thread that makes the timer for Babysteps
-	timer = new Timer(timeRemaining,codeArea);
+	timer = new Timer(timeRemaining,codeArea,bt_toRed);
 	Thread thread = new Thread(timer);
 	thread.start();
 	
@@ -262,7 +262,8 @@ launch(args);
 		   @Override public void handle(ActionEvent e) {     
 			String  testCode = codeArea.getText(); // here is the test from user
             non_static_af.save("currentTest",testCode);
-            timer.stop(); // stop and reset the timer
+           //timer.stop(); // stop and reset the timer
+            timer.goBackOn();
             timer.start();
             
             String testName  = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).testName();
@@ -327,6 +328,8 @@ launch(args);
 		  bt_Refactor.setVisible(false);
 		  editor.setTitle("RED");
 		  root.setId("stage_red");
+		  timer.goBackOff();
+		  timer.start();
 		  
 		  String classCode = codeArea.getText();		  
 		  String className = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).className();
