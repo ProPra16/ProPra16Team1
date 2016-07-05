@@ -125,7 +125,6 @@ launch(args);
    noSelection.setTextFill(Color.RED);
    noSelection.setVisible(false);
  
-   Label warning = new Label("WARNUNG: Bestehende Uebung wird geloescht!");
    Label extensionRadio = new Label("Schritt 2: Waehlen Sie eine Erweiterung aus!");
 
    ToggleGroup radioButtonGroup = new ToggleGroup();
@@ -148,7 +147,6 @@ launch(args);
    exc_layout.add(txF_beschr,0,4);
    exc_layout.add(bt_back,1,30);
    exc_layout.add(bt_select,0,5);
-   exc_layout.add(warning,0,6);
    exc_layout.add(noSelection,0,7);
    exc_layout.add(extensionRadio, 0, 8);
    exc_layout.add(radioButtonControls, 0, 9);
