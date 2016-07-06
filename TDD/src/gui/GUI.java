@@ -30,7 +30,11 @@ public class GUI extends Application{
 		mainStage.getIcons().add(icon);
 		
 		Pane root = new Pane();
+<<<<<<< HEAD
 		root.getChildren().add(new MenuControls(mainStage));
+=======
+		root.getChildren().add(new Menu(mainStage));
+>>>>>>> 90f513fae1fd437e2aa6af1f36d1c09ebec6cf26
 		root.getChildren().add(new WelcomeScreen());
 
 		Scene sc_menu = new Scene(root, WIDTH, HEIGHT);
