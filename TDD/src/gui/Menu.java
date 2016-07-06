@@ -47,6 +47,8 @@ public class Menu extends GridPane {
 				FXCollections.observableArrayList(
 						Aufgaben_Namen
 				);
+		
+		//TODO change this to ListView
 		final ComboBox<String> exc_comboBox = new ComboBox<String>(options);
 		exc_comboBox.setPromptText("Uebungen");
 				
