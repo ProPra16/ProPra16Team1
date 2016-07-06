@@ -9,22 +9,17 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import logic.Timer;
-import vk.core.api.CompilationUnit;
-import vk.core.api.JavaStringCompiler;
 
 public class GUI extends Application{
 
 	private Stage mainMenu;
-	private int exc_auswahl = -1;        //Falls keine Wahl getroffen wurde -1
-	private CompilationUnit compileClass;
-	private CompilationUnit compileTest;
-	private JavaStringCompiler compiler;
-	private Timer timer;
 
 	private String css = this.getClass().getResource("/layout/style.css").toExternalForm();
 	private Image icon = new Image(getClass().getResourceAsStream("/images/TDDicon.png"));
 
+	public static int WIDTH = 700;
+	public static int HEIGHT = 600;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -38,7 +33,7 @@ public class GUI extends Application{
 		root.getChildren().add(new Menu(mainStage));
 		root.getChildren().add(new WelcomeScreen());
 
-		Scene sc_menu = new Scene(root);
+		Scene sc_menu = new Scene(root, WIDTH, HEIGHT);
 		sc_menu.getStylesheets().addAll(css);
 		mainStage.setScene(sc_menu);
 		mainStage.setTitle("Menü");

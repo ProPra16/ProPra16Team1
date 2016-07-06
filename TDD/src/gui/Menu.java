@@ -119,7 +119,7 @@ public class Menu extends GridPane {
 					return;
 				}
 				non_static_af.saveNew(exc_auswahl);
-				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl));
+				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl), GUI.WIDTH, GUI.HEIGHT);
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}

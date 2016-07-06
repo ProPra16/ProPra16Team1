@@ -8,8 +8,8 @@ import javafx.util.Duration;
 
 public class WelcomeScreen extends Pane {
 	WelcomeScreen() {
-		this.setMinWidth(700);
-		this.setMinHeight(600);
+		this.setMinWidth(GUI.WIDTH);
+		this.setMinHeight(GUI.HEIGHT);
 		this.setId("welcome_screen");
 
 		FadeTransition ftOUT = new FadeTransition(Duration.millis(1500), this);
