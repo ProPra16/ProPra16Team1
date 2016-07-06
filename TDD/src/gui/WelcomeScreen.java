@@ -1,0 +1,23 @@
+//Das ist der Begrüßungsbildschirm, der dann fadet.
+
+package gui;
+
+import javafx.animation.FadeTransition;
+import javafx.scene.layout.Pane;
+import javafx.util.Duration;
+
+public class WelcomeScreen extends Pane {
+	WelcomeScreen() {
+		this.setMinWidth(700);
+		this.setMinHeight(600);
+		this.setId("welcome_screen");
+
+		FadeTransition ftOUT = new FadeTransition(Duration.millis(1500), this);
+		ftOUT.setFromValue(1.0);
+		ftOUT.setToValue(0.0);
+		ftOUT.setDelay(Duration.seconds(1.5));
+		ftOUT.play();
+		
+		ftOUT.setOnFinished(e -> {this.setVisible(false);});
+	}
+}

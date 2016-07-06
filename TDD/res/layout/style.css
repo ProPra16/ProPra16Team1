@@ -1,4 +1,4 @@
-#main{
+#welcome_screen{
     -fx-background-image: url("/images/TDDLogo.png");
     -fx-background-repeat: no-repeat no-repeat;   
     -fx-background-size: 30%;
@@ -57,7 +57,7 @@
 #stage_red {
 	-fx-background-image: url("/images/TDDred.png");
 }
-#stage_black {
+#stage_refactor {
 	-fx-background-image: url("/images/TDDblack.png");
 }
 #stage_green {
