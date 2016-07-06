@@ -49,7 +49,10 @@
 }
 
 .root{
-    -fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
+	-fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
+	-fx-background-repeat: no-repeat no-repeat;
+	-fx-background-position: 490 40;
+	
 }
 
 #stage_red {

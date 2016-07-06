@@ -52,31 +52,22 @@ launch(args);
  @Override
  public void start(Stage mainStage){
 	 
-	 GridPane mainMenu_layout = new GridPane();
-	 mainMenu_layout.setId("main");
+	GridPane mainMenu_layout = new GridPane();
+	mainMenu_layout.setId("main");
 
-/*
- Button bt_training = new Button();
- bt_training.setText("Uebung auswaehlen");
-
- mainMenu_layout.setAlignment(Pos.CENTER);
- mainMenu_layout.setHgap(30);
- mainMenu_layout.setVgap(300);
- mainMenu_layout.add(bt_training,0,1);
-*/
- mainStage.getIcons().add(icon);
- 
- Scene sc_mainmenu = new Scene(mainMenu_layout,700,600);
- sc_mainmenu.getStylesheets().addAll(css);
- mainStage.setScene(sc_mainmenu);
- mainStage.setTitle("Hauptmenue");
- mainStage.show();
- mainMenu = mainStage;
- //closes the running thread 
- mainStage.setOnCloseRequest( e -> {
-			Platform.exit();
-			System.exit(0);
- });
+	mainStage.getIcons().add(icon);
+	
+	Scene sc_mainmenu = new Scene(mainMenu_layout,700,600);
+	sc_mainmenu.getStylesheets().addAll(css);
+	mainStage.setScene(sc_mainmenu);
+	mainStage.setTitle("Hauptmenü");
+	mainStage.show();
+	mainMenu = mainStage;
+	//closes the running thread 
+	mainStage.setOnCloseRequest( e -> {
+		Platform.exit();
+		System.exit(0);
+	});
 
  
  
@@ -137,29 +128,31 @@ launch(args);
    rb_1.setSelected(true);
    rb_1.requestFocus();
 
-   GridPane exc_layout = new GridPane();
-   exc_layout.setId("excGrid");
-   exc_layout.setAlignment(Pos.CENTER);
-   exc_layout.setHgap(10);
-   exc_layout.setVgap(10);
-   exc_layout.add(exc_comboBox,1,0);
-   exc_layout.add(tx_auswahl,0,0);
-   exc_layout.add(txF_beschr,0,4);
-   exc_layout.add(bt_back,1,30);
-   exc_layout.add(bt_select,0,5);
-   exc_layout.add(noSelection,0,7);
-   exc_layout.add(extensionRadio, 0, 8);
-   exc_layout.add(radioButtonControls, 0, 9);
-   exc_layout.add(bt_ext_help, 1, 8);
+   //Variablenname von exc_layout zu root geändert für bessere Konsistenz - Sonja
+   GridPane root = new GridPane();
+   root.setId("excGrid");
+   root.setAlignment(Pos.CENTER);
+   root.setHgap(10);
+   root.setVgap(10);
+   root.add(exc_comboBox,1,0);
+   root.add(tx_auswahl,0,0);
+   root.add(txF_beschr,0,4);
+   root.add(bt_back,1,30);
+   root.add(bt_select,0,5);
+   root.add(noSelection,0,7);
+   root.add(extensionRadio, 0, 8);
+   root.add(radioButtonControls, 0, 9);
+   root.add(bt_ext_help, 1, 8);
    
- //Function to Erlaeuterung Help
- 	bt_ext_help.setOnAction(new EventHandler<ActionEvent>() {
- 		   @Override public void handle(ActionEvent e) {
- 		   Hilfe.displayExtension();
- 	}});
+   //Function to Erlaeuterung Help
+   bt_ext_help.setOnAction(new EventHandler<ActionEvent>() {
+	   @Override public void handle(ActionEvent e) {
+		   Hilfe.displayExtension();
+	   }
+   });
 
    
-   Scene sc_choose = new Scene(exc_layout,700,600);
+   Scene sc_choose = new Scene(root,700,600);
    sc_choose.getStylesheets().addAll(css);
    st_exc_selection.setScene(sc_choose);  
    st_exc_selection.setTitle("Auswahl");
@@ -194,6 +187,7 @@ launch(args);
      }
     st_exc_selection.hide();
     Stage editor = new Stage();
+    root.setId("stage_red");
 	Label instruction = new Label("//implementieren Sie den Code hier");
 	TextArea codeArea = new TextArea();
 	codeArea.setId("code_area");
@@ -234,6 +228,7 @@ launch(args);
 	
 	// war vorher setConstraints, habs nur zeitweilig zu add geaendert
 	GridPane root = new GridPane();
+	root.setId("stage_red");
 	root.add(instruction, 1, 1);
 	root.add(codeArea, 1, 2);
 	root.add(bt_toGreen, 1, 3);
@@ -259,16 +254,18 @@ launch(args);
 	
 	//Function to Button toGreen
 	bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
-		   @Override public void handle(ActionEvent e) {     
-			String  testCode = codeArea.getText(); // here is the test from user
-            non_static_af.save("currentTest",testCode);
-           //timer.stop(); // stop and reset the timer
-            timer.goBackOn();
-            timer.start();
+		@Override public void handle(ActionEvent e) {
+			String testCode = codeArea.getText(); // here is the test from user
+			non_static_af.save("currentTest",testCode);
+			//timer.stop(); // stop and reset the timer
+			timer.goBackOn();
+			timer.start();
+			
+			root.setId("stage_green");
             
-            String testName  = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).testName();
-            CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
-		    compileTest = tmp_compileTest;
+			String testName  = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).testName();
+			CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
+			compileTest = tmp_compileTest;
 		    
 		   if(firstStart==false){
 		     try{	 
