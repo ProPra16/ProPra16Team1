@@ -1,4 +1,4 @@
-package de.hhu.TDD;
+package gui;
 
 
 import java.util.ArrayList;
@@ -27,6 +27,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import logic.Hilfe;
+import logic.Loader;
+import logic.Timer;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompilerFactory;
 import vk.core.api.JavaStringCompiler;

@@ -1,4 +1,4 @@
-package de.hhu.TDD;
+package logic;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -48,8 +48,8 @@ public class Hilfe {
 				+ "\nLaeuft die Zeit ab, wird der Code geloescht und Sie werden "
 				+ "\nzur vorherigen Phasen zurueckgefuehrt.");
 		test.setText("Tracking:"
-				+ "\nDiese Funktion zeichnet ihre Aktivitäten auf. Wie vie Zeit in einer "
-				+ "\nPhase benötigt wurde und welche Fehler aufgetreten worden sind "
+				+ "\nDiese Funktion zeichnet ihre Aktivitï¿½ten auf. Wie vie Zeit in einer "
+				+ "\nPhase benï¿½tigt wurde und welche Fehler aufgetreten worden sind "
 				+ "\nwerden mittels einer Chart dargestellt");
 		Button close = new Button("Close");
 		close.setOnAction(e -> window.close());

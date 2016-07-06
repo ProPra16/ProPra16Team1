@@ -52,15 +52,14 @@
 	-fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
 	-fx-background-repeat: no-repeat no-repeat;
 	-fx-background-position: 490 40;
-	
 }
 
 #stage_red {
-	    -fx-background-image: url("/images/TDDred.png");
+	-fx-background-image: url("/images/TDDred.png");
 }
 #stage_black {
-	    -fx-background-image: url("/images/TDDblack.png");
+	-fx-background-image: url("/images/TDDblack.png");
 }
 #stage_green {
-	    -fx-background-image: url("/images/TDDgreen.png");
+	-fx-background-image: url("/images/TDDgreen.png");
 }

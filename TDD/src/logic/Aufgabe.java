@@ -1,4 +1,4 @@
-package de.hhu.TDD;
+package logic;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package de.hhu.TDD;
+package logic;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
