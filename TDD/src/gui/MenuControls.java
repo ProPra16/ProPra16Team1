@@ -35,7 +35,7 @@ public class MenuControls extends GridPane {
 	private int exc_auswahl = -1;
 	private Stage stage;
 	private String css = this.getClass().getResource("/layout/style.css").toExternalForm();
-
+	private boolean isBabystepSet = false;
 	
 	MenuControls(Stage stage) {
 		this.stage = stage;
@@ -103,6 +103,36 @@ public class MenuControls extends GridPane {
 		rb_1.setSelected(true);
 		rb_1.requestFocus();
 
+		Label babystepsText = new Label("Waehlen Sie die Zeit für Babysteps");
+		ToggleGroup babystepsGroup = new ToggleGroup();
+		RadioButton difficulty1 = new RadioButton("2 Minuten");
+		RadioButton difficulty2 = new RadioButton("3 Minuten");
+		difficulty1.setToggleGroup(babystepsGroup);
+		difficulty2.setToggleGroup(babystepsGroup);
+		HBox difficultyButtonControls = new HBox();
+		difficultyButtonControls.getChildren().addAll(difficulty1,difficulty2);
+		Button set = new Button("Set");
+		
+		babystepsText.setVisible(false);
+		difficulty1.setVisible(false);
+		difficulty2.setVisible(false);
+		
+		set.setOnAction( e -> {
+				if(rb_1.isSelected()){
+					babystepsText.setVisible(true);
+					difficulty1.setVisible(true);
+					difficulty2.setVisible(true);
+					isBabystepSet = true;
+				}else{
+					babystepsText.setVisible(false);
+					difficulty1.setVisible(false);
+					difficulty2.setVisible(false);
+					isBabystepSet = false;
+				}
+				
+		});
+		
+		
 		this.setId("excGrid");
 		this.setAlignment(Pos.CENTER);
 		this.setHgap(10);
@@ -114,8 +144,10 @@ public class MenuControls extends GridPane {
 		this.add(noSelection,0,8);
 		this.add(extensionRadio, 0, 9);
 		this.add(radioButtonControls, 0, 10);
+		this.add(set, 1, 10);
 		this.add(bt_ext_help, 1, 9);
-		
+		this.add(babystepsText, 0, 11);
+		this.add(difficultyButtonControls, 0, 12);
 		//Function to Erlaeuterung Help
 		bt_ext_help.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -140,11 +172,26 @@ public class MenuControls extends GridPane {
 					noSelection.setVisible(true);
 					return;
 				}
+				if(rb_1.isSelected()){
+					if(difficulty1.isSelected()){
+						non_static_af.saveNew(exc_auswahl);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120), GUI.WIDTH, GUI.HEIGHT);
+						scene.getStylesheets().addAll(css);
+						stage.setScene(scene);
+					}if(difficulty2.isSelected()){
+						non_static_af.saveNew(exc_auswahl);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,180), GUI.WIDTH, GUI.HEIGHT);
+						scene.getStylesheets().addAll(css);
+						stage.setScene(scene);
+					}
+					return;
+				}
 				non_static_af.saveNew(exc_auswahl);
-				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl), GUI.WIDTH, GUI.HEIGHT);
+				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0), GUI.WIDTH, GUI.HEIGHT);
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}
 		});
 	}
+	
 }

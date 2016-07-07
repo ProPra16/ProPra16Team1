@@ -7,53 +7,72 @@ import javafx.scene.control.TextArea;
 
 public class Timer implements Runnable{
 
-	private int seconds = 180;
+	private int seconds;
 	private boolean running = true;
 	private Label label;
 	private TextArea codeArea;
 	private Button toRed;
 	private boolean goBack;
+	private int secondsRemain;
 	
-	public Timer(Label label,TextArea codeArea,Button bt_toRed){
+	public Timer(Label label,TextArea codeArea,Button bt_toRed,int seconds){
 		this.label = label;
 		this.codeArea = codeArea;
 		this.toRed = bt_toRed;
 		goBack = false;
+		this.seconds = seconds;
 	}
 	@Override
 	public void run() {
 		
 		try{
 			while(running){
-				if (seconds==1 && goBack){
-					seconds = 180;
+				if (secondsRemain==0 && goBack){
+					secondsRemain = seconds;
 					codeArea.setText(restoreTest()); // when time is over , restores to starting point
-					toRed.fire();
+					Platform.runLater(toRed::fire);
 					
 				}	
-				if (seconds == 1){
-					seconds = 180;
+				else if (secondsRemain == 0){
+					secondsRemain = seconds;
 					codeArea.setText(restoreTest());
-				}
-				Platform.runLater(new Runnable(){
+				}else {
+					Platform.runLater(new Runnable(){
 
-					@Override
-					public void run() {
-						label.setText("Sie haben noch " + seconds + " Sekunde,"
-								+"\num Ihre Lösung zu implementieren.");
-						
-					}
+						@Override
+						public void run() {
+							
+							label.setText("Sie haben noch " + time(secondsRemain) 
+									+"\num Ihre Lösung zu implementieren.");
+						}
 					
-				});
-				seconds--;
+					});
+				secondsRemain--;
 				Thread.sleep(1000);
+				}
 			}
 		} catch (Exception e) { }
 	}
 	
 	public void start(){
 		running = true;
-		seconds = 180;
+		secondsRemain = seconds;
+	}
+	
+	public static String time(int secondsToConvert){
+		String minutes = String.valueOf(secondsToConvert / 60);
+		String sec = String.valueOf(secondsToConvert % 60);
+		if(secondsToConvert == 60){
+			sec = "0";
+		}
+		String time;
+		if(secondsToConvert / 60 == 0){
+			time = sec + " Sekunde";
+		}
+		else if(secondsToConvert / 60 == 1){
+			time = minutes + " Minute und " + sec + " Sekunde";
+		}else time = minutes + " Minuten und "  + sec + " Sekunde";
+		return time;
 	}
 	
 	private String restoreTest(){
@@ -67,10 +86,6 @@ public class Timer implements Runnable{
 		return test;
 	}
 
-	public int getTime(){
-		return seconds;
-	}
-	
 	public void goBackOn(){
 		goBack = true;
 	}
@@ -80,8 +95,8 @@ public class Timer implements Runnable{
 	}
 	public void stop(){
 		this.running = false;
-		seconds = 180;
-		label.setText("Sie haben noch " + seconds + " Sekunde,"
-				+"\num Ihre Lösung zu implementieren.");
+		secondsRemain = seconds;
+		label.setText("Sie haben noch " + time(secondsRemain) 
+			+"\num Ihre Lösung zu implementieren.");
 	}
 }
