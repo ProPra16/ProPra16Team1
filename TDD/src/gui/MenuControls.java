@@ -70,8 +70,10 @@ public class MenuControls extends GridPane {
 		
 		//TODO change this to ListView
 		final ComboBox<String> exc_comboBox = new ComboBox<String>(options);
-		exc_comboBox.setPromptText("Uebungen");
-				
+		//exc_comboBox.setPromptText("Uebungen");
+		
+		final ListView<String> exerciseList = new ListView<String>(options);
+		
 		Text tx_auswahl = new Text("Schritt 1: Waehlen Sie eine Uebung aus:");  
 		TextArea txF_beschr = new TextArea("Aufgabenbeschreibung");
 		txF_beschr.setId("description");
@@ -107,7 +109,7 @@ public class MenuControls extends GridPane {
 		this.setAlignment(Pos.CENTER);
 		this.setHgap(10);
 		this.setVgap(10);
-		this.add(exc_comboBox,1,1);
+		this.add(exerciseList,1,1);
 		this.add(tx_auswahl,0,1);
 		this.add(txF_beschr,0,5);
 		this.add(bt_select,0,6);
@@ -124,15 +126,15 @@ public class MenuControls extends GridPane {
 			}
 		});
 		
-		exc_comboBox.valueProperty().addListener(new ChangeListener<String>() {
+		exerciseList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue ov, String old_value, String new_value) {
 				exc_auswahl = Aufgaben_Namen.indexOf(new_value);
 				String desc = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).getBeschreibung();
 				txF_beschr.setText(desc);
 				noSelection.setVisible(false);
-	        }    
-	    });
+	        }  
+		});
 		
 		bt_select.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
