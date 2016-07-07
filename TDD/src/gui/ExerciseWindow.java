@@ -27,7 +27,8 @@ public class ExerciseWindow extends GridPane {
 	private JavaStringCompiler compiler;
 	private CompilationUnit compileClass;
 	
-	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl) {
+	
+	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl,boolean isBabystepOn,int secondsBabystep) {
 		this.stage = stage;
 		
 		Label instruction = new Label("//implementieren Sie den Code hier");
@@ -46,12 +47,17 @@ public class ExerciseWindow extends GridPane {
 		Button bt_RfctrDone = new Button("Refactoren beendet");
 		Button bt_backExc =  new Button("Zurueck zum Auswahlmenue");
 		
+		
+		//proof if babyStep is chosen
+		if(isBabystepOn){
 		Label timeRemaining = new Label();
+		this.add(timeRemaining, 1, 4);
 		// Thread that makes the timer for Babysteps
-		timer = new Timer(timeRemaining,codeArea,bt_toRed);
+		
+		timer = new Timer(timeRemaining,codeArea,bt_toRed,secondsBabystep);
 		Thread thread = new Thread(timer);
 		thread.start();
-		
+		}
 		bt_Refactor.setVisible(false);
 		bt_toRed.setVisible(false);
 		bt_RfctrDone.setVisible(false);
@@ -61,7 +67,6 @@ public class ExerciseWindow extends GridPane {
 		this.add(instruction, 1, 1);
 		this.add(codeArea, 1, 2);
 		this.add(bt_toGreen, 1, 3);
-		this.add(timeRemaining, 1, 4);
 		this.add(bt_help, 1, 5);
 		this.add(bt_toRed,1,3);
 		this.add(bt_Refactor,1,6);
@@ -72,9 +77,9 @@ public class ExerciseWindow extends GridPane {
 		bt_backExc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-
+				
 				Scene scene = new Scene(new MenuControls(stage), 700, 600);
-
+				
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}
@@ -83,12 +88,16 @@ public class ExerciseWindow extends GridPane {
 		//Function to Button toGreen
 		bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
 			@Override public void handle(ActionEvent e) {
+				stage.setTitle("GREEN");
+				
 				String testCode = codeArea.getText(); // here is the test from user
 				loader.save("currentTest",testCode);
+				if(isBabystepOn){
 				//timer.stop(); // stop and reset the timer
 				timer.goBackOn();
 				timer.start();
-					         
+				}
+				
 				String testName  = loader.Aufgaben_Verwaltung.get(exc_auswahl).testName();
 				CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
 				compileTest = tmp_compileTest;
@@ -148,9 +157,12 @@ public class ExerciseWindow extends GridPane {
 				bt_help.setVisible(true);
 				bt_toRed.setVisible(false);
 				bt_Refactor.setVisible(false);
+				
+				stage.setTitle("RED");
+				if(isBabystepOn){
 				timer.goBackOff();
 				timer.start();
-				
+				}
 				String classCode = codeArea.getText();
 				String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
 				CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
