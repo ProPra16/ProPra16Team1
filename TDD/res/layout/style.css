@@ -5,8 +5,10 @@
     -fx-background-position: center;
     -fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
 }
-#main:hover {
-    -fx-cursor: hand;
+#auswahl {
+	-fx-font-family: "Courier New", Courier, monospace;
+	-fx-font-weight: bold;
+	-fx-font-size: 28;
 }
 #bt_toGreen{
     -fx-background-color: #49b71d !important;
@@ -45,7 +47,7 @@
 }
 
 #code_area, #description {
-	-fx-font-family: Courier;
+	-fx-font-family: Courier New;
 }
 
 .root{

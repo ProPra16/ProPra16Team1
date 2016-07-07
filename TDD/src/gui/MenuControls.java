@@ -13,15 +13,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.*;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -53,34 +50,17 @@ public class MenuControls extends GridPane {
 						Aufgaben_Namen
 				);
 		
-		//Menu
-		
-		MenuBar menuBar = new MenuBar();
-		VBox topContainer = new VBox();
-//		ToolBar toolBar = new ToolBar();
-
-		
-		topContainer.getChildren().add(menuBar);
-		
-		
-		Menu about = new Menu("About");
-		menuBar.getMenus().addAll(about);
-		this.add(topContainer, 0, 0);
-		
-		
-		//TODO change this to ListView
-		final ComboBox<String> exc_comboBox = new ComboBox<String>(options);
-		//exc_comboBox.setPromptText("Uebungen");
-		
 		final ListView<String> exerciseList = new ListView<String>(options);
+		exerciseList.setMaxHeight(200);
 		
-		Text tx_auswahl = new Text("Schritt 1: Waehlen Sie eine Uebung aus:");  
-		TextArea txF_beschr = new TextArea("Aufgabenbeschreibung");
-		txF_beschr.setId("description");
-		txF_beschr.setPrefWidth(300);
-		txF_beschr.setPrefHeight(100);
-		txF_beschr.setEditable(false);
-		txF_beschr. setWrapText(true);
+		Text tx_auswahl = new Text("Übung auswählen");
+		tx_auswahl.setId("auswahl");
+		Text tx_beschr = new Text("Aufgabenbeschreibung");
+		tx_beschr.setId("description");
+		
+	//	tx_beschr.setPrefWidth(300);
+		tx_beschr.prefHeight(200);
+		tx_beschr.setWrappingWidth(300);
 		
 		Button bt_select = new Button();
 		bt_select.setText("Uebung beginnen");
@@ -134,14 +114,13 @@ public class MenuControls extends GridPane {
 				
 		});
 		
-		
 		this.setId("excGrid");
 		this.setAlignment(Pos.CENTER);
 		this.setHgap(10);
-		this.setVgap(10);
-		this.add(exerciseList,1,1);
+		this.setVgap(30);
 		this.add(tx_auswahl,0,1);
-		this.add(txF_beschr,0,5);
+		this.add(exerciseList,0,2);
+		this.add(tx_beschr,1,2);
 		this.add(bt_select,0,6);
 		this.add(noSelection,0,8);
 		this.add(extensionRadio, 0, 9);
@@ -163,7 +142,7 @@ public class MenuControls extends GridPane {
 			public void changed(ObservableValue ov, String old_value, String new_value) {
 				exc_auswahl = Aufgaben_Namen.indexOf(new_value);
 				String desc = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).getBeschreibung();
-				txF_beschr.setText(desc);
+				tx_beschr.setText(desc);
 				noSelection.setVisible(false);
 	        }  
 		});

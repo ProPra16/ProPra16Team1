@@ -6,8 +6,11 @@ package gui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GUI extends Application{
@@ -31,6 +34,18 @@ public class GUI extends Application{
 		
 		Pane root = new Pane();
 
+		//Menu
+		
+		MenuBar menuBar = new MenuBar();
+		VBox topContainer = new VBox();
+//		ToolBar toolBar = new ToolBar();
+
+		Menu about = new Menu("About");
+		menuBar.getMenus().addAll(about);
+		root.getChildren().add(topContainer);
+		
+		topContainer.getChildren().add(menuBar);
+		
 		
 		root.getChildren().add(new MenuControls(mainStage));
 
