@@ -72,11 +72,9 @@ public class ExerciseWindow extends GridPane {
 		bt_backExc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-<<<<<<< HEAD
+
 				Scene scene = new Scene(new MenuControls(stage), 700, 600);
-=======
-				Scene scene = new Scene(new Menu(stage), 700, 600);
->>>>>>> 90f513fae1fd437e2aa6af1f36d1c09ebec6cf26
+
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}
