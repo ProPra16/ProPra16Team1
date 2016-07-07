@@ -42,13 +42,13 @@ public class GUI extends Application{
 
 		Menu about = new Menu("About");
 		menuBar.getMenus().addAll(about);
-		root.getChildren().add(topContainer);
 		
 		topContainer.getChildren().add(menuBar);
 		
-		
-		root.getChildren().add(new MenuControls(mainStage));
-
+		root.getChildren().add(topContainer);
+		Pane pane = new Pane();
+		pane.getChildren().add(new MenuControls(mainStage));
+		root.getChildren().add(pane);
 		root.getChildren().add(new WelcomeScreen());
 
 		Scene sc_menu = new Scene(root, WIDTH, HEIGHT);

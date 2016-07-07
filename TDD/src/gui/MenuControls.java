@@ -15,13 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -51,15 +49,17 @@ public class MenuControls extends GridPane {
 				);
 		
 		final ListView<String> exerciseList = new ListView<String>(options);
-		exerciseList.setMaxHeight(200);
+		exerciseList.setMaxHeight(180);
 		
-		Text tx_auswahl = new Text("Übung auswählen");
+		Label tx_auswahl = new Label("Übung auswählen");
 		tx_auswahl.setId("auswahl");
-		Text tx_beschr = new Text("Aufgabenbeschreibung");
-		tx_beschr.setId("description");
+		tx_auswahl.minWidth(100);
+		tx_auswahl.setMinHeight(30);
+
+		Text tx_name = new Text("");
 		
-	//	tx_beschr.setPrefWidth(300);
-		tx_beschr.prefHeight(200);
+		Text tx_beschr = new Text("");
+		tx_beschr.setId("description");
 		tx_beschr.setWrappingWidth(300);
 		
 		Button bt_select = new Button();
@@ -73,7 +73,8 @@ public class MenuControls extends GridPane {
 		noSelection.setTextFill(Color.RED);
 		noSelection.setVisible(false);
 		
-		Label extensionRadio = new Label("Schritt 2: Waehlen Sie eine Erweiterung aus!");
+		Label extensionRadio = new Label("Erweiterung wählen");
+		extensionRadio.setId("auswahl2");
 		
 		ToggleGroup radioButtonGroup = new ToggleGroup();
 		RadioButton rb_1 = new RadioButton("Baby Steps ");
@@ -111,24 +112,25 @@ public class MenuControls extends GridPane {
 					difficulty2.setVisible(false);
 					isBabystepSet = false;
 				}
-				
 		});
 		
 		this.setId("excGrid");
-		this.setAlignment(Pos.CENTER);
-		this.setHgap(10);
-		this.setVgap(30);
-		this.add(tx_auswahl,0,1);
-		this.add(exerciseList,0,2);
-		this.add(tx_beschr,1,2);
-		this.add(bt_select,0,6);
-		this.add(noSelection,0,8);
-		this.add(extensionRadio, 0, 9);
-		this.add(radioButtonControls, 0, 10);
-		this.add(set, 1, 10);
-		this.add(bt_ext_help, 1, 9);
-		this.add(babystepsText, 0, 11);
-		this.add(difficultyButtonControls, 0, 12);
+		this.setAlignment(Pos.TOP_CENTER);
+		this.setHgap(30);
+		this.setVgap(15);
+		this.add(tx_auswahl, 1, 4);
+		this.add(exerciseList, 1, 5, 1, 10);
+		this.add(tx_name, 2, 5);
+		this.add(tx_beschr, 2, 5, 2, 6);
+		this.add(bt_select,2,12);
+		this.add(noSelection,1,16);
+		this.add(extensionRadio, 1, 17);
+		this.add(radioButtonControls, 1, 18);
+		this.add(set, 2, 19);
+		this.add(bt_ext_help, 2, 20);
+		this.add(babystepsText, 1, 21);
+		this.add(difficultyButtonControls, 1, 22);
+		
 		//Function to Erlaeuterung Help
 		bt_ext_help.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -142,6 +144,8 @@ public class MenuControls extends GridPane {
 			public void changed(ObservableValue ov, String old_value, String new_value) {
 				exc_auswahl = Aufgaben_Namen.indexOf(new_value);
 				String desc = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).getBeschreibung();
+				String name = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).getName();
+				tx_name.setText(name);
 				tx_beschr.setText(desc);
 				noSelection.setVisible(false);
 	        }  
