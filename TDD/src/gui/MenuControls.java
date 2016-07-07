@@ -73,7 +73,8 @@ public class MenuControls extends GridPane {
 		noSelection.setTextFill(Color.RED);
 		noSelection.setVisible(false);
 		
-		Label extensionRadio = new Label("Schritt 2: Waehlen Sie eine Erweiterung aus!");
+		Label extensionRadio = new Label("Schritt 2: Waehlen Sie eine Erweiterung aus!"
+				+ "\nDann druecken Sie bitte \"Set\".");
 		
 		ToggleGroup radioButtonGroup = new ToggleGroup();
 		RadioButton rb_1 = new RadioButton("Baby Steps ");
