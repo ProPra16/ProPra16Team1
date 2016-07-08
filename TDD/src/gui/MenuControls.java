@@ -121,16 +121,16 @@ public class MenuControls extends GridPane {
 		this.add(exerciseList, 1, 5, 1, 10);
 		this.add(tx_name, 2, 5, 4, 5);
 		this.add(tx_beschr, 2, 7, 2, 10);
-		this.add(extensionRadio, 1, 17);
-		this.add(radioButtonControls, 1, 18);
-		this.add(babystepsName, 2, 19);
-		this.add(babystepsHelp, 2, 20, 2, 21);
-		this.add(trackingName, 2, 19);
-		this.add(trackingHelp, 2, 20, 2, 21);
-		this.add(rb_tracking, 1, 19);
-		this.add(rb_babysteps, 1, 20);
-		this.add(difficulty, 1, 21);
-		this.add(bt_select, 3, 22);
+		this.add(extensionRadio, 1, 17, 2, 17);
+		this.add(radioButtonControls, 1, 19);
+		this.add(babystepsName, 2, 20);
+		this.add(babystepsHelp, 2, 21, 2, 22);
+		this.add(trackingName, 2, 20);
+		this.add(trackingHelp, 2, 21, 2, 22);
+		this.add(rb_tracking, 1, 20);
+		this.add(rb_babysteps, 1, 21);
+		this.add(difficulty, 1, 22);
+		this.add(bt_select, 3, 24);
 		
 		//makes formatting easier
 		this.getChildren().stream().forEach(e -> GridPane.setValignment(e, VPos.TOP));
@@ -143,8 +143,10 @@ public class MenuControls extends GridPane {
 				String name = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).getName();
 				tx_name.setText(name);
 				tx_beschr.setText(desc);
-				//TODO babysteps exception
-				enable(bt_select, radioButtonGroup.getSelectedToggle() != null);
+				if(isBabystepSet == true)
+					enable(bt_select, babystepsGroup.getSelectedToggle() != null);
+				else
+					enable(bt_select, radioButtonGroup.getSelectedToggle() != null);
 	        }  
 		});
 		
