@@ -20,8 +20,6 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Hilfe;
@@ -65,15 +63,11 @@ public class MenuControls extends GridPane {
 		
 		Button bt_select = new Button();
 		bt_select.setText("Uebung beginnen");
+		bt_select.setDisable(true);
 	   
 		Button bt_ext_help = new Button();
 		bt_ext_help.setText("Erlaeuterung");
 
-		Label noSelection = new Label("Bitte waehlen Sie eine Uebung aus!");
-		noSelection.setId("lbl_noSelection");
-		noSelection.setTextFill(Color.RED);
-		noSelection.setVisible(false);
-		
 		Label extensionRadio = new Label("Erweiterung wählen");
 		extensionRadio.setId("auswahl2");
 		
@@ -84,8 +78,6 @@ public class MenuControls extends GridPane {
 		rb_tracking.setToggleGroup(radioButtonGroup);
 		HBox radioButtonControls = new HBox();
 		radioButtonControls.getChildren().addAll(rb_babysteps, rb_tracking);
-		//rb_babysteps.setSelected(true);
-		//rb_babysteps.requestFocus();
 
 		Label babystepsText = new Label("Waehlen Sie die Zeit für Babysteps");
 		ToggleGroup babystepsGroup = new ToggleGroup();
@@ -100,23 +92,6 @@ public class MenuControls extends GridPane {
 		difficulty1.setVisible(false);
 		difficulty2.setVisible(false);
 		
-		radioButtonGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-				if(rb_babysteps.isSelected()){
-					babystepsText.setVisible(true);
-					difficulty1.setVisible(true);
-					difficulty2.setVisible(true);
-					isBabystepSet = true;
-				}else{
-					babystepsText.setVisible(false);
-					difficulty1.setVisible(false);
-					difficulty2.setVisible(false);
-					isBabystepSet = false;
-				}
-			}});
-		
 		this.setId("excGrid");
 		this.setAlignment(Pos.TOP_CENTER);
 		this.setHgap(30);
@@ -124,9 +99,8 @@ public class MenuControls extends GridPane {
 		this.add(tx_auswahl, 1, 4);
 		this.add(exerciseList, 1, 5, 1, 10);
 		this.add(tx_name, 2, 5);
-		this.add(tx_beschr, 2, 5, 2, 6);
+		this.add(tx_beschr, 2, 6);
 		this.add(bt_select,2,12);
-		this.add(noSelection,1,16);
 		this.add(extensionRadio, 1, 17);
 		this.add(radioButtonControls, 1, 18);
 		this.add(bt_ext_help, 2, 20);
@@ -149,16 +123,39 @@ public class MenuControls extends GridPane {
 				String name = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).getName();
 				tx_name.setText(name);
 				tx_beschr.setText(desc);
-				noSelection.setVisible(false);
+				enable(bt_select, radioButtonGroup.getSelectedToggle() != null);
 	        }  
+		});
+		
+		radioButtonGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+				if(rb_babysteps.isSelected()){
+					babystepsText.setVisible(true);
+					difficulty1.setVisible(true);
+					difficulty2.setVisible(true);
+					isBabystepSet = true;
+					enable(bt_select, (exerciseList.getSelectionModel().getSelectedItem() != null) && (babystepsGroup.getSelectedToggle() != null));
+				}else{
+					babystepsText.setVisible(false);
+					difficulty1.setVisible(false);
+					difficulty2.setVisible(false);
+					isBabystepSet = false;
+					enable(bt_select, exerciseList.getSelectionModel().getSelectedItem() != null);
+				}
+			}
+		});
+		
+		babystepsGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			@Override
+			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+				enable(bt_select, exerciseList.getSelectionModel().getSelectedItem() != null);
+			}
 		});
 		
 		bt_select.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
-				if(exc_auswahl == -1) {
-					noSelection.setVisible(true);
-					return;
-				}
 				if(rb_babysteps.isSelected()){
 					if(difficulty1.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
@@ -181,4 +178,11 @@ public class MenuControls extends GridPane {
 		});
 	}
 	
+	void enable(Button button, Boolean boo) {
+		if(!boo) {
+			button.setDisable(true);
+			return;
+		}
+		button.setDisable(false);
+	}
 }
