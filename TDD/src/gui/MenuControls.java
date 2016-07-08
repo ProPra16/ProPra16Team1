@@ -54,19 +54,12 @@ public class MenuControls extends GridPane {
 		tx_auswahl.setId("auswahl");
 
 		Text tx_name = new Text("");
-		tx_name.setId("name");
-		GridPane.setValignment(tx_name, VPos.TOP);
+		tx_name.setId("exc_name");
 		
 		Text tx_beschr = new Text("");
-		tx_beschr.setId("description");
+		tx_beschr.setId("exc_description");
 		tx_beschr.setTextOrigin(VPos.BASELINE);
 		tx_beschr.setWrappingWidth(290);
-		GridPane.setValignment(tx_beschr, VPos.TOP);
-
-		
-		Button bt_select = new Button();
-		bt_select.setText("Uebung beginnen");
-		bt_select.setDisable(true);
 		
 		Label extensionRadio = new Label("Erweiterung wählen");
 		extensionRadio.setId("auswahl2");
@@ -77,18 +70,27 @@ public class MenuControls extends GridPane {
 		RadioButton rb_tracking = new RadioButton("Tracking");
 		rb_tracking.setToggleGroup(radioButtonGroup);
 		HBox radioButtonControls = new HBox();
-		//radioButtonControls.getChildren().addAll(rb_babysteps, rb_tracking);
+		
+		Text babystepsName = new Text("Babysteps");
+		babystepsName.setId("babysteps_name");
+		babystepsName.setVisible(false);
 		
 		Text babystepsHelp = new Text("Sie haben limitiert Zeit für die einzelnen Phasen (RED und "
 				+ "GREEN). Laeuft die Zeit ab, wird der Code geloescht und Sie werden zur vorherigen "
 				+ "Phase zurueckgeführt.");
 		babystepsHelp.setWrappingWidth(290);
+		babystepsHelp.setId("babysteps_help");
 		babystepsHelp.setVisible(false);
+		
+		Text trackingName = new Text("Tracking");
+		trackingName.setId("tracking_name");
+		trackingName.setVisible(false);
 		
 		Text trackingHelp = new Text("Diese Funktion zeichnet ihre Aktivitäten auf: Wieviel Zeit in "
 				+ "einer Phase benötigt wurde und welche Fehler aufgetreten worden sind "
 				+ "werden mittels eines Charts dargestellt");
 		trackingHelp.setWrappingWidth(290);
+		trackingHelp.setId("tracking_help");
 		trackingHelp.setVisible(false);
 
 		Label babystepsText = new Label("Waehlen Sie die Zeit für Babysteps");
@@ -107,6 +109,10 @@ public class MenuControls extends GridPane {
 		difficulty1.setVisible(false);
 		difficulty2.setVisible(false);
 		
+		Button bt_select = new Button();
+		bt_select.setText("Uebung beginnen");
+		bt_select.setDisable(true);
+		
 		this.setId("excGrid");
 		this.setAlignment(Pos.TOP_CENTER);
 		this.setHgap(30);
@@ -117,13 +123,17 @@ public class MenuControls extends GridPane {
 		this.add(tx_beschr, 2, 7, 2, 10);
 		this.add(extensionRadio, 1, 17);
 		this.add(radioButtonControls, 1, 18);
-
-		this.add(babystepsHelp, 2, 12, 2, 19);
-		this.add(trackingHelp, 2, 12, 2, 19);
+		this.add(babystepsName, 2, 19);
+		this.add(babystepsHelp, 2, 20, 2, 21);
+		this.add(trackingName, 2, 19);
+		this.add(trackingHelp, 2, 20, 2, 21);
 		this.add(rb_tracking, 1, 19);
 		this.add(rb_babysteps, 1, 20);
 		this.add(difficulty, 1, 21);
 		this.add(bt_select, 3, 22);
+		
+		//makes formatting easier
+		this.getChildren().stream().forEach(e -> GridPane.setValignment(e, VPos.TOP));
 		
 		exerciseList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -133,6 +143,7 @@ public class MenuControls extends GridPane {
 				String name = non_static_af.Aufgaben_Verwaltung.get(exc_auswahl).getName();
 				tx_name.setText(name);
 				tx_beschr.setText(desc);
+				//TODO babysteps exception
 				enable(bt_select, radioButtonGroup.getSelectedToggle() != null);
 	        }  
 		});
@@ -146,7 +157,9 @@ public class MenuControls extends GridPane {
 					difficulty1.setVisible(true);
 					difficulty2.setVisible(true);
 					isBabystepSet = true;
+					babystepsName.setVisible(true);
 					babystepsHelp.setVisible(true);
+					trackingName.setVisible(false);
 					trackingHelp.setVisible(false);
 					enable(bt_select, (exerciseList.getSelectionModel().getSelectedItem() != null) && (babystepsGroup.getSelectedToggle() != null));
 				}else{
@@ -154,7 +167,9 @@ public class MenuControls extends GridPane {
 					difficulty1.setVisible(false);
 					difficulty2.setVisible(false);
 					isBabystepSet = false;
+					babystepsName.setVisible(false);
 					babystepsHelp.setVisible(false);
+					trackingName.setVisible(true);
 					trackingHelp.setVisible(true);
 					enable(bt_select, exerciseList.getSelectionModel().getSelectedItem() != null);
 				}

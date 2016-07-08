@@ -11,10 +11,10 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 28;
 }
-#name {
+#exc_name, #babysteps_name, #tracking_name {
 	-fx-font-weight: bold;
 }
-#description {
+#exc_description, #babysteps_help, #tracking_help {
 	-fx-line-spacing: 6;
 }
 #bt_toGreen{
