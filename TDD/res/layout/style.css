@@ -6,7 +6,7 @@
     -fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
 }
 
-#auswahl, #auswahl2 {
+#auswahl, #auswahl2, #instruction {
 	-fx-font-family: "Courier New", Courier, monospace;
 	-fx-font-weight: bold;
 	-fx-font-size: 28;

@@ -30,7 +30,8 @@ public class ExerciseWindow extends GridPane {
 	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl,boolean isBabystepOn,int secondsBabystep) {
 		this.stage = stage;
 		
-		Label instruction = new Label("//implementieren Sie den Code hier");
+		Label instruction = new Label("//implementieren Sie hier");
+		instruction.setId("instruction");
 		TextArea codeArea = new TextArea();
 		codeArea.setId("code_area");
 		codeArea.setWrapText(true);
@@ -49,13 +50,13 @@ public class ExerciseWindow extends GridPane {
 		
 		//proof if babyStep is chosen
 		if(isBabystepOn){
-		Label timeRemaining = new Label();
-		this.add(timeRemaining, 1, 4);
-		// Thread that makes the timer for Babysteps
-		
-		timer = new Timer(timeRemaining,codeArea,bt_toRed,secondsBabystep);
-		Thread thread = new Thread(timer);
-		thread.start();
+			Label timeRemaining = new Label();
+			this.add(timeRemaining, 1, 4);
+			
+			// Thread that makes the timer for Babysteps
+			timer = new Timer(timeRemaining,codeArea,bt_toRed,secondsBabystep);
+			Thread thread = new Thread(timer);
+			thread.start();
 		}
 		bt_Refactor.setVisible(false);
 		bt_toRed.setVisible(false);
