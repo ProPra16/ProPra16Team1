@@ -22,7 +22,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import logic.Hilfe;
 import logic.Loader;
 
 public class MenuControls extends GridPane {
@@ -77,7 +76,7 @@ public class MenuControls extends GridPane {
 		RadioButton rb_tracking = new RadioButton("Tracking");
 		rb_tracking.setToggleGroup(radioButtonGroup);
 		HBox radioButtonControls = new HBox();
-		radioButtonControls.getChildren().addAll(rb_babysteps, rb_tracking);
+		//radioButtonControls.getChildren().addAll(rb_babysteps, rb_tracking);
 
 		Label babystepsText = new Label("Waehlen Sie die Zeit für Babysteps");
 		ToggleGroup babystepsGroup = new ToggleGroup();
@@ -85,8 +84,11 @@ public class MenuControls extends GridPane {
 		RadioButton difficulty2 = new RadioButton("3 Minuten");
 		difficulty1.setToggleGroup(babystepsGroup);
 		difficulty2.setToggleGroup(babystepsGroup);
-		HBox difficultyButtonControls = new HBox();
-		difficultyButtonControls.getChildren().addAll(difficulty1,difficulty2);
+		GridPane difficulty = new GridPane();
+		difficulty.setVgap(15);
+		difficulty.setHgap(30);
+		difficulty.add(difficulty1, 1, 0);
+		difficulty.add(difficulty2, 1, 1);
 		
 		babystepsText.setVisible(false);
 		difficulty1.setVisible(false);
@@ -98,15 +100,15 @@ public class MenuControls extends GridPane {
 		this.setVgap(15);
 		this.add(tx_auswahl, 1, 4);
 		this.add(exerciseList, 1, 5, 1, 10);
-		this.add(tx_name, 2, 5);
-		this.add(tx_beschr, 2, 6);
-		this.add(bt_select,2,12);
+		this.add(tx_name, 2, 5, 4, 5);
+		this.add(tx_beschr, 2, 6, 2, 7);
 		this.add(extensionRadio, 1, 17);
 		this.add(radioButtonControls, 1, 18);
-		this.add(bt_ext_help, 2, 20);
-		this.add(babystepsText, 1, 21);
-		this.add(difficultyButtonControls, 1, 22);
-		
+		this.add(rb_tracking, 1, 19);
+		this.add(rb_babysteps, 1, 20);
+		this.add(difficulty, 1, 21);
+		this.add(bt_select, 3, 22);
+
 		//Function to Erlaeuterung Help
 		bt_ext_help.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import logic.Hilfe;
 import logic.Loader;
 import logic.Timer;
 import vk.core.api.CompilationUnit;

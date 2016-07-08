@@ -1,4 +1,4 @@
-package logic;
+package gui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

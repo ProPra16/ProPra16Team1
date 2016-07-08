@@ -10,6 +10,10 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 28;
 }
+#difficulty1 {
+	-fx-alignment: top-right;
+}
+
 #bt_toGreen{
     -fx-background-color: #49b71d !important;
 	-fx-text-fill:white;
