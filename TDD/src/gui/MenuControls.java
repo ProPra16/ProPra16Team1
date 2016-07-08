@@ -58,15 +58,13 @@ public class MenuControls extends GridPane {
 		
 		Text tx_beschr = new Text("");
 		tx_beschr.setId("description");
-		tx_beschr.setWrappingWidth(300);
+		tx_beschr.setWrappingWidth(290);
+		tx_beschr.setLineSpacing(10);
 		
 		Button bt_select = new Button();
 		bt_select.setText("Uebung beginnen");
 		bt_select.setDisable(true);
-	   
-		Button bt_ext_help = new Button();
-		bt_ext_help.setText("Erlaeuterung");
-
+		
 		Label extensionRadio = new Label("Erweiterung wählen");
 		extensionRadio.setId("auswahl2");
 		
@@ -77,6 +75,18 @@ public class MenuControls extends GridPane {
 		rb_tracking.setToggleGroup(radioButtonGroup);
 		HBox radioButtonControls = new HBox();
 		//radioButtonControls.getChildren().addAll(rb_babysteps, rb_tracking);
+		
+		Text babystepsHelp = new Text("Sie haben limitiert Zeit für die einzelnen Phasen (RED und "
+				+ "GREEN). Laeuft die Zeit ab, wird der Code geloescht und Sie werden zur vorherigen "
+				+ "Phase zurueckgeführt.");
+		babystepsHelp.setWrappingWidth(290);
+		babystepsHelp.setVisible(false);
+		
+		Text trackingHelp = new Text("Diese Funktion zeichnet ihre Aktivitäten auf: Wieviel Zeit in "
+				+ "einer Phase benötigt wurde und welche Fehler aufgetreten worden sind "
+				+ "werden mittels eines Charts dargestellt");
+		trackingHelp.setWrappingWidth(290);
+		trackingHelp.setVisible(false);
 
 		Label babystepsText = new Label("Waehlen Sie die Zeit für Babysteps");
 		ToggleGroup babystepsGroup = new ToggleGroup();
@@ -104,18 +114,13 @@ public class MenuControls extends GridPane {
 		this.add(tx_beschr, 2, 6, 2, 7);
 		this.add(extensionRadio, 1, 17);
 		this.add(radioButtonControls, 1, 18);
+
+		this.add(babystepsHelp, 2, 12, 2, 19);
+		this.add(trackingHelp, 2, 12, 2, 19);
 		this.add(rb_tracking, 1, 19);
 		this.add(rb_babysteps, 1, 20);
 		this.add(difficulty, 1, 21);
 		this.add(bt_select, 3, 22);
-
-		//Function to Erlaeuterung Help
-		bt_ext_help.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Hilfe.displayExtension();
-			}
-		});
 		
 		exerciseList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -138,12 +143,16 @@ public class MenuControls extends GridPane {
 					difficulty1.setVisible(true);
 					difficulty2.setVisible(true);
 					isBabystepSet = true;
+					babystepsHelp.setVisible(true);
+					trackingHelp.setVisible(false);
 					enable(bt_select, (exerciseList.getSelectionModel().getSelectedItem() != null) && (babystepsGroup.getSelectedToggle() != null));
 				}else{
 					babystepsText.setVisible(false);
 					difficulty1.setVisible(false);
 					difficulty2.setVisible(false);
 					isBabystepSet = false;
+					babystepsHelp.setVisible(false);
+					trackingHelp.setVisible(true);
 					enable(bt_select, exerciseList.getSelectionModel().getSelectedItem() != null);
 				}
 			}
