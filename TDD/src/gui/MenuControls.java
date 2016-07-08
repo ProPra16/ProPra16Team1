@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -77,14 +78,14 @@ public class MenuControls extends GridPane {
 		extensionRadio.setId("auswahl2");
 		
 		ToggleGroup radioButtonGroup = new ToggleGroup();
-		RadioButton rb_1 = new RadioButton("Baby Steps ");
-		rb_1.setToggleGroup(radioButtonGroup);
-		RadioButton rb_2 = new RadioButton("Tracking");
-		rb_2.setToggleGroup(radioButtonGroup);
+		RadioButton rb_babysteps = new RadioButton("Baby Steps ");
+		rb_babysteps.setToggleGroup(radioButtonGroup);
+		RadioButton rb_tracking = new RadioButton("Tracking");
+		rb_tracking.setToggleGroup(radioButtonGroup);
 		HBox radioButtonControls = new HBox();
-		radioButtonControls.getChildren().addAll(rb_1,rb_2);
-		rb_1.setSelected(true);
-		rb_1.requestFocus();
+		radioButtonControls.getChildren().addAll(rb_babysteps, rb_tracking);
+		//rb_babysteps.setSelected(true);
+		//rb_babysteps.requestFocus();
 
 		Label babystepsText = new Label("Waehlen Sie die Zeit für Babysteps");
 		ToggleGroup babystepsGroup = new ToggleGroup();
@@ -94,14 +95,16 @@ public class MenuControls extends GridPane {
 		difficulty2.setToggleGroup(babystepsGroup);
 		HBox difficultyButtonControls = new HBox();
 		difficultyButtonControls.getChildren().addAll(difficulty1,difficulty2);
-		Button set = new Button("Set");
 		
 		babystepsText.setVisible(false);
 		difficulty1.setVisible(false);
 		difficulty2.setVisible(false);
 		
-		set.setOnAction( e -> {
-				if(rb_1.isSelected()){
+		radioButtonGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+				if(rb_babysteps.isSelected()){
 					babystepsText.setVisible(true);
 					difficulty1.setVisible(true);
 					difficulty2.setVisible(true);
@@ -112,7 +115,7 @@ public class MenuControls extends GridPane {
 					difficulty2.setVisible(false);
 					isBabystepSet = false;
 				}
-		});
+			}});
 		
 		this.setId("excGrid");
 		this.setAlignment(Pos.TOP_CENTER);
@@ -126,7 +129,6 @@ public class MenuControls extends GridPane {
 		this.add(noSelection,1,16);
 		this.add(extensionRadio, 1, 17);
 		this.add(radioButtonControls, 1, 18);
-		this.add(set, 2, 19);
 		this.add(bt_ext_help, 2, 20);
 		this.add(babystepsText, 1, 21);
 		this.add(difficultyButtonControls, 1, 22);
@@ -157,7 +159,7 @@ public class MenuControls extends GridPane {
 					noSelection.setVisible(true);
 					return;
 				}
-				if(rb_1.isSelected()){
+				if(rb_babysteps.isSelected()){
 					if(difficulty1.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
 						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120), GUI.WIDTH, GUI.HEIGHT);
