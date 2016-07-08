@@ -11,7 +11,12 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 28;
 }
-
+#name {
+	-fx-font-weight: bold;
+}
+#description {
+	-fx-line-spacing: 6;
+}
 #bt_toGreen{
     -fx-background-color: #49b71d !important;
 	-fx-text-fill:white;

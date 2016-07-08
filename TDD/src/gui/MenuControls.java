@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -51,15 +52,17 @@ public class MenuControls extends GridPane {
 		
 		Label tx_auswahl = new Label("Übung auswählen");
 		tx_auswahl.setId("auswahl");
-		tx_auswahl.minWidth(100);
-		tx_auswahl.setMinHeight(30);
 
 		Text tx_name = new Text("");
+		tx_name.setId("name");
+		GridPane.setValignment(tx_name, VPos.TOP);
 		
 		Text tx_beschr = new Text("");
 		tx_beschr.setId("description");
+		tx_beschr.setTextOrigin(VPos.BASELINE);
 		tx_beschr.setWrappingWidth(290);
-		tx_beschr.setLineSpacing(10);
+		GridPane.setValignment(tx_beschr, VPos.TOP);
+
 		
 		Button bt_select = new Button();
 		bt_select.setText("Uebung beginnen");
@@ -111,7 +114,7 @@ public class MenuControls extends GridPane {
 		this.add(tx_auswahl, 1, 4);
 		this.add(exerciseList, 1, 5, 1, 10);
 		this.add(tx_name, 2, 5, 4, 5);
-		this.add(tx_beschr, 2, 6, 2, 7);
+		this.add(tx_beschr, 2, 7, 2, 10);
 		this.add(extensionRadio, 1, 17);
 		this.add(radioButtonControls, 1, 18);
 
