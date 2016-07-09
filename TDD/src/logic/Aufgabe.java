@@ -15,7 +15,7 @@ public class Aufgabe{                        //Datentyp zur besseren Verwaltung 
  exc_Name=name;
  exc_Beschreibung=beschreibung;
  }
-
+	 
  public String getName(){
  return exc_Name;
  }
@@ -24,20 +24,20 @@ public class Aufgabe{                        //Datentyp zur besseren Verwaltung 
  return exc_Beschreibung;
  }
 
- public ArrayList<String> getKlasse(){
- return exc_Klasse;
- }
-
- public ArrayList<String> getTest(){
- return exc_Test;
- }
-
  public void generateKlasse(String line_geruest){
  exc_Klasse.add(line_geruest);
  }
 
  public void generateTest(String line_geruest){
  exc_Test.add(line_geruest);
+ }
+ 
+ public ArrayList<String> getKlasse(){
+ return exc_Klasse;
+ }
+
+ public ArrayList<String> getTest(){
+ return exc_Test;
  }
 
  public String getTestConstructor(int const_line){

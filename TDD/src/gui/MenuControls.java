@@ -113,6 +113,8 @@ public class MenuControls extends GridPane {
 		bt_select.setText("Uebung beginnen");
 		bt_select.setDisable(true);
 		
+		Label licence = new Label("Hier könnte die Lizenz stehen");
+		
 		this.setId("excGrid");
 		this.setAlignment(Pos.TOP_CENTER);
 		this.setHgap(30);
@@ -131,6 +133,7 @@ public class MenuControls extends GridPane {
 		this.add(rb_babysteps, 1, 21);
 		this.add(difficulty, 1, 22);
 		this.add(bt_select, 3, 24);
+		this.add(licence, 1, 24);
 		
 		//makes formatting easier
 		this.getChildren().stream().forEach(e -> GridPane.setValignment(e, VPos.TOP));
