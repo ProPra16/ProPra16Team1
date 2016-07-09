@@ -59,7 +59,7 @@ public class MenuControls extends GridPane {
 		Text tx_beschr = new Text("");
 		tx_beschr.setId("exc_description");
 		tx_beschr.setTextOrigin(VPos.BASELINE);
-		tx_beschr.setWrappingWidth(290);
+		tx_beschr.setWrappingWidth(360);
 		
 		Label extensionRadio = new Label("Erweiterung wählen");
 		extensionRadio.setId("auswahl2");
@@ -113,27 +113,27 @@ public class MenuControls extends GridPane {
 		bt_select.setText("Uebung beginnen");
 		bt_select.setDisable(true);
 		
-		Label licence = new Label("Hier k�nnte die Lizenz stehen");
+		Label licence = new Label("Hier könnte die Lizenz stehen");
 		
 		this.setId("excGrid");
-		this.setAlignment(Pos.TOP_CENTER);
-		this.setHgap(30);
+		this.setAlignment(Pos.TOP_LEFT);
+		this.setHgap(40);
 		this.setVgap(15);
-		this.add(tx_auswahl, 1, 4);
-		this.add(exerciseList, 1, 5, 1, 10);
-		this.add(tx_name, 2, 5, 4, 5);
-		this.add(tx_beschr, 2, 7, 2, 10);
-		this.add(extensionRadio, 1, 17, 2, 17);
-		this.add(radioButtonControls, 1, 19);
-		this.add(babystepsName, 2, 20);
-		this.add(babystepsHelp, 2, 21, 2, 22);
-		this.add(trackingName, 2, 20);
-		this.add(trackingHelp, 2, 21, 2, 22);
-		this.add(rb_tracking, 1, 20);
-		this.add(rb_babysteps, 1, 21);
-		this.add(difficulty, 1, 22);
-		this.add(bt_select, 3, 24);
-		this.add(licence, 1, 24);
+		this.add(tx_auswahl, 1, 4, 2, 4);
+		this.add(exerciseList, 1, 7, 1, 12);
+		this.add(tx_name, 2, 7, 4, 7);
+		this.add(tx_beschr, 2, 9, 2, 10);
+		this.add(extensionRadio, 1, 20, 2, 20);
+		this.add(radioButtonControls, 1, 23);
+		this.add(babystepsName, 2, 23);
+		this.add(trackingName, 2, 23);
+		this.add(babystepsHelp, 2, 24, 2, 25);
+		this.add(trackingHelp, 2, 24, 2, 25);
+		this.add(rb_tracking, 1, 23);
+		this.add(rb_babysteps, 1, 24);
+		this.add(difficulty, 1, 25);
+		this.add(bt_select, 3, 27);
+		this.add(licence, 1, 27);
 		
 		//makes formatting easier
 		this.getChildren().stream().forEach(e -> GridPane.setValignment(e, VPos.TOP));

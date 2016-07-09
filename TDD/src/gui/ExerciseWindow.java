@@ -4,6 +4,7 @@ package gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,14 +28,19 @@ public class ExerciseWindow extends GridPane {
 	private CompilationUnit compileClass;
 	
 	
-	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl,boolean isBabystepOn,int secondsBabystep) {
+	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep) {
 		this.stage = stage;
 		
-		Label instruction = new Label("//implementieren Sie hier");
+		Label instruction = new Label("//Implementieren Sie hier");
 		instruction.setId("instruction");
+		
 		TextArea codeArea = new TextArea();
 		codeArea.setId("code_area");
 		codeArea.setWrapText(true);
+		codeArea.setPrefHeight(330);
+		codeArea.setMinWidth(400);
+		codeArea.setMaxWidth(codeArea.getMinWidth());
+		
 		String classCode = loader.loadCurrentData("currentTest");
 		codeArea.setText(classCode);
 		
@@ -45,8 +51,7 @@ public class ExerciseWindow extends GridPane {
 		Button bt_Refactor = new Button("Refactor");
 		Button bt_help = new Button("Hilfe");
 		Button bt_RfctrDone = new Button("Refactoren beendet");
-		Button bt_backExc =  new Button("Zurueck zum Auswahlmenue");
-		
+		Button bt_backExc = new Button("Zurueck zum Auswahlmenue");
 		
 		//proof if babyStep is chosen
 		if(isBabystepOn){
@@ -62,17 +67,22 @@ public class ExerciseWindow extends GridPane {
 		bt_toRed.setVisible(false);
 		bt_RfctrDone.setVisible(false);
 		
-		// war vorher setConstraints, habs nur zeitweilig zu add geaendert
-		this.setId("stage_red");
-		this.add(instruction, 1, 1);
-		this.add(codeArea, 1, 2);
-		this.add(bt_toGreen, 1, 3);
-		this.add(bt_help, 1, 5);
+		this.setId("stage_red");		
+	//	this.setAlignment(Pos.LEFT_CENTER);
+		this.setHgap(40);
+		this.setVgap(15);
+		this.add(instruction, 1, 2, 2, 3);
+		this.add(codeArea, 1, 4, 2, 9);
+		this.add(bt_toGreen, 3, 4);
+		this.add(bt_help, 1, 14);
 		this.add(bt_toRed,1,3);
 		this.add(bt_Refactor,1,6);
 		this.add(bt_RfctrDone,1,7);
-		this.add(bt_backExc, 1, 30);
+		this.add(bt_backExc, 1, 16);
 		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
+		
+		//makes formatting easier
+		this.getChildren().stream().forEach(e -> GridPane.setValignment(e, VPos.TOP));
 		
 		bt_backExc.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
