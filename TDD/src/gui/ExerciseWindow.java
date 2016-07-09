@@ -68,17 +68,16 @@ public class ExerciseWindow extends GridPane {
 		bt_RfctrDone.setVisible(false);
 		
 		this.setId("stage_red");		
-	//	this.setAlignment(Pos.LEFT_CENTER);
 		this.setHgap(40);
 		this.setVgap(15);
 		this.add(instruction, 1, 2, 2, 3);
-		this.add(codeArea, 1, 4, 2, 9);
-		this.add(bt_toGreen, 3, 4);
-		this.add(bt_help, 1, 14);
-		this.add(bt_toRed,1,3);
-		this.add(bt_Refactor,1,6);
-		this.add(bt_RfctrDone,1,7);
-		this.add(bt_backExc, 1, 16);
+		this.add(codeArea, 1, 4, 2, 18);
+		this.add(bt_toGreen, 3, 17);
+		this.add(bt_help, 2, 23);
+		this.add(bt_toRed, 3, 3);
+		this.add(bt_Refactor, 3, 6);
+		this.add(bt_RfctrDone, 3, 7);
+		this.add(bt_backExc, 2, 25);
 		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 		
 		//makes formatting easier

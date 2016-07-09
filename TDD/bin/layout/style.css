@@ -18,12 +18,14 @@
 	-fx-line-spacing: 6;
 }
 #bt_toGreen{
-    -fx-background-color: #49b71d !important;
 	-fx-text-fill:white;
+	-fx-background-image: url("/images/RedtoGreen.png");
+	-fx-background-size: 100%;
+	-fx-background-repeat: no-repeat no-repeat;   
+	-fx-background-color: none;
 }
 #bt_toGreen:hover{
-	-fx-background-color: #73f142 !important;
-	
+	-fx-background-image: url("/images/RedtoGreenHover.png");
 }
 #bt_toRed{
 	-fx-background-color: #d52828 !important;
@@ -60,7 +62,7 @@
 .root{
 	-fx-background-color: linear-gradient(#fcfcfc , #c8c8c8);
 	-fx-background-repeat: no-repeat no-repeat;
-	-fx-background-position: 490 40;
+	-fx-background-position: 490 92;
 }
 
 #stage_red {
