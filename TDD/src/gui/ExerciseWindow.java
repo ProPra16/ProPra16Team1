@@ -73,11 +73,11 @@ public class ExerciseWindow extends GridPane {
 		this.setVgap(15);
 		this.add(instruction, 1, 2, 2, 3);
 		this.add(codeArea, 1, 4, 2, 18);
-		this.add(bt_toGreen, 3, 17);
+		this.add(bt_toGreen, 3, 20);
 		this.add(bt_help, 2, 23);
-		this.add(bt_toRed, 3, 3);
-		this.add(bt_Refactor, 3, 6);
-		this.add(bt_RfctrDone, 3, 7);
+		this.add(bt_toRed, 3, 20);
+		this.add(bt_Refactor, 3, 21);
+		this.add(bt_RfctrDone, 3, 20);
 		this.add(bt_backExc, 2, 25);
 		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 		
@@ -89,7 +89,7 @@ public class ExerciseWindow extends GridPane {
 			public void handle(ActionEvent e) {
 				
 				Scene scene = new Scene(new MenuControls(stage), 700, 600);
-				
+			
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}
@@ -98,8 +98,7 @@ public class ExerciseWindow extends GridPane {
 		//Function to Button toGreen
 		bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
 			@Override public void handle(ActionEvent e) {
-				stage.setTitle("GREEN");
-				
+								
 				String testCode = codeArea.getText(); // here is the test from user
 				loader.save("currentTest",testCode);
 				if(isBabystepOn){
@@ -145,6 +144,8 @@ public class ExerciseWindow extends GridPane {
 					bt_toGreen.setVisible(false);
 					bt_toRed.setVisible(true);
 					bt_Refactor.setVisible(true);
+					stage.setTitle("GREEN");
+					setId("stage_green");
 					String classCode = loader.loadCurrentData("currentClass");
 					codeArea.setText(classCode);
 					firstStart=false;
@@ -169,6 +170,7 @@ public class ExerciseWindow extends GridPane {
 				bt_Refactor.setVisible(false);
 				
 				stage.setTitle("RED");
+				setId("stage_red");
 				if(isBabystepOn){
 				timer.goBackOff();
 				timer.start();
@@ -187,6 +189,7 @@ public class ExerciseWindow extends GridPane {
 			@Override
 			public void handle(ActionEvent e) {
 				try{	  
+					setId("stage_refactor");
 					String classCode = codeArea.getText();		  
 					String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
 					CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
@@ -226,6 +229,8 @@ public class ExerciseWindow extends GridPane {
 					bt_toRed.setVisible(false);
 					bt_help.setVisible(true);
 					bt_RfctrDone.setVisible(false);
+					stage.setTitle("RED");
+					setId("stage_red");
 					
 					loader.save("currentClass", classCode);
 					classCode = loader.loadCurrentData("currentTest");

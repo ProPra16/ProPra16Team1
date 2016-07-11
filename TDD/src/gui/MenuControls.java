@@ -34,7 +34,7 @@ public class MenuControls extends GridPane {
 	
 	MenuControls(Stage stage) {
 		this.stage = stage;
-		
+		stage.setTitle("Menü");
 		Loader non_static_af = new Loader();          //dazu da um static Referenzprobleme zu behandeln
 		non_static_af.read_exc();
 
@@ -207,6 +207,7 @@ public class MenuControls extends GridPane {
 				}
 				non_static_af.saveNew(exc_auswahl);
 				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0), GUI.WIDTH, GUI.HEIGHT);
+				stage.setTitle("RED");
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}

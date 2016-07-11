@@ -35,7 +35,7 @@ public class GUI extends Application{
 		
 		Pane root = new Pane();
 
-
+		
 		Pane pane = new Pane();
 		pane.getChildren().add(new MenuControls(mainStage));
 		root.getChildren().add(pane);
