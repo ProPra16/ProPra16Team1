@@ -57,7 +57,7 @@ public class ExerciseWindow extends GridPane {
 		//proof if babyStep is chosen
 		if(isBabystepOn){
 			Label timeRemaining = new Label();
-			this.add(timeRemaining, 1, 4);
+			this.add(timeRemaining, 3, 22);
 			
 			// Thread that makes the timer for Babysteps
 			timer = new Timer(timeRemaining,codeArea,bt_toRed,secondsBabystep);
@@ -74,6 +74,7 @@ public class ExerciseWindow extends GridPane {
 		this.add(instruction, 1, 2, 2, 3);
 		this.add(codeArea, 1, 4, 2, 18);
 		this.add(bt_toGreen, 3, 20);
+		
 		this.add(bt_help, 2, 23);
 		this.add(bt_toRed, 3, 20);
 		this.add(bt_Refactor, 3, 21);
