@@ -1,4 +1,5 @@
-//Das ist der Wrapper, der das ganze GUI initialisiert
+// MIT License, check LICENSE.txt in the src folder for full text
+// Das ist der Wrapper, der das ganze GUI initialisiert
 
 package gui;
 
@@ -34,18 +35,7 @@ public class GUI extends Application{
 		
 		Pane root = new Pane();
 
-		//Menu
 		
-		MenuBar menuBar = new MenuBar();
-		VBox topContainer = new VBox();
-//		ToolBar toolBar = new ToolBar();
-
-		Menu about = new Menu("About");
-		menuBar.getMenus().addAll(about);
-		
-		topContainer.getChildren().add(menuBar);
-		
-		root.getChildren().add(topContainer);
 		Pane pane = new Pane();
 		pane.getChildren().add(new MenuControls(mainStage));
 		root.getChildren().add(pane);

@@ -1,3 +1,4 @@
+// MIT License, check LICENSE.txt in the src folder for full text
 // Das hier ist das Fenster, in dem man sich die gewünschte Übung aussucht
 
 package gui;
@@ -33,7 +34,7 @@ public class MenuControls extends GridPane {
 	
 	MenuControls(Stage stage) {
 		this.stage = stage;
-		
+		stage.setTitle("Menü");
 		Loader non_static_af = new Loader();          //dazu da um static Referenzprobleme zu behandeln
 		non_static_af.read_exc();
 
@@ -113,7 +114,7 @@ public class MenuControls extends GridPane {
 		bt_select.setText("Uebung beginnen");
 		bt_select.setDisable(true);
 		
-		Label licence = new Label("Hier könnte die Lizenz stehen");
+		Label licence = new Label("The MIT License (MIT)");
 		
 		this.setId("excGrid");
 		this.setAlignment(Pos.TOP_LEFT);
@@ -206,6 +207,7 @@ public class MenuControls extends GridPane {
 				}
 				non_static_af.saveNew(exc_auswahl);
 				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0), GUI.WIDTH, GUI.HEIGHT);
+				stage.setTitle("RED");
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}
