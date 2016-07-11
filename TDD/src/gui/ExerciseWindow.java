@@ -3,6 +3,8 @@
 
 package gui;
 
+import java.util.Collection;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
@@ -14,8 +16,12 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import logic.Loader;
 import logic.Timer;
+import logic.Tracking;
+import logic.TrackingInfo;
 import vk.core.api.CompilationUnit;
+import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;
+import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
 import vk.core.api.TestResult;
 
@@ -27,9 +33,11 @@ public class ExerciseWindow extends GridPane {
 	private CompilationUnit compileTest;
 	private JavaStringCompiler compiler;
 	private CompilationUnit compileClass;
+	private Tracking tracking;
 	
 	
-	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep) {
+	
+	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep,boolean isTrackingOn) {
 		this.stage = stage;
 		
 		Label instruction = new Label("//Implementieren Sie hier");
@@ -63,6 +71,11 @@ public class ExerciseWindow extends GridPane {
 			timer = new Timer(timeRemaining,codeArea,bt_toRed,secondsBabystep);
 			Thread thread = new Thread(timer);
 			thread.start();
+		}
+		if(isTrackingOn){
+			
+			tracking = new Tracking();
+			tracking.start();
 		}
 		bt_Refactor.setVisible(false);
 		bt_toRed.setVisible(false);
@@ -107,7 +120,10 @@ public class ExerciseWindow extends GridPane {
 				timer.goBackOn();
 				timer.start();
 				}
+				if(isTrackingOn){
+					tracking.stop();
 				
+				}
 				String testName  = loader.Aufgaben_Verwaltung.get(exc_auswahl).testName();
 				CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
 				compileTest = tmp_compileTest;
@@ -118,6 +134,14 @@ public class ExerciseWindow extends GridPane {
 						compiler.compileAndRunTests();
 						TestResult testResult = compiler.getTestResult();
 						int failTest = testResult.getNumberOfFailedTests();
+						
+						if(isTrackingOn){
+							CompilerResult compilerResult = compiler.getCompilerResult();
+							Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+							
+							TrackingInfo trInfo = new TrackingInfo(tracking.getTime(),"red",errors);
+							System.out.println(trInfo);
+						}
 						if(failTest == 1){
 							bt_help.setVisible(false);
 							bt_RfctrDone.setVisible(false);
