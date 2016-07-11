@@ -1,4 +1,5 @@
-//Das ist der Begrüßungsbildschirm, der dann fadet.
+// MIT License, check LICENSE.txt in the src folder for full text
+// Das ist der Begrüßungsbildschirm, der dann fadet.
 
 package gui;
 

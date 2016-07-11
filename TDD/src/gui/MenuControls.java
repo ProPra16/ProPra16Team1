@@ -1,3 +1,4 @@
+// MIT License, check LICENSE.txt in the src folder for full text
 // Das hier ist das Fenster, in dem man sich die gewünschte Übung aussucht
 
 package gui;
@@ -113,7 +114,7 @@ public class MenuControls extends GridPane {
 		bt_select.setText("Uebung beginnen");
 		bt_select.setDisable(true);
 		
-		Label licence = new Label("Hier könnte die Lizenz stehen");
+		Label licence = new Label("The MIT License (MIT)");
 		
 		this.setId("excGrid");
 		this.setAlignment(Pos.TOP_LEFT);

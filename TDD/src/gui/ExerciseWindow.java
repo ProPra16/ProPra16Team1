@@ -1,3 +1,4 @@
+// MIT License, check LICENSE.txt in the src folder for full text
 //Das hier ist das Fenster, in dem man seine Übungen tippt.
 
 package gui;

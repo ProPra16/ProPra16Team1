@@ -1,3 +1,5 @@
+// MIT License, check LICENSE.txt in the src folder for full text
+
 package logic;
 
 import java.io.*;
