@@ -1,5 +1,4 @@
 before_install: cd TDD
 language: java
 jdk: oraclejdk8
-:gradle check
-gradle assemble
+
