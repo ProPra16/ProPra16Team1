@@ -31,6 +31,18 @@ public class TrackingInfo {
 		return errors;
 	}
 	
+	public boolean hasErrors(){
+		return !errors.isEmpty();
+	}
+	
+	public String getErrorMessage(){
+		String errorsString = "";
+		for(CompileError error : errors){
+			errorsString += "\n" + error.getMessage();
+		}
+		return errorsString;
+	}
+	
 	public int getTime(){
 		return time;
 	}
