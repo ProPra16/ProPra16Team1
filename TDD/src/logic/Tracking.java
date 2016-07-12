@@ -13,7 +13,7 @@ public class Tracking {
 		endTime = System.currentTimeMillis();
 	}
 	
-	public double getTime(){
-		return (endTime - startTime) / 1000.0;
+	public int getTime(){
+		return (int) ((endTime - startTime) / 1000.0);
 	}
 }

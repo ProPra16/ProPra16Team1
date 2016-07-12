@@ -18,6 +18,7 @@ import logic.Loader;
 import logic.Timer;
 import logic.Tracking;
 import logic.TrackingInfo;
+import logic.TrackingStore;
 import vk.core.api.CompilationUnit;
 import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;
@@ -34,8 +35,8 @@ public class ExerciseWindow extends GridPane {
 	private JavaStringCompiler compiler;
 	private CompilationUnit compileClass;
 	private Tracking tracking;
-	
-	
+	private TrackingStore store;
+	private TrackingInfo trInfo;
 	
 	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep,boolean isTrackingOn) {
 		this.stage = stage;
@@ -73,7 +74,7 @@ public class ExerciseWindow extends GridPane {
 			thread.start();
 		}
 		if(isTrackingOn){
-			
+			store = new TrackingStore();
 			tracking = new Tracking();
 			tracking.start();
 		}
@@ -122,7 +123,8 @@ public class ExerciseWindow extends GridPane {
 				}
 				if(isTrackingOn){
 					tracking.stop();
-				
+					trInfo = new TrackingInfo(tracking.getTime(),"red");
+					tracking.start();
 				}
 				String testName  = loader.Aufgaben_Verwaltung.get(exc_auswahl).testName();
 				CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
@@ -135,13 +137,7 @@ public class ExerciseWindow extends GridPane {
 						TestResult testResult = compiler.getTestResult();
 						int failTest = testResult.getNumberOfFailedTests();
 						
-						if(isTrackingOn){
-							CompilerResult compilerResult = compiler.getCompilerResult();
-							Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
-							
-							TrackingInfo trInfo = new TrackingInfo(tracking.getTime(),"red",errors);
-							System.out.println(trInfo);
-						}
+						
 						if(failTest == 1){
 							bt_help.setVisible(false);
 							bt_RfctrDone.setVisible(false);
@@ -159,6 +155,13 @@ public class ExerciseWindow extends GridPane {
 						bt_Refactor.setVisible(true);
 						String classCode = loader.loadCurrentData("currentClass");
 						codeArea.setText(classCode);
+						//getting error message and storing in TrackingStore
+						if(isTrackingOn){
+							CompilerResult compilerResult = compiler.getCompilerResult();
+							Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+							trInfo.addErrors(errors);
+							store.add(trInfo);
+						}
 						System.out.println("Fehler beim Kompilieren, bitte beheben!");
 					}
 				}
@@ -197,8 +200,12 @@ public class ExerciseWindow extends GridPane {
 				stage.setTitle("RED");
 				setId("stage_red");
 				if(isBabystepOn){
-				timer.goBackOff();
-				timer.start();
+					timer.goBackOff();
+					timer.start();
+				}
+				if(isTrackingOn){
+					tracking.stop();
+					tracking.start();
 				}
 				String classCode = codeArea.getText();
 				String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
@@ -213,7 +220,12 @@ public class ExerciseWindow extends GridPane {
 		bt_Refactor.setOnAction(new EventHandler<ActionEvent>() {   //Wechsel von GREEN zu Refactor
 			@Override
 			public void handle(ActionEvent e) {
-				try{	  
+				try{	
+					if(isTrackingOn){
+						tracking.stop();
+						trInfo = new TrackingInfo(tracking.getTime(),"green");
+						tracking.start();
+					}
 					setId("stage_refactor");
 					String classCode = codeArea.getText();		  
 					String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
@@ -233,6 +245,14 @@ public class ExerciseWindow extends GridPane {
 						bt_RfctrDone.setVisible(true);
 					}
 				} catch(NullPointerException s){
+					//getting error message and storing in TrackingStore
+					if(isTrackingOn){
+						CompilerResult compilerResult = compiler.getCompilerResult();
+						Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+						trInfo.addErrors(errors);
+						store.add(trInfo);
+						System.out.println(store);
+					}
 					System.out.println("Kompillierungsschwierigkeiten, beheben Sie diese" + " vor dem Refactoren!");
 				}
 			}
@@ -243,10 +263,23 @@ public class ExerciseWindow extends GridPane {
 				String classCode = codeArea.getText();		  
 				String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
 				CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
+				if(isTrackingOn){
+					tracking.stop();
+					trInfo = new TrackingInfo(tracking.getTime(),"refactor");
+					tracking.start();
+				}
 				compileClass = tmp_compileClass;
 				compiler = CompilerFactory.getCompiler(compileClass,compileTest);
 				compiler.compileAndRunTests();
 				TestResult testResult = compiler.getTestResult();
+				//getting error message and storing in TrackingStore
+				if(isTrackingOn){
+					CompilerResult compilerResult = compiler.getCompilerResult();
+					Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+					trInfo.addErrors(errors);
+					store.add(trInfo);
+					System.out.println(store);
+				}
 				int failTest = testResult.getNumberOfFailedTests();
 				boolean compileErrors = compiler.getCompilerResult().hasCompileErrors();
 				if(failTest == 0 && compileErrors == false){  

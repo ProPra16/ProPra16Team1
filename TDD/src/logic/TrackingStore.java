@@ -2,6 +2,8 @@ package logic;
 
 import java.util.ArrayList;
 
+import vk.core.api.CompileError;
+
 public class TrackingStore {
 
 	private ArrayList<TrackingInfo> store = new ArrayList<>();
@@ -10,5 +12,13 @@ public class TrackingStore {
 		store.add(tracking);
 	}
 	
+	@Override
+	public String toString(){
+		String text = "";
+		for(TrackingInfo trInfo : store){
+			text += "\n" + trInfo.toString();
+		}
+		return text;
+	}
 	
 }
