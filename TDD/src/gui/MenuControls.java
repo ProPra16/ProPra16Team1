@@ -205,12 +205,14 @@ public class MenuControls extends GridPane {
 					}
 					return;
 				}
-				
-				non_static_af.saveNew(exc_auswahl);
-				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0,true), GUI.WIDTH, GUI.HEIGHT);
-				stage.setTitle("RED");
-				scene.getStylesheets().addAll(css);
-				stage.setScene(scene);
+				if(rb_tracking.isSelected()){
+					non_static_af.saveNew(exc_auswahl);
+					Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0,true), GUI.WIDTH, GUI.HEIGHT);
+					stage.setTitle("RED");
+					scene.getStylesheets().addAll(css);
+					stage.setScene(scene);
+					return;
+				}
 			}
 		});
 	}
