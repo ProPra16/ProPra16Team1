@@ -64,7 +64,7 @@ public class ExerciseWindow extends GridPane {
 		Button bt_RfctrDone = new Button("Refactoren beendet");
 		Button bt_backExc = new Button("Zurueck zum Auswahlmenue");
 		Button bt_seeTracking = new Button("show Tracking");
-		bt_seeTracking.setVisible(isTrackingOn);
+		bt_seeTracking.setVisible(false);
 		//proof if babyStep is chosen
 		if(isBabystepOn){
 			Label timeRemaining = new Label();
@@ -133,10 +133,12 @@ public class ExerciseWindow extends GridPane {
 					tracking.stop();
 					trInfo = new TrackingInfo(tracking.getTime(),"red");
 					tracking.start();
+					bt_seeTracking.setVisible(true);
 				}
 				String testName  = loader.Aufgaben_Verwaltung.get(exc_auswahl).testName();
 				CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
 				compileTest = tmp_compileTest;
+				
 				
 				if(firstStart==false){
 					try{
@@ -259,7 +261,7 @@ public class ExerciseWindow extends GridPane {
 						Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
 						trInfo.addErrors(errors);
 						store.add(trInfo);
-						System.out.println(store);
+						//System.out.println(store);
 					}
 					System.out.println("Kompillierungsschwierigkeiten, beheben Sie diese" + " vor dem Refactoren!");
 				}
