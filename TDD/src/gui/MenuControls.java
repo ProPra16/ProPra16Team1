@@ -194,19 +194,20 @@ public class MenuControls extends GridPane {
 				if(rb_babysteps.isSelected()){
 					if(difficulty1.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
-						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120), GUI.WIDTH, GUI.HEIGHT);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120,false), GUI.WIDTH, GUI.HEIGHT);
 						scene.getStylesheets().addAll(css);
 						stage.setScene(scene);
 					}if(difficulty2.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
-						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,180), GUI.WIDTH, GUI.HEIGHT);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,180,false), GUI.WIDTH, GUI.HEIGHT);
 						scene.getStylesheets().addAll(css);
 						stage.setScene(scene);
 					}
 					return;
 				}
+				
 				non_static_af.saveNew(exc_auswahl);
-				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0), GUI.WIDTH, GUI.HEIGHT);
+				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0,true), GUI.WIDTH, GUI.HEIGHT);
 				stage.setTitle("RED");
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
