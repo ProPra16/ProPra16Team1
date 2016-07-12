@@ -1,4 +1,4 @@
-https://travis-ci.org/ProPra16/ProPra16Team1.svg?branch=master
+[![Build Status](https://travis-ci.org/ProPra16/ProPra16Team1.svg?branch=master)](https://travis-ci.org/ProPra16/ProPra16Team1)
 
 Zwischenstand: Grundgerüst und Babysteps sind implempentiert, außerdem Gradle-Build und Travis Einbindung
 =======
