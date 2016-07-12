@@ -30,4 +30,11 @@ public class TrackingInfo {
 	public Collection<CompileError> getErrors(){
 		return errors;
 	}
+	
+	public int getTime(){
+		return time;
+	}
+	public String getStage(){
+		return stage;
+	}
 }

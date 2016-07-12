@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import logic.ChartWindow;
 import logic.Loader;
 import logic.Timer;
 import logic.Tracking;
@@ -62,7 +63,8 @@ public class ExerciseWindow extends GridPane {
 		Button bt_help = new Button("Hilfe");
 		Button bt_RfctrDone = new Button("Refactoren beendet");
 		Button bt_backExc = new Button("Zurueck zum Auswahlmenue");
-		
+		Button bt_seeTracking = new Button("show Tracking");
+		bt_seeTracking.setVisible(isTrackingOn);
 		//proof if babyStep is chosen
 		if(isBabystepOn){
 			Label timeRemaining = new Label();
@@ -93,6 +95,7 @@ public class ExerciseWindow extends GridPane {
 		this.add(bt_toRed, 3, 20);
 		this.add(bt_Refactor, 3, 21);
 		this.add(bt_RfctrDone, 3, 20);
+		this.add(bt_seeTracking, 2, 24);
 		this.add(bt_backExc, 2, 25);
 		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 		
@@ -108,6 +111,11 @@ public class ExerciseWindow extends GridPane {
 				scene.getStylesheets().addAll(css);
 				stage.setScene(scene);
 			}
+		});
+		//Making Chart for Tracking
+		bt_seeTracking.setOnAction( e -> {
+			ChartWindow chart = new ChartWindow();
+			chart.show(store);
 		});
 		
 		//Function to Button toGreen

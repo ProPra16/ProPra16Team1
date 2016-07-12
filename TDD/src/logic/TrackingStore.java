@@ -12,6 +12,10 @@ public class TrackingStore {
 		store.add(tracking);
 	}
 	
+	public ArrayList<TrackingInfo> getStoredItems(){
+		return store;
+	}
+	
 	@Override
 	public String toString(){
 		String text = "";
