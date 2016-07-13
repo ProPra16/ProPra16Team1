@@ -3,6 +3,7 @@
 package logic;
 
 import java.io.File;
+import java.io.PrintStream;
 
 import javax.imageio.ImageIO;
 
@@ -88,10 +89,15 @@ public class ChartWindow {
 		
 		save.setOnAction( e -> {
 			WritableImage image = new  WritableImage(800,800);
-			scene.snapshot(image);
-	        File file = new File("tracking.png");
+			//saving chart
+			chart.snapshot(null,image);
+	        File chartFile = new File("tracking.png");
+	        File analysisFile = new File("analysis.txt");
 			try{
-				ImageIO.write(SwingFXUtils.fromFXImage(image,null),"png",file);
+				ImageIO.write(SwingFXUtils.fromFXImage(image,null),"png",chartFile);
+				PrintStream writer = new PrintStream(analysisFile);
+				writer.print(description.getText());
+				
 				Hilfe saveMessage = new Hilfe();
 				saveMessage.displaySaveMessage();
 			}catch (Exception exc) {}
