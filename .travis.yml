@@ -1,0 +1,7 @@
+before_install: cd TDD
+ - chmod +x gradlew
+language: java
+jdk: oraclejdk8
+script:
+- ./gradlew check
+

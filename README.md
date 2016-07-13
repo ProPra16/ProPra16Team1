@@ -1,4 +1,6 @@
-Zwischenstand: Eine Aufgabe kann ausgewählt werden und der entsprechende Test Konstruktor wird geladen
+[![Build Status](https://travis-ci.org/ProPra16/ProPra16Team1.svg?branch=master)](https://travis-ci.org/ProPra16/ProPra16Team1)
+
+Zwischenstand: Grundgerüst und Babysteps sind implempentiert, außerdem Gradle-Build und Travis Einbindung
 =======
 Nützlicher Link zum Einstieg: https://rogerdudler.github.io/git-guide/index.de.html
 =======
