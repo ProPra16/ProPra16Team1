@@ -295,7 +295,7 @@ public class ExerciseWindow extends GridPane {
 					//getting error message and storing in TrackingStore
 					if(isTrackingOn){
 						CompilerResult compilerResult = compiler.getCompilerResult();
-						Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+						Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileClass);
 						trInfo.addErrors(errors);
 						store.add(trInfo);
 						//System.out.println(store);
@@ -322,7 +322,7 @@ public class ExerciseWindow extends GridPane {
 				//getting error message and storing in TrackingStore
 				if(isTrackingOn){
 					CompilerResult compilerResult = compiler.getCompilerResult();
-					Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+					Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileClass);
 					trInfo.addErrors(errors);
 					store.add(trInfo);
 					System.out.println(store);
