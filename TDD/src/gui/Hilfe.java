@@ -22,12 +22,75 @@ public class Hilfe {
 		
 		Label help = new Label();
 		help.setText("Sie müssen einen fehlschlagenden Test implementieren"
-				+ "\n Wenn Sie fertig sind,klicken Sie bitte auf Button zuGreen,"
-				+ "\n um in nächsten Schritt weitergeleitet zu werden");
+				+ "\n Wenn Sie fertig sind, klicken Sie bitte auf 'Wechsel zu Green',"
+				+ "\n um in nächsten Schritt weitergeleitet zu werden.");
 		Button close = new Button("Close");
 		close.setOnAction(e -> window.close());
 		VBox root = new VBox(15);
 		root.getChildren().addAll(help,close);
+		root.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(root);
+		window.setScene(scene);
+		window.showAndWait();
+	}
+	
+	public static void displayGREEN(){
+		Stage window = new Stage();
+		
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle("Hilfe");
+		window.setWidth(400);
+		window.setHeight(200);
+		
+		Label help = new Label();
+		help.setText("In dieser Phase arbeiten Sie nun an dem Source Code,"
+				+ "\ndamit ihr Test erfolgreich läuft.");
+		Button close = new Button("Close");
+		close.setOnAction(e -> window.close());
+		VBox root = new VBox(15);
+		root.getChildren().addAll(help,close);
+		root.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(root);
+		window.setScene(scene);
+		window.showAndWait();
+	}
+	
+	public static void displayRFCTR(){
+		Stage window = new Stage();
+		
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle("Hilfe");
+		window.setWidth(400);
+		window.setHeight(200);
+		
+		Label help = new Label();
+		help.setText("In dieser Phase dürfen Sie ihren Code verbessern.");
+		Button close = new Button("Close");
+		close.setOnAction(e -> window.close());
+		VBox root = new VBox(15);
+		root.getChildren().addAll(help,close);
+		root.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(root);
+		window.setScene(scene);
+		window.showAndWait();
+	}
+	
+	public static void displaySaveMessage(){
+		Stage window = new Stage();
+		
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle("Gespeichert!");
+		window.setWidth(400);
+		window.setHeight(150);
+		
+		Label description = new Label("Tracking wurde erfolgreich in Anwendungsorder gespeichert");
+		Button close = new Button("Close");
+		close.setOnAction( e-> window.close());
+		VBox root = new VBox(15);
+		root.getChildren().addAll(description,close);
 		root.setAlignment(Pos.CENTER);
 		
 		Scene scene = new Scene(root);

@@ -3,6 +3,8 @@
 
 package gui;
 
+import java.util.Collection;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
@@ -12,10 +14,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import logic.ChartWindow;
 import logic.Loader;
 import logic.Timer;
+import logic.Tracking;
+import logic.TrackingInfo;
+import logic.TrackingStore;
 import vk.core.api.CompilationUnit;
+import vk.core.api.CompileError;
 import vk.core.api.CompilerFactory;
+import vk.core.api.CompilerResult;
 import vk.core.api.JavaStringCompiler;
 import vk.core.api.TestResult;
 
@@ -27,9 +35,11 @@ public class ExerciseWindow extends GridPane {
 	private CompilationUnit compileTest;
 	private JavaStringCompiler compiler;
 	private CompilationUnit compileClass;
+	private Tracking tracking;
+	private TrackingStore store;
+	private TrackingInfo trInfo;
 	
-	
-	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep) {
+	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep,boolean isTrackingOn) {
 		this.stage = stage;
 		
 		Label instruction = new Label("//Implementieren Sie hier");
@@ -47,26 +57,36 @@ public class ExerciseWindow extends GridPane {
 		
 		Button bt_toGreen = new Button("Wechsel zu Green");
 		bt_toGreen.setId("bt_toGreen");
-		Button bt_toRed = new Button("Zurueck zu Red");
+		Button bt_toRed = new Button("Zurück zu Red");
 		bt_toRed.setId("bt_toRed");
 		Button bt_Refactor = new Button("Refactor");
-		Button bt_help = new Button("Hilfe");
+		Button bt_help_red = new Button("Hilfe: RED");
+		Button bt_help_green = new Button("Hilfe: GREEN");
+		Button bt_help_rfctr = new Button("Hilfe: REFACTOR");
 		Button bt_RfctrDone = new Button("Refactoren beendet");
-		Button bt_backExc = new Button("Zurueck zum Auswahlmenue");
-		
+		Button bt_backExc = new Button("Zurück zum Auswahlmenü");
+		Button bt_seeTracking = new Button("Show Tracking");
+		bt_seeTracking.setVisible(false);
 		//proof if babyStep is chosen
 		if(isBabystepOn){
 			Label timeRemaining = new Label();
-			this.add(timeRemaining, 1, 4);
+			this.add(timeRemaining, 3, 22);
 			
 			// Thread that makes the timer for Babysteps
 			timer = new Timer(timeRemaining,codeArea,bt_toRed,secondsBabystep);
 			Thread thread = new Thread(timer);
 			thread.start();
 		}
+		if(isTrackingOn){
+			store = new TrackingStore();
+			tracking = new Tracking();
+			tracking.start();
+		}
 		bt_Refactor.setVisible(false);
 		bt_toRed.setVisible(false);
 		bt_RfctrDone.setVisible(false);
+		bt_help_green.setVisible(false);
+		bt_help_rfctr.setVisible(false);
 		
 		this.setId("stage_red");		
 		this.setHgap(40);
@@ -74,12 +94,16 @@ public class ExerciseWindow extends GridPane {
 		this.add(instruction, 1, 2, 2, 3);
 		this.add(codeArea, 1, 4, 2, 18);
 		this.add(bt_toGreen, 3, 20);
-		this.add(bt_help, 2, 23);
+		
+		this.add(bt_help_red, 2, 23);
+		this.add(bt_help_green, 2, 23);
+		this.add(bt_help_rfctr, 2, 23);
 		this.add(bt_toRed, 3, 20);
 		this.add(bt_Refactor, 3, 21);
 		this.add(bt_RfctrDone, 3, 20);
+		this.add(bt_seeTracking, 2, 24);
 		this.add(bt_backExc, 2, 25);
-		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
+		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help_red,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 		
 		//makes formatting easier
 		this.getChildren().stream().forEach(e -> GridPane.setValignment(e, VPos.TOP));
@@ -94,6 +118,11 @@ public class ExerciseWindow extends GridPane {
 				stage.setScene(scene);
 			}
 		});
+		//Making Chart for Tracking
+		bt_seeTracking.setOnAction( e -> {
+			ChartWindow chart = new ChartWindow();
+			chart.show(store);
+		});
 		
 		//Function to Button toGreen
 		bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
@@ -106,10 +135,16 @@ public class ExerciseWindow extends GridPane {
 				timer.goBackOn();
 				timer.start();
 				}
-				
+				if(isTrackingOn){
+					tracking.stop();
+					trInfo = new TrackingInfo(tracking.getTime(),"red");
+					tracking.start();
+					bt_seeTracking.setVisible(true);
+				}
 				String testName  = loader.Aufgaben_Verwaltung.get(exc_auswahl).testName();
 				CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
 				compileTest = tmp_compileTest;
+				
 				
 				if(firstStart==false){
 					try{
@@ -117,29 +152,41 @@ public class ExerciseWindow extends GridPane {
 						compiler.compileAndRunTests();
 						TestResult testResult = compiler.getTestResult();
 						int failTest = testResult.getNumberOfFailedTests();
+						
+						
 						if(failTest == 1){
-							bt_help.setVisible(false);
 							bt_RfctrDone.setVisible(false);
 							bt_toGreen.setVisible(false);
 							bt_toRed.setVisible(true);
 							bt_Refactor.setVisible(true);
+							bt_help_red.setVisible(true);
+							bt_help_green.setVisible(false);
 							String classCode = loader.loadCurrentData("currentClass");
 							codeArea.setText(classCode);	 
 						}
 					} catch(NullPointerException k){
-						bt_help.setVisible(false);
+						bt_help_red.setVisible(false);
+						bt_help_green.setVisible(true);
 						bt_RfctrDone.setVisible(false);
 						bt_toGreen.setVisible(false);
 						bt_toRed.setVisible(true);
 						bt_Refactor.setVisible(true);
 						String classCode = loader.loadCurrentData("currentClass");
 						codeArea.setText(classCode);
+						//getting error message and storing in TrackingStore
+						if(isTrackingOn){
+							CompilerResult compilerResult = compiler.getCompilerResult();
+							Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+							trInfo.addErrors(errors);
+							store.add(trInfo);
+						}
 						System.out.println("Fehler beim Kompilieren, bitte beheben!");
 					}
 				}
 				
 				if(firstStart==true){
-					bt_help.setVisible(false);
+					bt_help_red.setVisible(false);
+					bt_help_green.setVisible(true);
 					bt_RfctrDone.setVisible(false);
 					bt_toGreen.setVisible(false);
 					bt_toRed.setVisible(true);
@@ -153,11 +200,27 @@ public class ExerciseWindow extends GridPane {
 			}
 		});
 		
-		//Function to Button Help
-		bt_help.setOnAction(new EventHandler<ActionEvent>() {
+		//Function to Button Help RED
+		bt_help_red.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				Hilfe.displayRED();
+			}
+		});
+		
+		//Function to Button Help GREEN
+		bt_help_green.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Hilfe.displayGREEN();
+			}
+		});
+				
+		//Function to Button Help REFACTOR
+		bt_help_rfctr.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				Hilfe.displayRFCTR();
 			}
 		});
 		
@@ -165,15 +228,20 @@ public class ExerciseWindow extends GridPane {
 			@Override
 			public void handle(ActionEvent e) {
 				bt_toGreen.setVisible(true);
-				bt_help.setVisible(true);
+				bt_help_red.setVisible(true);
+				bt_help_green.setVisible(false);
 				bt_toRed.setVisible(false);
 				bt_Refactor.setVisible(false);
 				
 				stage.setTitle("RED");
 				setId("stage_red");
 				if(isBabystepOn){
-				timer.goBackOff();
-				timer.start();
+					timer.goBackOff();
+					timer.start();
+				}
+				if(isTrackingOn){
+					tracking.stop();
+					tracking.start();
 				}
 				String classCode = codeArea.getText();
 				String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
@@ -188,8 +256,14 @@ public class ExerciseWindow extends GridPane {
 		bt_Refactor.setOnAction(new EventHandler<ActionEvent>() {   //Wechsel von GREEN zu Refactor
 			@Override
 			public void handle(ActionEvent e) {
-				try{	  
+				try{	
+					if(isTrackingOn){
+						tracking.stop();
+						trInfo = new TrackingInfo(tracking.getTime(),"green");
+						tracking.start();
+					}
 					setId("stage_refactor");
+					stage.setTitle("REFACTOR");
 					String classCode = codeArea.getText();		  
 					String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
 					CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
@@ -202,12 +276,22 @@ public class ExerciseWindow extends GridPane {
 			  
 					if(failTest == 0 && compileErrors == false){
 						bt_toGreen.setVisible(false);
-						bt_help.setVisible(false);
+						bt_help_red.setVisible(false);
+						bt_help_green.setVisible(false);
+						bt_help_rfctr.setVisible(true);
 						bt_toRed.setVisible(false);
 						bt_Refactor.setVisible(false);
 						bt_RfctrDone.setVisible(true);
 					}
 				} catch(NullPointerException s){
+					//getting error message and storing in TrackingStore
+					if(isTrackingOn){
+						CompilerResult compilerResult = compiler.getCompilerResult();
+						Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+						trInfo.addErrors(errors);
+						store.add(trInfo);
+						//System.out.println(store);
+					}
 					System.out.println("Kompillierungsschwierigkeiten, beheben Sie diese" + " vor dem Refactoren!");
 				}
 			}
@@ -218,16 +302,29 @@ public class ExerciseWindow extends GridPane {
 				String classCode = codeArea.getText();		  
 				String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
 				CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
+				if(isTrackingOn){
+					tracking.stop();
+					trInfo = new TrackingInfo(tracking.getTime(),"refactor");
+					tracking.start();
+				}
 				compileClass = tmp_compileClass;
 				compiler = CompilerFactory.getCompiler(compileClass,compileTest);
 				compiler.compileAndRunTests();
 				TestResult testResult = compiler.getTestResult();
+				//getting error message and storing in TrackingStore
+				if(isTrackingOn){
+					CompilerResult compilerResult = compiler.getCompilerResult();
+					Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+					trInfo.addErrors(errors);
+					store.add(trInfo);
+					System.out.println(store);
+				}
 				int failTest = testResult.getNumberOfFailedTests();
 				boolean compileErrors = compiler.getCompilerResult().hasCompileErrors();
 				if(failTest == 0 && compileErrors == false){  
 					bt_toGreen.setVisible(true);
 					bt_toRed.setVisible(false);
-					bt_help.setVisible(true);
+					bt_help_red.setVisible(true);
 					bt_RfctrDone.setVisible(false);
 					stage.setTitle("RED");
 					setId("stage_red");

@@ -77,8 +77,8 @@ public class MenuControls extends GridPane {
 		babystepsName.setVisible(false);
 		
 		Text babystepsHelp = new Text("Sie haben limitiert Zeit für die einzelnen Phasen (RED und "
-				+ "GREEN). Laeuft die Zeit ab, wird der Code geloescht und Sie werden zur vorherigen "
-				+ "Phase zurueckgeführt.");
+				+ "GREEN). Läuft die Zeit ab, wird der Code gelöscht und Sie werden zur vorherigen "
+				+ "Phase zurückgeführt.");
 		babystepsHelp.setWrappingWidth(290);
 		babystepsHelp.setId("babysteps_help");
 		babystepsHelp.setVisible(false);
@@ -94,7 +94,7 @@ public class MenuControls extends GridPane {
 		trackingHelp.setId("tracking_help");
 		trackingHelp.setVisible(false);
 
-		Label babystepsText = new Label("Waehlen Sie die Zeit für Babysteps");
+		Label babystepsText = new Label("Wählen Sie die Zeit für Babysteps");
 		ToggleGroup babystepsGroup = new ToggleGroup();
 		RadioButton difficulty1 = new RadioButton("2 Minuten");
 		RadioButton difficulty2 = new RadioButton("3 Minuten");
@@ -111,7 +111,7 @@ public class MenuControls extends GridPane {
 		difficulty2.setVisible(false);
 		
 		Button bt_select = new Button();
-		bt_select.setText("Uebung beginnen");
+		bt_select.setText("Übung beginnen");
 		bt_select.setDisable(true);
 		
 		Label licence = new Label("The MIT License (MIT)");
@@ -194,22 +194,25 @@ public class MenuControls extends GridPane {
 				if(rb_babysteps.isSelected()){
 					if(difficulty1.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
-						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120), GUI.WIDTH, GUI.HEIGHT);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120,false), GUI.WIDTH, GUI.HEIGHT);
 						scene.getStylesheets().addAll(css);
 						stage.setScene(scene);
 					}if(difficulty2.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
-						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,180), GUI.WIDTH, GUI.HEIGHT);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,180,false), GUI.WIDTH, GUI.HEIGHT);
 						scene.getStylesheets().addAll(css);
 						stage.setScene(scene);
 					}
 					return;
 				}
-				non_static_af.saveNew(exc_auswahl);
-				Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0), GUI.WIDTH, GUI.HEIGHT);
-				stage.setTitle("RED");
-				scene.getStylesheets().addAll(css);
-				stage.setScene(scene);
+				if(rb_tracking.isSelected()){
+					non_static_af.saveNew(exc_auswahl);
+					Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0,true), GUI.WIDTH, GUI.HEIGHT);
+					stage.setTitle("RED");
+					scene.getStylesheets().addAll(css);
+					stage.setScene(scene);
+					return;
+				}
 			}
 		});
 	}
