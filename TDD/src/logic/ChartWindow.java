@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import gui.Hilfe;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -89,6 +90,8 @@ public class ChartWindow {
 	        File file = new File("tracking.png");
 			try{
 				ImageIO.write(SwingFXUtils.fromFXImage(image,null),"png",file);
+				Hilfe saveMessage = new Hilfe();
+				saveMessage.displaySaveMessage();
 			}catch (Exception exc) {}
 		});
 		window.setScene(scene);

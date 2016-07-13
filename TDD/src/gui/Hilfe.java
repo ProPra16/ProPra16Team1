@@ -35,6 +35,26 @@ public class Hilfe {
 		window.showAndWait();
 	}
 	
+	public static void displaySaveMessage(){
+		Stage window = new Stage();
+		
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle("Gespeichert!");
+		window.setWidth(400);
+		window.setHeight(150);
+		
+		Label description = new Label("Tracking wurde erfolgreich in Anwendungsorder gespeichert");
+		Button close = new Button("Close");
+		close.setOnAction( e-> window.close());
+		VBox root = new VBox(15);
+		root.getChildren().addAll(description,close);
+		root.setAlignment(Pos.CENTER);
+		
+		Scene scene = new Scene(root);
+		window.setScene(scene);
+		window.showAndWait();
+	}
+	
 	public static void displayExtension(){
 		Stage window = new Stage();
 		
