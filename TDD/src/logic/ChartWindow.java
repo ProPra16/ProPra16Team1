@@ -1,11 +1,18 @@
 package logic;
 
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -67,13 +74,23 @@ public class ChartWindow {
 		
 		TextArea description = new TextArea();
 		description.setEditable(false);
+		Button save = new Button("Speicher Tracking");
 		
 		
 		description.setText(analysis);
-		root.getChildren().addAll(chart,description);
+		root.getChildren().addAll(chart,description,save);
+		
 		Scene scene = new Scene(root,800,800);
 		
 		
+		save.setOnAction( e -> {
+			WritableImage image = new  WritableImage(800,800);
+			scene.snapshot(image);
+	        File file = new File("tracking.png");
+			try{
+				ImageIO.write(SwingFXUtils.fromFXImage(image,null),"png",file);
+			}catch (Exception exc) {}
+		});
 		window.setScene(scene);
 		window.showAndWait();
 	}
