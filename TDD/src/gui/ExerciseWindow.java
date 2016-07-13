@@ -159,8 +159,10 @@ public class ExerciseWindow extends GridPane {
 							bt_toGreen.setVisible(false);
 							bt_toRed.setVisible(true);
 							bt_Refactor.setVisible(true);
-							bt_help_red.setVisible(true);
-							bt_help_green.setVisible(false);
+							bt_help_red.setVisible(false);
+							bt_help_green.setVisible(true);
+							stage.setTitle("GREEN");
+							setId("stage_green");
 							String classCode = loader.loadCurrentData("currentClass");
 							codeArea.setText(classCode);	 
 						}
@@ -273,7 +275,13 @@ public class ExerciseWindow extends GridPane {
 					TestResult testResult = compiler.getTestResult();
 					boolean compileErrors = compiler.getCompilerResult().hasCompileErrors();
 					int failTest = testResult.getNumberOfFailedTests();
-			  
+					
+					//nicht sicher ob die nächsten 4 zeilen hier hingehören, versucht einem bug auszuweichen -facho
+//					bt_help_rfctr.setVisible(true);
+//					bt_RfctrDone.setVisible(true);
+//					bt_Refactor.setVisible(false);
+//					bt_toRed.setVisible(true);
+					
 					if(failTest == 0 && compileErrors == false){
 						bt_toGreen.setVisible(false);
 						bt_help_red.setVisible(false);
