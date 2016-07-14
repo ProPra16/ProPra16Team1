@@ -44,7 +44,8 @@ public class ExerciseWindow extends GridPane {
 		
 		Label instruction = new Label("//Implementieren Sie hier");
 		instruction.setId("instruction");
-		
+		Label trackingBemerkung = new Label("Diese Testimplementierung wird nicht in Tracking gezeigt,"
+				+"\nda es noch keine Methode existiert.");
 		TextArea codeArea = new TextArea();
 		codeArea.setId("code_area");
 		codeArea.setWrapText(true);
@@ -81,6 +82,7 @@ public class ExerciseWindow extends GridPane {
 			store = new TrackingStore();
 			tracking = new Tracking();
 			tracking.start();
+			this.add(trackingBemerkung, 2, 22);
 		}
 		bt_Refactor.setVisible(false);
 		bt_toRed.setVisible(false);
@@ -140,6 +142,7 @@ public class ExerciseWindow extends GridPane {
 					trInfo = new TrackingInfo(tracking.getTime(),"red");
 					tracking.start();
 					bt_seeTracking.setVisible(true);
+					trackingBemerkung.setVisible(false);
 				}
 				String testName  = loader.Aufgaben_Verwaltung.get(exc_auswahl).testName();
 				CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
@@ -198,6 +201,7 @@ public class ExerciseWindow extends GridPane {
 					String classCode = loader.loadCurrentData("currentClass");
 					codeArea.setText(classCode);
 					firstStart=false;
+					
 				}
 			}
 		});
