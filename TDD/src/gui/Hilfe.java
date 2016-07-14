@@ -89,7 +89,8 @@ public class Hilfe {
 		Label description = new Label("Tracking wurde erfolgreich in Anwendungsorder gespeichert"
 				+ "\nFolgede Dateien werden gespeichert:"
 				+ "\nanalysis.txt"
-				+ "\ntracking.png");
+				+ "\ntracking.png"
+				+ "\ninsgesamtZeit.png");
 		Button close = new Button("Close");
 		close.setOnAction( e-> window.close());
 		VBox root = new VBox(15);
