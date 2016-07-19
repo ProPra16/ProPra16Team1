@@ -46,7 +46,7 @@ public class ExerciseWindow extends GridPane {
 		Label instruction = new Label("//Implementieren Sie hier");
 		instruction.setId("instruction");
 		Label trackingNote = new Label("Diese Implementierung wird nicht in Tracking gezeigt,"
-				+"\nda noch keine Methode existiert.");
+				+"\nda es noch keine Methode existiert.");
 		TextArea codeArea = new TextArea();
 		codeArea.setId("code_area");
 		codeArea.setWrapText(true);
@@ -71,7 +71,7 @@ public class ExerciseWindow extends GridPane {
 		
 		Text errorMessage = new Text();
 		errorMessage.setWrappingWidth(200);
-		
+			
 		bt_seeTracking.setVisible(false);
 		//proof if babyStep is chosen
 		if(isBabystepOn){
@@ -135,7 +135,7 @@ public class ExerciseWindow extends GridPane {
 		//Function to Button toGreen
 		bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
 			@Override public void handle(ActionEvent e) {
-				
+								
 				String testCode = codeArea.getText(); // here is the test from user
 				loader.save("currentTest",testCode);
 				if(isBabystepOn){
@@ -160,9 +160,10 @@ public class ExerciseWindow extends GridPane {
 						compiler.compileAndRunTests();
 						TestResult testResult = compiler.getTestResult();
 						int failTest = testResult.getNumberOfFailedTests();
+						CompilerResult validTest = compiler.getCompilerResult();
 						
 						
-						if(failTest == 1){
+						if(failTest == 1 && validTest.hasCompileErrors()==false){
 							bt_RfctrDone.setVisible(false);
 							bt_toGreen.setVisible(false);
 							bt_toRed.setVisible(true);
@@ -175,6 +176,13 @@ public class ExerciseWindow extends GridPane {
 							codeArea.setText(classCode);	 
 						}
 					} catch(NullPointerException k){
+					 CompilerResult validTest = compiler.getCompilerResult();
+					 
+					 if(validTest.hasCompileErrors()==true){
+					  errorMessage.setText("Syntaxfehler");
+					  return;
+					 }
+						
 						bt_help_red.setVisible(false);
 						bt_help_green.setVisible(true);
 						bt_RfctrDone.setVisible(false);
