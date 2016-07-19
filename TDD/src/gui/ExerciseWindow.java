@@ -154,9 +154,10 @@ public class ExerciseWindow extends GridPane {
 						compiler.compileAndRunTests();
 						TestResult testResult = compiler.getTestResult();
 						int failTest = testResult.getNumberOfFailedTests();
+						CompilerResult validTest = compiler.getCompilerResult();
 						
 						
-						if(failTest == 1){
+						if(failTest == 1 && validTest.hasCompileErrors()==false){
 							bt_RfctrDone.setVisible(false);
 							bt_toGreen.setVisible(false);
 							bt_toRed.setVisible(true);
@@ -169,6 +170,13 @@ public class ExerciseWindow extends GridPane {
 							codeArea.setText(classCode);	 
 						}
 					} catch(NullPointerException k){
+					 CompilerResult validTest = compiler.getCompilerResult();
+					 
+					 if(validTest.hasCompileErrors()==true){
+					  System.out.println("Syntaxfehler");
+					  return;
+					 }
+						
 						bt_help_red.setVisible(false);
 						bt_help_green.setVisible(true);
 						bt_RfctrDone.setVisible(false);
