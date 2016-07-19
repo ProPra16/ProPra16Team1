@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.ChartWindow;
 import logic.Loader;
@@ -67,6 +68,10 @@ public class ExerciseWindow extends GridPane {
 		Button bt_RfctrDone = new Button("Refactoren beendet");
 		Button bt_backExc = new Button("Zurück zum Auswahlmenü");
 		Button bt_seeTracking = new Button("Show Tracking");
+		
+		Text errorMessage = new Text();
+		errorMessage.setWrappingWidth(200);
+			
 		bt_seeTracking.setVisible(false);
 		//proof if babyStep is chosen
 		if(isBabystepOn){
@@ -105,6 +110,7 @@ public class ExerciseWindow extends GridPane {
 		this.add(bt_RfctrDone, 3, 20);
 		this.add(bt_seeTracking, 2, 24);
 		this.add(bt_backExc, 2, 25);
+		this.add(errorMessage, 3, 24);
 		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help_red,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 		
 		//makes formatting easier
@@ -173,7 +179,7 @@ public class ExerciseWindow extends GridPane {
 					 CompilerResult validTest = compiler.getCompilerResult();
 					 
 					 if(validTest.hasCompileErrors()==true){
-					  System.out.println("Syntaxfehler");
+					  errorMessage.setText("Syntaxfehler");
 					  return;
 					 }
 						
@@ -192,7 +198,7 @@ public class ExerciseWindow extends GridPane {
 							trInfo.addErrors(errors);
 							store.add(trInfo);
 						}
-						System.out.println("Fehler beim Kompilieren, bitte beheben!");
+						errorMessage.setText("Fehler beim Kompilieren, bitte beheben!");
 					}
 				}
 				
@@ -311,7 +317,7 @@ public class ExerciseWindow extends GridPane {
 						store.add(trInfo);
 						//System.out.println(store);
 					}
-					System.out.println("Kompillierungsschwierigkeiten, beheben Sie diese" + " vor dem Refactoren!");
+					errorMessage.setText("Kompillierungsschwierigkeiten, beheben Sie diese" + " vor dem Refactoren!");
 				}
 			}
 		});
