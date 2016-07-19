@@ -8,11 +8,14 @@ import java.io.PrintStream;
 import javax.imageio.ImageIO;
 
 import gui.Hilfe;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -40,6 +43,9 @@ public class ChartWindow {
 		int countRed = 0;
 		int countGreen = 0;
 		int countRef = 0;
+		int timeSumRed = 0;
+		int timeSumGreen = 0;
+		int timeSumRef = 0;
 		String analysis = "";
 		//making the analyses
 		for(TrackingInfo trInfo : store.getStoredItems()){
@@ -50,6 +56,7 @@ public class ChartWindow {
 				}else{
 					analysis += "\nBei Ihrem " + countRed + "ten Mal in RED Phase haben Sie keine Fehler!";
 				}	
+				timeSumRed+=trInfo.getTime();
 				red.getData().add(new XYChart.Data(String.valueOf(countRed) + " mal",trInfo.getTime()));
 			}
 			if(trInfo.getStage().equals("green")){
@@ -58,7 +65,8 @@ public class ChartWindow {
 					analysis += "\nBei Ihrem " + countGreen + "ten Mal in GREEN Phase haben Sie folgenden Fehler :" + trInfo.getErrorMessage();
 				}else{
 					analysis += "\nBei Ihrem " + countGreen + "ten Mal in Green Phase haben Sie keine Fehler!";
-				}	
+				}
+				timeSumGreen+=trInfo.getTime();
 				green.getData().add(new XYChart.Data(String.valueOf(countGreen) + " mal",trInfo.getTime()));
 			}
 			if(trInfo.getStage().equals("refactor")){
@@ -67,12 +75,23 @@ public class ChartWindow {
 					analysis += "\nBei Ihrem " + countRef + "ten Mal in Refactor Phase haben Sie folgenden Fehler :" + trInfo.getErrorMessage();
 				}else{
 					analysis += "\nBei Ihrem " + countRef + "ten Mal in Refactor Phase haben Sie keine Fehler!";
-				}	
+				}
+				timeSumRef+=trInfo.getTime();
 				refactor.getData().add(new XYChart.Data(String.valueOf(countRef) + " mal",trInfo.getTime()));
 			}
 		}
 		chart.getData().addAll(red,green,refactor);
-		chart.setPrefSize(800, 600);
+		chart.setPrefSize(400, 400);
+		
+		
+		ObservableList<PieChart.Data> generalAnalysisData = FXCollections.observableArrayList(
+				 	new PieChart.Data("RED Phasen", timeSumRed),
+	                new PieChart.Data("GREEN Phasen", timeSumGreen),
+	                new PieChart.Data("Refactor Phasen", timeSumRef)
+	                );
+		PieChart generalAnalysisChart = new PieChart(generalAnalysisData);
+		generalAnalysisChart.setTitle("Insgesamt Zeit in den verschiedenen Phasen");
+		generalAnalysisChart.setPrefSize(400, 400);
 		
 		VBox root = new VBox(20);
 		
@@ -82,19 +101,23 @@ public class ChartWindow {
 		
 		
 		description.setText(analysis);
-		root.getChildren().addAll(chart,description,save);
+		root.getChildren().addAll(chart,generalAnalysisChart,description,save);
 		
-		Scene scene = new Scene(root,800,800);
+		Scene scene = new Scene(root,1200,1200);
 		
 		
 		save.setOnAction( e -> {
-			WritableImage image = new  WritableImage(800,800);
+			WritableImage image = new  WritableImage(1200,1200);
+			WritableImage image1 = new  WritableImage(1200,1200);
 			//saving chart
 			chart.snapshot(null,image);
+			generalAnalysisChart.snapshot(null, image1);
 	        File chartFile = new File("tracking.png");
 	        File analysisFile = new File("analysis.txt");
+	        File generalAnalysisFile = new File("insgesamtZeit.png");
 			try{
 				ImageIO.write(SwingFXUtils.fromFXImage(image,null),"png",chartFile);
+				ImageIO.write(SwingFXUtils.fromFXImage(image1,null),"png",generalAnalysisFile);
 				PrintStream writer = new PrintStream(analysisFile);
 				writer.print(description.getText());
 				

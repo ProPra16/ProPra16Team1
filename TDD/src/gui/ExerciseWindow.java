@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.ChartWindow;
 import logic.Loader;
@@ -44,7 +45,8 @@ public class ExerciseWindow extends GridPane {
 		
 		Label instruction = new Label("//Implementieren Sie hier");
 		instruction.setId("instruction");
-		
+		Label trackingNote = new Label("Diese Implementierung wird nicht in Tracking gezeigt,"
+				+"\nda noch keine Methode existiert.");
 		TextArea codeArea = new TextArea();
 		codeArea.setId("code_area");
 		codeArea.setWrapText(true);
@@ -66,6 +68,10 @@ public class ExerciseWindow extends GridPane {
 		Button bt_RfctrDone = new Button("Refactoren beendet");
 		Button bt_backExc = new Button("Zurück zum Auswahlmenü");
 		Button bt_seeTracking = new Button("Show Tracking");
+		
+		Text errorMessage = new Text();
+		errorMessage.setWrappingWidth(200);
+		
 		bt_seeTracking.setVisible(false);
 		//proof if babyStep is chosen
 		if(isBabystepOn){
@@ -81,6 +87,7 @@ public class ExerciseWindow extends GridPane {
 			store = new TrackingStore();
 			tracking = new Tracking();
 			tracking.start();
+			this.add(trackingNote, 2, 22);
 		}
 		bt_Refactor.setVisible(false);
 		bt_toRed.setVisible(false);
@@ -103,6 +110,7 @@ public class ExerciseWindow extends GridPane {
 		this.add(bt_RfctrDone, 3, 20);
 		this.add(bt_seeTracking, 2, 24);
 		this.add(bt_backExc, 2, 25);
+		this.add(errorMessage, 3, 24);
 		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help_red,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 		
 		//makes formatting easier
@@ -127,7 +135,7 @@ public class ExerciseWindow extends GridPane {
 		//Function to Button toGreen
 		bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
 			@Override public void handle(ActionEvent e) {
-								
+				
 				String testCode = codeArea.getText(); // here is the test from user
 				loader.save("currentTest",testCode);
 				if(isBabystepOn){
@@ -139,7 +147,6 @@ public class ExerciseWindow extends GridPane {
 					tracking.stop();
 					trInfo = new TrackingInfo(tracking.getTime(),"red");
 					tracking.start();
-					bt_seeTracking.setVisible(true);
 				}
 				String testName  = loader.Aufgaben_Verwaltung.get(exc_auswahl).testName();
 				CompilationUnit tmp_compileTest = new CompilationUnit(testName,testCode,true);
@@ -147,6 +154,7 @@ public class ExerciseWindow extends GridPane {
 				
 				
 				if(firstStart==false){
+					bt_seeTracking.setVisible(true);
 					try{
 						compiler = CompilerFactory.getCompiler(compileTest,compileClass);
 						compiler.compileAndRunTests();
@@ -182,7 +190,7 @@ public class ExerciseWindow extends GridPane {
 							trInfo.addErrors(errors);
 							store.add(trInfo);
 						}
-						System.out.println("Fehler beim Kompilieren, bitte beheben!");
+						errorMessage.setText("Fehler beim Kompilieren, bitte beheben!");
 					}
 				}
 				
@@ -198,6 +206,7 @@ public class ExerciseWindow extends GridPane {
 					String classCode = loader.loadCurrentData("currentClass");
 					codeArea.setText(classCode);
 					firstStart=false;
+					
 				}
 			}
 		});
@@ -234,7 +243,7 @@ public class ExerciseWindow extends GridPane {
 				bt_help_green.setVisible(false);
 				bt_toRed.setVisible(false);
 				bt_Refactor.setVisible(false);
-				
+				trackingNote.setText("Tracking ist ON");
 				stage.setTitle("RED");
 				setId("stage_red");
 				if(isBabystepOn){
@@ -295,12 +304,12 @@ public class ExerciseWindow extends GridPane {
 					//getting error message and storing in TrackingStore
 					if(isTrackingOn){
 						CompilerResult compilerResult = compiler.getCompilerResult();
-						Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+						Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileClass);
 						trInfo.addErrors(errors);
 						store.add(trInfo);
 						//System.out.println(store);
 					}
-					System.out.println("Kompillierungsschwierigkeiten, beheben Sie diese" + " vor dem Refactoren!");
+					errorMessage.setText("Kompillierungsschwierigkeiten, beheben Sie diese" + " vor dem Refactoren!");
 				}
 			}
 		});
@@ -322,7 +331,7 @@ public class ExerciseWindow extends GridPane {
 				//getting error message and storing in TrackingStore
 				if(isTrackingOn){
 					CompilerResult compilerResult = compiler.getCompilerResult();
-					Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileTest);
+					Collection<CompileError> errors = compilerResult.getCompilerErrorsForCompilationUnit(compileClass);
 					trInfo.addErrors(errors);
 					store.add(trInfo);
 					System.out.println(store);
