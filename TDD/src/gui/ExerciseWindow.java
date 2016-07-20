@@ -175,13 +175,19 @@ public class ExerciseWindow extends GridPane {
 							String classCode = loader.loadCurrentData("currentClass");
 							codeArea.setText(classCode);	 
 						}
+						else{
+							System.out.println("Es muss ein Test fehlschlagen!");						
+						}
+						
+						
 					} catch(NullPointerException k){
-					 CompilerResult validTest = compiler.getCompilerResult();
+					/* CompilerResult validTest = compiler.getCompilerResult();
 					 
 					 if(validTest.hasCompileErrors()==true){
-					  errorMessage.setText("Syntaxfehler");
-					  return;
-					 }
+					  errorMessage.setText("Syntaxfehler, es wird fortgefahren, bitte bei"
+					  		+ "Gelegenheit beheben");
+					  
+					 }*/
 						
 						bt_help_red.setVisible(false);
 						bt_help_green.setVisible(true);
@@ -281,8 +287,6 @@ public class ExerciseWindow extends GridPane {
 						trInfo = new TrackingInfo(tracking.getTime(),"green");
 						tracking.start();
 					}
-					setId("stage_refactor");
-					stage.setTitle("REFACTOR");
 					String classCode = codeArea.getText();		  
 					String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
 					CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
@@ -307,7 +311,13 @@ public class ExerciseWindow extends GridPane {
 						bt_toRed.setVisible(false);
 						bt_Refactor.setVisible(false);
 						bt_RfctrDone.setVisible(true);
+						setId("stage_refactor");
+						stage.setTitle("REFACTOR");
 					}
+					else{
+					System.out.println("Es schlagen noch Test fehl!");	
+					}
+					
 				} catch(NullPointerException s){
 					//getting error message and storing in TrackingStore
 					if(isTrackingOn){
@@ -332,6 +342,7 @@ public class ExerciseWindow extends GridPane {
 					trInfo = new TrackingInfo(tracking.getTime(),"refactor");
 					tracking.start();
 				}
+				try{
 				compileClass = tmp_compileClass;
 				compiler = CompilerFactory.getCompiler(compileClass,compileTest);
 				compiler.compileAndRunTests();
@@ -358,6 +369,10 @@ public class ExerciseWindow extends GridPane {
 					classCode = loader.loadCurrentData("currentTest");
 					codeArea.setText(classCode);
 				}
+			   }
+			  catch(NullPointerException k){
+			  System.out.println("Gerefactored Code nicht kompilierbar!");	  
+			  }
 			}
 		});
 	}
