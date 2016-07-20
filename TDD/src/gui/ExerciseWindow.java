@@ -155,13 +155,15 @@ public class ExerciseWindow extends GridPane {
 				
 				if(firstStart==false){
 					bt_seeTracking.setVisible(true);
+					int failTest=0;
 					try{
 						compiler = CompilerFactory.getCompiler(compileTest,compileClass);
 						compiler.compileAndRunTests();
 						TestResult testResult = compiler.getTestResult();
-						int failTest = testResult.getNumberOfFailedTests();
 						CompilerResult validTest = compiler.getCompilerResult();
-						
+						if(validTest.hasCompileErrors()==false){
+						failTest = testResult.getNumberOfFailedTests();						
+						}						
 						
 						if(failTest == 1 && validTest.hasCompileErrors()==false){
 							bt_RfctrDone.setVisible(false);
@@ -180,15 +182,7 @@ public class ExerciseWindow extends GridPane {
 						}
 						
 						
-					} catch(NullPointerException k){
-					/* CompilerResult validTest = compiler.getCompilerResult();
-					 
-					 if(validTest.hasCompileErrors()==true){
-					  errorMessage.setText("Syntaxfehler, es wird fortgefahren, bitte bei"
-					  		+ "Gelegenheit beheben");
-					  
-					 }*/
-						
+					} catch(NullPointerException k){						
 						bt_help_red.setVisible(false);
 						bt_help_green.setVisible(true);
 						bt_RfctrDone.setVisible(false);
