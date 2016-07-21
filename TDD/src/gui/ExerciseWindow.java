@@ -178,10 +178,10 @@ public class ExerciseWindow extends GridPane {
 							codeArea.setText(classCode);	 
 						}
 						else if(validTest.hasCompileErrors()==false){
-							System.out.println("Es muss ein Test fehlschlagen!");						
+							errorMessage.setText("Es muss ein Test fehlschlagen!");						
 						}
 						else{
-						  System.out.println("Der Test kann nicht kompilieren!");	
+							errorMessage.setText("Der Test kann nicht kompilieren!");	
 						}
 						
 						
@@ -312,7 +312,7 @@ public class ExerciseWindow extends GridPane {
 						stage.setTitle("REFACTOR");
 					}
 					else{
-					System.out.println("Es schlagen noch Test fehl!");	
+						errorMessage.setText("Es schlagen noch Test fehl!");	
 					}
 					
 				} catch(NullPointerException s){
@@ -368,7 +368,7 @@ public class ExerciseWindow extends GridPane {
 				}
 			   }
 			  catch(NullPointerException k){
-			  System.out.println("Gerefactored Code nicht kompilierbar!");	  
+				  errorMessage.setText("Gerefactored Code nicht kompilierbar!");	  
 			  }
 			}
 		});
