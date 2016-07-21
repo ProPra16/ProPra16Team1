@@ -177,8 +177,11 @@ public class ExerciseWindow extends GridPane {
 							String classCode = loader.loadCurrentData("currentClass");
 							codeArea.setText(classCode);	 
 						}
-						else{
+						else if(validTest.hasCompileErrors()==false){
 							System.out.println("Es muss ein Test fehlschlagen!");						
+						}
+						else{
+						  System.out.println("Der Test kann nicht kompilieren!");	
 						}
 						
 						
