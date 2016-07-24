@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Loader{
 
- public static String exc_file ="Aufgabenkatalog.txt";
+ public static String exc_file ="Aufgabenkatalog";
  public static String line = null;
  
  private static String cur_Test = "currentTest";

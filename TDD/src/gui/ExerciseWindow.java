@@ -40,7 +40,7 @@ public class ExerciseWindow extends GridPane {
 	private TrackingStore store;
 	private TrackingInfo trInfo;
 	
-	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep,boolean isTrackingOn) {
+	ExerciseWindow(Stage stage, Loader loader, int exc_auswahl, boolean isBabystepOn, int secondsBabystep,boolean isTrackingOn,boolean isPairProgrammingOn) {
 		this.stage = stage;
 		
 		Label instruction = new Label("//Implementieren Sie hier");
@@ -71,6 +71,9 @@ public class ExerciseWindow extends GridPane {
 		
 		Text errorMessage = new Text();
 		errorMessage.setWrappingWidth(200);
+		
+		Text act_Writer = new Text();
+		act_Writer.setWrappingWidth(200);
 			
 		bt_seeTracking.setVisible(false);
 		//proof if babyStep is chosen
@@ -88,6 +91,9 @@ public class ExerciseWindow extends GridPane {
 			tracking = new Tracking();
 			tracking.start();
 			this.add(trackingNote, 2, 22);
+		}
+		if(isPairProgrammingOn){
+		 act_Writer.setText(MenuControls.Name1 + " soll einen Test schreiben!");
 		}
 		bt_Refactor.setVisible(false);
 		bt_toRed.setVisible(false);
@@ -111,6 +117,7 @@ public class ExerciseWindow extends GridPane {
 		this.add(bt_seeTracking, 2, 24);
 		this.add(bt_backExc, 2, 25);
 		this.add(errorMessage, 3, 24);
+		this.add(act_Writer, 3, 23);
 		//root.getChildren().addAll(instruction,codeArea,bt_toGreen,bt_help_red,bt_Refactor,bt_RfctrDone,bt_toRed,bt_backExc);
 		
 		//makes formatting easier
@@ -128,13 +135,19 @@ public class ExerciseWindow extends GridPane {
 		});
 		//Making Chart for Tracking
 		bt_seeTracking.setOnAction( e -> {
+			if(isTrackingOn){
 			ChartWindow chart = new ChartWindow();
 			chart.show(store);
+			}
+			else{errorMessage.setText("Tracking ist nicht an");}
 		});
 		
 		//Function to Button toGreen
 		bt_toGreen.setOnAction(new EventHandler<ActionEvent>() { //Wechsel von RED zu GREEN
 			@Override public void handle(ActionEvent e) {
+				if(isPairProgrammingOn){
+					 act_Writer.setText(MenuControls.Name2 + " soll den Test bestehen!");
+					}
 								
 				String testCode = codeArea.getText(); // here is the test from user
 				loader.save("currentTest",testCode);
@@ -249,6 +262,9 @@ public class ExerciseWindow extends GridPane {
 		bt_toRed.setOnAction(new EventHandler<ActionEvent>() {   //Wechsel von GREEN zu RED
 			@Override
 			public void handle(ActionEvent e) {
+				if(isPairProgrammingOn){
+					 act_Writer.setText(MenuControls.Name1 + " verändere den Test!");
+					}
 				bt_toGreen.setVisible(true);
 				bt_help_red.setVisible(true);
 				bt_help_green.setVisible(false);
@@ -284,6 +300,9 @@ public class ExerciseWindow extends GridPane {
 						trInfo = new TrackingInfo(tracking.getTime(),"green");
 						tracking.start();
 					}
+					if(isPairProgrammingOn){
+						 act_Writer.setText(MenuControls.Name2 + " versuche deinen Quelltext nun zu refactoren!");
+						}
 					String classCode = codeArea.getText();		  
 					String className = loader.Aufgaben_Verwaltung.get(exc_auswahl).className();
 					CompilationUnit tmp_compileClass = new CompilationUnit(className,classCode,false); 
@@ -339,6 +358,9 @@ public class ExerciseWindow extends GridPane {
 					trInfo = new TrackingInfo(tracking.getTime(),"refactor");
 					tracking.start();
 				}
+				if(isPairProgrammingOn){
+					 act_Writer.setText(MenuControls.Name1 + " schreibe einen weiter fehlschlagenden Test!");
+					}
 				try{
 				compileClass = tmp_compileClass;
 				compiler = CompilerFactory.getCompiler(compileClass,compileTest);

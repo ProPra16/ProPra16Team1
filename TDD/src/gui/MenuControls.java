@@ -25,12 +25,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.Loader;
+import javafx.scene.control.TextField;
 
 public class MenuControls extends GridPane {
 	private int exc_auswahl = -1;
 	private Stage stage;
 	private String css = this.getClass().getResource("/layout/style.css").toExternalForm();
 	private boolean isBabystepSet = false;
+	private boolean isPairSet = false;
+	public static String Name1;
+	public static String Name2;
 	
 	MenuControls(Stage stage) {
 		this.stage = stage;
@@ -70,6 +74,8 @@ public class MenuControls extends GridPane {
 		rb_babysteps.setToggleGroup(radioButtonGroup);
 		RadioButton rb_tracking = new RadioButton("Tracking");
 		rb_tracking.setToggleGroup(radioButtonGroup);
+	    RadioButton rb_pairProgramming = new RadioButton("Pair Progamming");
+	    rb_pairProgramming.setToggleGroup(radioButtonGroup);
 		HBox radioButtonControls = new HBox();
 		
 		Text babystepsName = new Text("Babysteps");
@@ -109,7 +115,11 @@ public class MenuControls extends GridPane {
 		babystepsText.setVisible(false);
 		difficulty1.setVisible(false);
 		difficulty2.setVisible(false);
-		
+
+		TextField tf_nickname1 = new TextField("First User(writes Test)");
+		TextField tf_nickname2 = new TextField("default(writes Class)");
+		tf_nickname1.setVisible(false);
+		tf_nickname2.setVisible(false);
 		Button bt_select = new Button();
 		bt_select.setText("Übung beginnen");
 		bt_select.setDisable(true);
@@ -132,9 +142,12 @@ public class MenuControls extends GridPane {
 		this.add(trackingHelp, 2, 24, 2, 25);
 		this.add(rb_tracking, 1, 23);
 		this.add(rb_babysteps, 1, 24);
+		this.add(rb_pairProgramming,1,26);
 		this.add(difficulty, 1, 25);
 		this.add(bt_select, 3, 27);
 		this.add(licence, 1, 27);
+		this.add(tf_nickname1,1,25);
+		this.add(tf_nickname2,2,25);
 		
 		//makes formatting easier
 		this.getChildren().stream().forEach(e -> GridPane.setValignment(e, VPos.TOP));
@@ -162,13 +175,27 @@ public class MenuControls extends GridPane {
 					babystepsText.setVisible(true);
 					difficulty1.setVisible(true);
 					difficulty2.setVisible(true);
+					tf_nickname1.setVisible(false);
+					tf_nickname2.setVisible(false);
 					isBabystepSet = true;
 					babystepsName.setVisible(true);
 					babystepsHelp.setVisible(true);
 					trackingName.setVisible(false);
 					trackingHelp.setVisible(false);
 					enable(bt_select, (exerciseList.getSelectionModel().getSelectedItem() != null) && (babystepsGroup.getSelectedToggle() != null));
-				}else{
+			      }
+				else if(rb_pairProgramming.isSelected()){
+					tf_nickname1.setVisible(true);
+					tf_nickname2.setVisible(true);
+					isPairSet = true;
+					isBabystepSet = false;
+					difficulty1.setVisible(false);
+					difficulty2.setVisible(false);
+					enable(bt_select, exerciseList.getSelectionModel().getSelectedItem() != null);
+				}
+				else{
+					tf_nickname1.setVisible(false);
+					tf_nickname2.setVisible(false);
 					babystepsText.setVisible(false);
 					difficulty1.setVisible(false);
 					difficulty2.setVisible(false);
@@ -194,12 +221,12 @@ public class MenuControls extends GridPane {
 				if(rb_babysteps.isSelected()){
 					if(difficulty1.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
-						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120,false), GUI.WIDTH, GUI.HEIGHT);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,120,false,false), GUI.WIDTH, GUI.HEIGHT);
 						scene.getStylesheets().addAll(css);
 						stage.setScene(scene);
 					}if(difficulty2.isSelected()){
 						non_static_af.saveNew(exc_auswahl);
-						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,180,false), GUI.WIDTH, GUI.HEIGHT);
+						Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,true,180,false,false), GUI.WIDTH, GUI.HEIGHT);
 						scene.getStylesheets().addAll(css);
 						stage.setScene(scene);
 					}
@@ -207,7 +234,17 @@ public class MenuControls extends GridPane {
 				}
 				if(rb_tracking.isSelected()){
 					non_static_af.saveNew(exc_auswahl);
-					Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0,true), GUI.WIDTH, GUI.HEIGHT);
+					Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0,true,false), GUI.WIDTH, GUI.HEIGHT);
+					stage.setTitle("RED");
+					scene.getStylesheets().addAll(css);
+					stage.setScene(scene);
+					return;
+				}
+				if(rb_pairProgramming.isSelected()){
+					Name1 = tf_nickname1.getCharacters().toString();
+					Name2 = tf_nickname2.getCharacters().toString();
+					non_static_af.saveNew(exc_auswahl);
+					Scene scene = new Scene(new ExerciseWindow(stage, non_static_af, exc_auswahl,false,0,false,true), GUI.WIDTH, GUI.HEIGHT);
 					stage.setTitle("RED");
 					scene.getStylesheets().addAll(css);
 					stage.setScene(scene);
