@@ -1,6 +1,6 @@
 // MIT License, check LICENSE.txt in the src folder for full text
 
-package test.java.junittest;
+package test.java;
 
 import static org.junit.Assert.assertEquals;
 

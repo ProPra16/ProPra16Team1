@@ -9,11 +9,13 @@ import java.util.ArrayList;
 
 public class Loader{
 
- public static String exc_file ="Aufgabenkatalog";
+ public static String exc_file ="src/main/resources/aufgaben/Aufgabenkatalog";
  public static String line = null;
  
- private static String cur_Test = "currentTest";
- private static String cur_Class = "currentClass";
+ private static String cur_Test = "src/main/resources/aufgaben/currentTest";
+ private static String cur_Class = "src/main/resources/aufgaben/currentClass";
+ 
+ private String filePre = "src/main/resources/aufgaben/";
 
  public ArrayList<Aufgabe> Aufgaben_Verwaltung = new ArrayList<Aufgabe>();
 
@@ -89,7 +91,7 @@ Aufgabe excToSave = Aufgaben_Verwaltung.get(exc_nr);
  catch(IOException e){
  System.out.println("ERROR:Konnte nicht in die Datei schreiben");
  }
- file ="currentClass";
+ file ="src/main/resources/aufgaben/currentClass";
  try{                                                           //Klassengerüst speichern
 	 FileWriter writer = new FileWriter(file);
 	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
@@ -127,7 +129,7 @@ public String TestLine(int lineToRead){
 
 public void save(String File,String text){
  try{
-	 FileWriter writer = new FileWriter(File,false);
+	 FileWriter writer = new FileWriter(filePre+File,false);
 	 BufferedWriter bufferedWriter = new BufferedWriter(writer);
 	 bufferedWriter.write(text);
 	bufferedWriter.close();
@@ -139,9 +141,10 @@ System.out.println("ERROR:Konnte nicht in die Datei schreiben");
 
 public String loadCurrentData(String file){
 String line = null;
+
 String ergebnis = "";
 try{
-	FileReader reader = new FileReader(file);                     
+	FileReader reader = new FileReader(filePre+file);                     
 	BufferedReader bufferedReader = new BufferedReader(reader);
 	while((line = bufferedReader.readLine()) != null){
 	 ergebnis +=  line+"\n";

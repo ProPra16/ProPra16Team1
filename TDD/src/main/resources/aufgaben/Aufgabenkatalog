@@ -1,0 +1,44 @@
+//Aufgaben werden immer in dieser Form gespeichert,
+//Zeilenumbrüche genau wie in den Beispielen
+Aufgabenname = Roemische Zahlen 5
+Beschreibung = Konvertiert arabische in roemische 
+Klassenname = RomanNumberConverter
+public class RomanNumberConverter {
+}
+Testname = RomanNumberConverterTest
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class RomanNumberConverterTest {
+@Test
+public void testSomething() {
+}
+}
+Aufgabenname = Roemische Zahlen 1
+Beschreibung = Konvertiert arabische in roemische und testet ob eine neue Zeile hinzugefuegt wird
+Klassenname = RomanNumberConverter
+public class RomanNumberConverter {
+}
+Testname = RomanNumberConverterTest
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class RomanNumberConverterTest {
+@Test
+public void testSomething() {
+}
+}
+Aufgabenname = Testing
+Beschreibung = prueft ob alles klappt wie es soll
+Klassenname = hope
+public class hope {
+}
+Testname = hopeTest
+import static org.junit.Assert.*;
+import org.junit.Test;
+public class hopeTest {
+@Test
+public void testSomething() {
+}
+}
+
+
+
